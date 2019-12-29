@@ -1,0 +1,48 @@
+
+T4928 353:744 SEGGER J-Link V6.50a Log File (0080ms, 0130ms total)
+T4928 353:744 DLL Compiled: Aug 26 2019 10:16:19 (0080ms, 0130ms total)
+T4928 353:744 Logging started @ 2019-10-29 10:45 (0080ms, 0130ms total)
+T4928 353:824 JLINK_SetWarnOutHandler(...) (0033ms, 0163ms total)
+T4928 353:858 JLINK_OpenEx(...)
+Firmware: J-Link V9 compiled May 17 2019 09:50:41
+Hardware: V9.40
+S/N: 59404317
+Feature(s): RDI, GDB, FlashDL, FlashBP, JFlash
+TELNET listener socket opened on port 19021WEBSRV 
+Starting webserver (0389ms, 0553ms total)
+T4928 353:858 WEBSRV Webserver running on local port 19080 (0389ms, 0553ms total)
+T4928 353:858   returns O.K. (0389ms, 0553ms total)
+T4928 354:247 JLINK_GetEmuCaps()  returns 0xB9FF7BBF (0000ms, 0553ms total)
+T4928 354:248 JLINK_TIF_GetAvailable(...) (0000ms, 0553ms total)
+T4928 354:248 JLINK_SetErrorOutHandler(...) (0000ms, 0553ms total)
+T4928 354:264 JLINK_ExecCommand("ProjectFile = "I:\STM32_MCU\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\MDKARM\JLinkSettings.ini"", ...). Ref file found at: D:\Keil_v5\ARM\Segger\JLinkDevices.ref (0315ms, 0868ms total)
+T4928 354:264 XML referenced by ref file: D:\Program Files (x86)\SEGGER\JLink_V650a\JLinkDevices.xml (0315ms, 0868ms total)
+T4928 354:264 D:\Program Files (x86)\SEGGER\JLink_V650a\JLinkDevices.xml evaluated successfully. (0318ms, 0871ms total)
+T4928 354:264   returns 0x00 (1550ms, 2103ms total)
+T4928 355:815 JLINK_ExecCommand("Device = STM32F407ZGTx", ...). Device "STM32F407ZG" selected.  returns 0x00 (0004ms, 2107ms total)
+T4928 355:819 JLINK_ExecCommand("DisableConnectionTimeout", ...).   returns 0x01 (0000ms, 2107ms total)
+T4928 355:819 JLINK_GetHardwareVersion()  returns 0x16F30 (0000ms, 2107ms total)
+T4928 355:819 JLINK_GetDLLVersion()  returns 65001 (0000ms, 2107ms total)
+T4928 355:819 JLINK_GetFirmwareString(...) (0000ms, 2107ms total)
+T4928 355:819 JLINK_GetDLLVersion()  returns 65001 (0000ms, 2107ms total)
+T4928 355:819 JLINK_GetCompileDateTime() (0000ms, 2107ms total)
+T4928 355:819 JLINK_GetFirmwareString(...) (0000ms, 2107ms total)
+T4928 355:819 JLINK_GetHardwareVersion()  returns 0x16F30 (0000ms, 2107ms total)
+T4928 355:819 JLINK_TIF_Select(JLINKARM_TIF_JTAG)  returns 0x00 (0006ms, 2113ms total)
+T4928 355:826 JLINK_SetSpeed(500) (0004ms, 2118ms total)
+T4928 355:831 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)  returns JLINKARM_RESET_TYPE_NORMAL (0000ms, 2118ms total)
+T4928 355:831 JLINK_Reset() >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x2F8 JTAG>
+TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed.JLINK_GetIdData(...) >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x2F8 JTAG>
+TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. (0280ms, 2679ms total)
+T4928 356:392 JLINK_GetIdData(...) >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. >0x2F8 JTAG>TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>STM32 (connect): Can not attach to CPU. Trying connect under reset. >0x2F8 JTAG>
+TotalIRLen = ?, IRPrint = 0x..000000000000000000000000 >0xC8 JTAG>
+  ***** Error: STM32: Connecting to CPU via connect under reset failed. (0278ms, 2957ms total)
+T4928 356:672 JLINK_GetFirmwareString(...) (0000ms, 2957ms total)
+T4928 365:006 JLINK_Close() (0203ms, 3160ms total)
+T4928 365:006  (0203ms, 3160ms total)
+T4928 365:006 Closed (0203ms, 3160ms total)
