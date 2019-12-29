@@ -64,7 +64,7 @@ UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType *SHT2x)
 	SHT2x->msgI2C.msgModelIsHW = 0;
 	SHT2x->msgI2C.msgPluseWidth = 0;
 	SHT2x->msgI2C.msgDelayus = NULL;
-	SHT2x->msgI2C.msgAddr = 0x80;  // SHT2X_WRITE_ADDR;
+	SHT2x->msgI2C.msgAddr = SHT2X_WADDR;//0x80;  // SHT2X_WRITE_ADDR;
 	SHT2x->msgI2C.msgClockSpeed = 0;
 	return OK_0;
 }
@@ -135,7 +135,6 @@ UINT8_T SHT2X_SWI2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd)
 	I2CTask_MSW_SendByte(&(SHT2x->msgI2C), cmd);
 	//---¶ÁÈ¡ACK
 	_return = I2CTask_MSW_ReadACK(&(SHT2x->msgI2C));
-
 GoToExit:
 	//---·¢ËÍÍ£Ö¹ÐÅºÅ
 	I2CTask_MSW_STOP(&(SHT2x->msgI2C));

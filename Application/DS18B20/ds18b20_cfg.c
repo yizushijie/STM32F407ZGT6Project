@@ -298,7 +298,7 @@ UINT16_T DS18B20_OneWire_STATE(DS18B20_HandlerType* DS18B20x)
 	//---判断滴答定时是否发生溢出操作
 	if (DS18B20x->msgRecordTime > nowTime)
 	{
-		cnt = (0xFFFFFFFF - nowTime + DS18B20x->msgRecordTime);
+		cnt = (0xFFFFFFFF - DS18B20x->msgRecordTime + nowTime);
 	}
 	else
 	{

@@ -49,20 +49,23 @@ extern "C" {
 	//===测量类型
 	#define SHT2X_TYPR_TEMP								0
 	#define SHT2X_TYPR_HUMI								1
+
+	//===写命令
+	#define SHT2X_WADDR									0x80	
+	//===读命令
+	#define SHT2X_RADDR									0x81	
 	
 	//===结构体定义
-	typedef struct _SHT2X_HandlerType SHT2X_HandlerType;
-
+	typedef struct _SHT2X_HandlerType					SHT2X_HandlerType;
 	//===指针结构体定义
-	typedef struct _SHT2X_HandlerType *pSHT2X_HandlerType;
-
+	typedef struct _SHT2X_HandlerType					*pSHT2X_HandlerType;
 	//===SHT2X的数据结构体
 	struct _SHT2X_HandlerType
 	{
-		UINT8_T msgSerialNumber[8 + 4 + 2];  //---设备序列号
-		INT16_T msgTempX100;
-		INT16_T msgHumiX100;
-		I2C_HandlerType msgI2C;  //---使用的I2C
+		UINT8_T msgSerialNumber[8 + 4 + 2];															//---设备序列号
+		INT16_T msgTempX100;																		//---放大100倍的温度值
+		INT16_T msgHumiX100;																		//---放大100倍的湿度值
+		I2C_HandlerType msgI2C;																		//---使用的I2C
 	};
 
 	//===定义的任务函数
