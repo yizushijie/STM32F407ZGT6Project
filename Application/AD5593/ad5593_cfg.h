@@ -83,15 +83,13 @@ extern "C" {
 	#define AD5593_ADC_CHANNEL_7					0x80
 	
 	//===结构体定义
-	typedef struct _AD5593_HandlerType				AD5593_HandlerType;
-
+	typedef struct _AD5593_HandleType				AD5593_HandleType;
 	//===指针结构体定义
-	typedef struct _AD5593_HandlerType				*pAD5593_HandlerType;
-
+	typedef struct _AD5593_HandleType				*pAD5593_HandleType;
 	//===AD5593的数据结构体
-	struct _AD5593_HandlerType
+	struct _AD5593_HandleType
 	{
-		I2C_HandlerType msgI2C;  //---使用的I2C
+		I2C_HandleType msgI2C;  //---使用的I2C
 	};
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

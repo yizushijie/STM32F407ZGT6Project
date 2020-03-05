@@ -6,7 +6,7 @@ extern "C" {
 #endif
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "hmc472_lib.h"
-	#include "usart_task.h"
+	#include "uart_task.h"
 	#include "at24cxx_task.h"
 	#include "encode_task.h"
 	#include "key_task.h"
@@ -99,7 +99,7 @@ extern "C" {
 	UINT8_T HMC472Task_GetVersion( UINT8_T *pVersion,UINT8_T length );
 	UINT8_T HMC472Task_EepromInit(void);
 	UINT8_T HMC472Task_EepromWrite(UINT16_T addr, UINT16_T val);
-	UINT8_T HMC472Task_USART_RFGenTask(USART_HandlerType*USARTx);
+	UINT8_T HMC472Task_USART_RFGenTask(UART_HandleType*USARTx);
 	void HMC472Task_Key_RFGenTask(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

@@ -320,66 +320,64 @@ extern "C" {
 	#define RFASK_TASK_CLEAR							15
 	
 	//===结构体定义
-	typedef struct _FREQ_CURRENT_HandlerType			FREQ_CURRENT_HandlerType;
+	typedef struct _FREQ_CURRENT_HandleType			FREQ_CURRENT_HandleType;
 
 	//===指针结构体定义
-	typedef struct _FREQ_CURRENT_HandlerType			*pFREQ_CURRENT_HandlerType;
+	typedef struct _FREQ_CURRENT_HandleType			*pFREQ_CURRENT_HandleType;
 
 	//===频率电流数据结构体
-	struct _FREQ_CURRENT_HandlerType
+	struct _FREQ_CURRENT_HandleType
 	{
-		UINT8_T		msgCMD;								//---传输的命令
-		UINT16_T	msgStartMaxCurrentX100mA;			//---起始最大电流
-		UINT16_T	msgStartMinCurrentX100mA;			//---起始最小电流
-		UINT16_T	msgStopMaxCurrentX100mA;			//---结束最大电流
-		UINT16_T	msgStopMinCurrentX100mA;			//---结束最小电流
-		UINT32_T	msgStopFreqX100MHz;					//---截止频率
-		UINT32_T	msgStartFreqX100MHz;				//---起始频率频率
-		UINT16_T	msgStepFreqX100MHz;					//---频率步进
-		UINT16_T	msgFreqPointNum;					//---频率步进的点数
-		UINT16_T    msgADCPointNum;						//---ADC间隔的点数
-		UINT16_T    msgADCPassMax;						//---ADC合格的最大值
-		UINT16_T	msgADCPassMin;						//---ADC合格的最小值
-		UINT16_T    msgFreqCurrentVoltagemV;			//---频率电流测试的电压值
+		UINT8_T		msgCMD;																								//---传输的命令
+		UINT16_T	msgStartMaxCurrentX100mA;																			//---起始最大电流
+		UINT16_T	msgStartMinCurrentX100mA;																			//---起始最小电流
+		UINT16_T	msgStopMaxCurrentX100mA;																			//---结束最大电流
+		UINT16_T	msgStopMinCurrentX100mA;																			//---结束最小电流
+		UINT32_T	msgStopFreqX100MHz;																					//---截止频率
+		UINT32_T	msgStartFreqX100MHz;																				//---起始频率频率
+		UINT16_T	msgStepFreqX100MHz;																					//---频率步进
+		UINT16_T	msgFreqPointNum;																					//---频率步进的点数
+		UINT16_T    msgADCPointNum;																						//---ADC间隔的点数
+		UINT16_T    msgADCPassMax;																						//---ADC合格的最大值
+		UINT16_T	msgADCPassMin;																						//---ADC合格的最小值
+		UINT16_T    msgFreqCurrentVoltagemV;																			//---频率电流测试的电压值
 	};
 
 	//===结构体定义
-	typedef struct _RFASK_HandlerType					RFASK_HandlerType;
-
+	typedef struct _RFASK_HandleType					RFASK_HandleType;
 	//===指针结构体定义
-	typedef struct _RFASK_HandlerType					*pRFASK_HandlerType;
-
+	typedef struct _RFASK_HandleType					*pRFASK_HandleType;
 	//===数据结构体
-	struct _RFASK_HandlerType
+	struct _RFASK_HandleType
 	{
-		UINT8_T	 msgDeviceType;												//---设备类型
-		UINT8_T  msgActivateSite[FREQ_CURRENT_MAX_SITE];					//---激活的SITE信息，0---未激活；1---激活
-		UINT16_T msgSiteADC[FREQ_CURRENT_MAX_SITE];							//---激活的SITE的ADC的值
-		UINT16_T msgSiteCurrent[FREQ_CURRENT_MAX_SITE];						//---激活的SITE的电流的值
-		UINT16_T msgSiteCurrentHistory[FREQ_CURRENT_MAX_SITE][FREQ_CURRENT_HISTORY_MAX_SIZE];	//---记录的历史电流值
-		UINT16_T msgSitePass[FREQ_CURRENT_MAX_SITE];						//---是否通过 0---通过，非0---不通过
-		UINT16_T msgSampleX100Res;											//---采样电阻的大小，采样电阻的大小是经过100倍，比如0.1欧姆，这里表示的是10欧姆，这样表示支持的最小精度是0.01欧姆
-		UINT16_T msgAmpTimes;												//---采样放大倍数
-		UINT32_T msgFreqX100MHzYSel1;										//---预设频率点1
-		UINT32_T msgFreqX100MHzYSel2;										//---预设频率点2
-		UINT32_T msgFreqX100MHzYSel3;										//---预设频率点3
-		UINT32_T msgFreqX100MHzYSel4;										//---预设频率点4
-		FREQ_CURRENT_HandlerType msgFreqCurrentPointOne;					//---频率电流测试点1
-		FREQ_CURRENT_HandlerType msgFreqCurrentPointTwo;					//---频率电流测试点2
+		UINT8_T	 msgDeviceType;																							//---设备类型
+		UINT8_T  msgActivateSite[FREQ_CURRENT_MAX_SITE];																//---激活的SITE信息，0---未激活；1---激活
+		UINT16_T msgSiteADC[FREQ_CURRENT_MAX_SITE];																		//---激活的SITE的ADC的值
+		UINT16_T msgSiteCurrent[FREQ_CURRENT_MAX_SITE];																	//---激活的SITE的电流的值
+		UINT16_T msgSiteCurrentHistory[FREQ_CURRENT_MAX_SITE][FREQ_CURRENT_HISTORY_MAX_SIZE];							//---记录的历史电流值
+		UINT16_T msgSitePass[FREQ_CURRENT_MAX_SITE];																	//---是否通过 0---通过，非0---不通过
+		UINT16_T msgSampleX100Res;																						//---采样电阻的大小，采样电阻的大小是经过100倍，比如0.1欧姆，这里表示的是10欧姆，这样表示支持的最小精度是0.01欧姆
+		UINT16_T msgAmpTimes;																							//---采样放大倍数
+		UINT32_T msgFreqX100MHzYSel1;																					//---预设频率点1
+		UINT32_T msgFreqX100MHzYSel2;																					//---预设频率点2
+		UINT32_T msgFreqX100MHzYSel3;																					//---预设频率点3
+		UINT32_T msgFreqX100MHzYSel4;																					//---预设频率点4
+		FREQ_CURRENT_HandleType msgFreqCurrentPointOne;																	//---频率电流测试点1
+		FREQ_CURRENT_HandleType msgFreqCurrentPointTwo;																	//---频率电流测试点2
 	};
 
 	//===外部接口调用
-	extern RFASK_HandlerType							g_Rfask;
-	extern pRFASK_HandlerType							pRfask;
+	extern RFASK_HandleType							g_Rfask;
+	extern pRFASK_HandleType							pRfask;
 
 	//===函数定义
-	void	 RFASK_StructInit(RFASK_HandlerType* rfask);
-	void     RFASK_Init(RFASK_HandlerType *rfask);
-	UINT32_T RFASK_CalcXTAL(RFASK_HandlerType *rfask, UINT32_T rfX100MHz);
-	UINT8_T  RFASK_SetDeviceType(RFASK_HandlerType *rfask, UINT8_T deviceType);
-	UINT32_T RFASK_GetDeviceType(RFASK_HandlerType *rfask);
-	UINT8_T  RFASK_ActivateSites(RFASK_HandlerType *rfask, UINT8_T activateSites);
-	UINT8_T  RFASK_SetFreqCurrentPointCmd(FREQ_CURRENT_HandlerType *rfaskFreqCurrent, UINT8_T cmd);
+	void	 RFASK_StructInit(RFASK_HandleType* rfask);
+	void     RFASK_Init(RFASK_HandleType *rfask);
+	UINT32_T RFASK_CalcXTAL(RFASK_HandleType *rfask, UINT32_T rfX100MHz);
+	UINT8_T  RFASK_SetDeviceType(RFASK_HandleType *rfask, UINT8_T deviceType);
+	UINT32_T RFASK_GetDeviceType(RFASK_HandleType *rfask);
+	UINT8_T  RFASK_ActivateSites(RFASK_HandleType *rfask, UINT8_T activateSites);
+	UINT8_T  RFASK_SetFreqCurrentPointCmd(FREQ_CURRENT_HandleType *rfaskFreqCurrent, UINT8_T cmd);
 	UINT8_T  RFASK_ScanYSEL(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

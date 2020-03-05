@@ -7,9 +7,9 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "pid_cfg.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	UINT8_T  PIDLib_Init(PID_HandlerType *PIDx, PID_HandlerType pidx);
-	float	 PIDLib_PosCalc(PID_HandlerType *PIDx, float setVal);
-	float	 PIDLib_IncCalc(PID_HandlerType *PIDx, float setVal);
+	UINT8_T  PIDLib_Init(PID_HandleType *PIDx, PID_HandleType pidx);
+	float	 PIDLib_PosCalc(PID_HandleType *PIDx, float setVal);
+	float	 PIDLib_IncCalc(PID_HandleType *PIDx, float setVal);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

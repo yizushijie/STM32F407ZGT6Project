@@ -43,7 +43,7 @@ UINT8_T ADCLib_ADCTask_STOP(ADC_TypeDef *ADCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADCLib_HandleChannelVal(ADCASK_HandlerType *ADCASKx)
+UINT8_T ADCLib_HandleChannelVal(ADCASK_HandleType *ADCASKx)
 {
 	return ADC_HandleChannelVal(ADCASKx);
 }

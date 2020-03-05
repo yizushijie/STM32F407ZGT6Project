@@ -7,9 +7,9 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	#include "pid_lib.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	UINT8_T  PIDTask_Init(PID_HandlerType *PIDx, PID_HandlerType pidx);
-	float	 PIDTask_PosCalc(PID_HandlerType *PIDx, float setVal);
-	float	 PIDTask_IncCalc(PID_HandlerType *PIDx, float setVal);
+	UINT8_T  PIDTask_Init(PID_HandleType *PIDx, PID_HandleType pidx);
+	float	 PIDTask_PosCalc(PID_HandleType *PIDx, float setVal);
+	float	 PIDTask_IncCalc(PID_HandleType *PIDx, float setVal);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

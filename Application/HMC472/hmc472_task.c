@@ -141,261 +141,261 @@ UINT8_T HMC472Task_GetVersion( UINT8_T *pVersion,UINT8_T length )
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC472Task_USART_MenuTask( USART_HandlerType*USARTx )
+UINT8_T HMC472Task_UART_MenuTask( UART_HandleType*UARTx )
 {
 	UINT8_T _return = OK_0;
 	UINT16_T gainVal = 0;
 	//---判断主命令
-	if (USARTx->msgRxdHandler.pMsgVal[USARTx->msgCmdIndex]==CMD_HMC472)
+	if (UARTx->msgRxdHandle.pMsgVal[UARTx->msgCmdIndex]==CMD_HMC472)
 	{
-		USARTTask_FillMode_Init( USARTx,1 );
-		USARTTask_FillMode_AddByte(USARTx,CMD_HMC472);
+		UARTTask_FillMode_Init( UARTx,1 );
+		UARTTask_FillMode_AddByte(UARTx,CMD_HMC472);
 		//---解析命令
-		switch (USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex])
+		switch (UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex])
 		{
 			case CMD_HMC472_READ_CHA		:
 				gainVal = HMC472Task_ReadGen( HMC472_GEN_CHA );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(gainVal>>8));
-				USARTTask_FillMode_AddByte(USARTx, (UINT8_T)(gainVal));
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(gainVal>>8));
+				UARTTask_FillMode_AddByte(UARTx, (UINT8_T)(gainVal));
 				break;
 			case CMD_HMC472_WRITE_CHA		:
-				gainVal = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex ];
-				gainVal = ( gainVal << 8 ) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + 1];
+				gainVal = UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex ];
+				gainVal = ( gainVal << 8 ) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 1];
 				_return = HMC472Task_SetGen( HMC472_GEN_CHA, gainVal );
-				USARTTask_FillMode_AddByte( USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex] );
-				USARTTask_FillMode_AddByte( USARTx, _return );
+				UARTTask_FillMode_AddByte( UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex] );
+				UARTTask_FillMode_AddByte( UARTx, _return );
 				//---保存参数
 				HMC472Task_EepromWrite(GEN_CHA_DBM_ADDR_X1,HMC472Task_ReadGen(HMC472_GEN_CHA));
 				break;
 			case CMD_HMC472_READ_CHB		:
 				gainVal = HMC472Task_ReadGen( HMC472_GEN_CHB );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_CHB		:
-				gainVal = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex ];
-				gainVal = ( gainVal << 8 ) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + 1];
+				gainVal = UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex ];
+				gainVal = ( gainVal << 8 ) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 1];
 				_return = HMC472Task_SetGen( HMC472_GEN_CHB, gainVal );
-				USARTTask_FillMode_AddByte( USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex] );
-				USARTTask_FillMode_AddByte( USARTx, _return );
+				UARTTask_FillMode_AddByte( UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex] );
+				UARTTask_FillMode_AddByte( UARTx, _return );
 				//---保存参数
 				HMC472Task_EepromWrite(GEN_CHB_DBM_ADDR_X1,HMC472Task_ReadGen(HMC472_GEN_CHB));
 				break;
 			case CMD_HMC472_READ_CHC		:
 				gainVal = HMC472Task_ReadGen( HMC472_GEN_CHC );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal ) );
 				break;								
 			case CMD_HMC472_WRITE_CHC		:
-				gainVal = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex ];
-				gainVal = ( gainVal << 8 ) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + 1];
+				gainVal = UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex ];
+				gainVal = ( gainVal << 8 ) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 1];
 				_return = HMC472Task_SetGen( HMC472_GEN_CHC, gainVal );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(GEN_CHC_DBM_ADDR_X1,HMC472Task_ReadGen(HMC472_GEN_CHC));
 				break;
 			case CMD_HMC472_READ_CHD		:
 				gainVal = HMC472Task_ReadGen( HMC472_GEN_CHD );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_CHD		:
-				gainVal = USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex ];
-				gainVal = ( gainVal << 8 ) + USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex + 1];
+				gainVal = UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex ];
+				gainVal = ( gainVal << 8 ) + UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex + 1];
 				_return = HMC472Task_SetGen( HMC472_GEN_CHD,gainVal);
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(GEN_CHD_DBM_ADDR_X1,HMC472Task_ReadGen(HMC472_GEN_CHD));
 				break;
 			case CMD_HMC472_READ_GEN_CHA	:
 				gainVal = HMC472Task_ReadHMC472Gen( HMC472_GEN_CHA );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_GEN_CHA	:
-				_return = HMC472_SetGenGain( HMC472_RF_CHA, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte( USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex] );
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472_SetGenGain( HMC472_RF_CHA, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte( UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex] );
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_GEN_CHA_DBM_ADDR_X1,HMC472Task_ReadHMC472Gen(HMC472_GEN_CHA));
 				break;
 			case CMD_HMC472_READ_GEN_CHB	:
 				gainVal = HMC472Task_ReadHMC472Gen( HMC472_GEN_CHB );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_GEN_CHB	:
-				_return = HMC472Task_SetGenGain( HMC472_RF_CHB, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetGenGain( HMC472_RF_CHB, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_GEN_CHB_DBM_ADDR_X1,HMC472Task_ReadHMC472Gen(HMC472_GEN_CHB));
 				break;
 			case CMD_HMC472_READ_GEN_CHC	:
 				gainVal = HMC472Task_ReadHMC472Gen( HMC472_GEN_CHC );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_GEN_CHC	:
-				_return = HMC472Task_SetGenGain( HMC472_RF_CHC, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );				
-				USARTTask_FillMode_AddByte( USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex] );
-				USARTTask_FillMode_AddByte( USARTx, _return );
+				_return = HMC472Task_SetGenGain( HMC472_RF_CHC, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );				
+				UARTTask_FillMode_AddByte( UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex] );
+				UARTTask_FillMode_AddByte( UARTx, _return );
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_GEN_CHC_DBM_ADDR_X1,HMC472Task_ReadHMC472Gen(HMC472_GEN_CHC));
 				break;
 			case CMD_HMC472_READ_GEN_CHD	:
 				gainVal = HMC472Task_ReadHMC472Gen( HMC472_GEN_CHD );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_GEN_CHD	:
-				_return = HMC472Task_SetGenGain( HMC472_RF_CHD, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte( USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex] );
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetGenGain( HMC472_RF_CHD, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte( UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex] );
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_GEN_CHD_DBM_ADDR_X1,HMC472Task_ReadHMC472Gen(HMC472_GEN_CHD));
 				break;
 			case CMD_HMC472_READ_RF_CHA		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHA );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_RF_CHA	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHA, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHA, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHA_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHA));
 				break;
 			case CMD_HMC472_READ_RF_CHB		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHB );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_RF_CHB	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHB, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHB, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHB_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHB));
 				break;
 			case CMD_HMC472_READ_RF_CHC		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHC );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_RF_CHC	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHC, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHC, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHC_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHC));
 				break;
 			case CMD_HMC472_READ_RF_CHD		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHD );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;								
 			case CMD_HMC472_WRITE_RF_CHD	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHD, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHD, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHD_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHD));
 				break;
 			case CMD_HMC472_READ_RF_CHE		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHE );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_RF_CHE	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHE, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHE, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHE_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHE));
 				break;
 			case CMD_HMC472_READ_RF_CHF		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHF );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_RF_CHF	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHF, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHF, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHF_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHF));
 				break;
 			case CMD_HMC472_READ_RF_CHG		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHG );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_RF_CHG	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHG, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHG, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHG_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHG));
 				break;
 			case CMD_HMC472_READ_RF_CHH		:
 				gainVal = HMC472Task_ReadHMC472RF( HMC472_RF_CHH );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx,(UINT8_T)( gainVal ) );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx,(UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_RF_CHH	:
-				_return = HMC472Task_SetRFGain( HMC472_RF_CHH, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( HMC472_RF_CHH, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				//---保存参数
 				HMC472Task_EepromWrite(HMC472_RF_CHH_DBM_ADDR_X1,HMC472Task_ReadHMC472RF(HMC472_RF_CHH));
 				break;
 			case CMD_HMC472_READ_GEN_RF		:
-				gainVal = HMC472Task_ReadRFGen(USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex],USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex+1]  );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, 0);
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal >> 8 ) );
-				USARTTask_FillMode_AddByte( USARTx, (UINT8_T)( gainVal ) );
+				gainVal = HMC472Task_ReadRFGen(UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex],UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex+1]  );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, 0);
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal >> 8 ) );
+				UARTTask_FillMode_AddByte( UARTx, (UINT8_T)( gainVal ) );
 				break;
 			case CMD_HMC472_WRITE_GEN_RF	:
-				_return = HMC472Task_SetRFGain( CMD_HMC472_WRITE_GEN_RF, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataTwoIndex] );
-				USARTTask_FillMode_AddByte(USARTx, USARTx->msgRxdHandler.pMsgVal[USARTx->msgDataOneIndex]);
-				USARTTask_FillMode_AddByte(USARTx, _return);
+				_return = HMC472Task_SetRFGain( CMD_HMC472_WRITE_GEN_RF, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataTwoIndex] );
+				UARTTask_FillMode_AddByte(UARTx, UARTx->msgRxdHandle.pMsgVal[UARTx->msgDataOneIndex]);
+				UARTTask_FillMode_AddByte(UARTx, _return);
 				break;
 			default:
 				_return = ERROR_2;
@@ -405,12 +405,12 @@ UINT8_T HMC472Task_USART_MenuTask( USART_HandlerType*USARTx )
 		if (_return==OK_0)
 		{
 			//---启动发送
-			USARTTask_FillMode_WriteSTART(USARTx, 1);
+			UARTTask_FillMode_WriteByteSTART(UARTx, 1);
 		}
 	}
 	else
 	{
-		_return = EnCodeTask_USART_MenuTask(USARTx);
+		_return = EnCodeTask_UART_MenuTask(UARTx);
 	}
 	return _return;
 }
@@ -771,34 +771,35 @@ UINT8_T HMC472Task_EepromWrite(UINT16_T addr,UINT16_T val)
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数： 
-//////功		能：HMC472数控信号源的USART通信逻辑
+//////功		能：HMC472数控信号源的UART通信逻辑
 //////输入参数: 
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T HMC472Task_USART_RFGenTask(USART_HandlerType*USARTx)
+UINT8_T HMC472Task_UART_RFGenTask(UART_HandleType*UARTx)
 {
 	UINT8_T _return = OK_0;
-	if (USARTx!=NULL)
+	if (UARTx!=NULL)
 	{
 		//---判断接收是否完成
-		if (USARTTask_GetReadState(USARTx) == 1)
+		if (UARTTask_GetState(&(UARTx->msgRxdHandle)) == 1)
 		{
 			//---CRC的校验
-			if (( USARTTask_CRCTask_Read( USARTx ) == OK_0 ) && ( USARTTask_DeviceID( USARTx ) == OK_0 ))
+			if (( UARTTask_Read_CRCTask( UARTx ) == OK_0 ) && ( UARTTask_DeviceID( UARTx ) == OK_0 ))
 			{
 				//---HMC472的任务处理函数
-				_return=HMC472Task_USART_MenuTask(USARTx);
+				_return=HMC472Task_UART_MenuTask(UARTx);
 			}
 			else
 			{
 				//---发生CRC校验错误
-				USART_Printf(USARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (USARTx->msgIndex - 1));
+				//UART_Printf(UARTx, "=>>串口%d:发生CRC校验错误<<=\r\n", (UARTx->msgIndex - 1));
+				UARTTask_Printf(UARTx, "=>>SP%d:CRC Check Error<<=\r\n", (UARTx->msgIndex - 1));
 			}
-			_return= USARTTask_Read_Init(USARTx);
+			_return= UARTTask_Read_Init(UARTx);
 			goto GotoExit;
 		}
-		_return=USARTTask_TimeOVFTask(USARTx);
+		_return=UARTTask_TimeTask_OverFlow(UARTx,1);
 	}
 	else
 	{

@@ -8,11 +8,11 @@ extern "C" {
 	#include "one_wire_cfg.h"
 	///////////////////////////////////////////////////////////////////////////////////////
 	//===º¯Êý¶¨Òå
-	UINT8_T OneWireLib_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT32_T delay));
-	UINT8_T OneWireLib_DeInit(OneWire_HandlerType *OneWirex);
-	UINT8_T OneWireLib_START(OneWire_HandlerType *OneWirex);
-	UINT8_T OneWireLib_WriteByte(OneWire_HandlerType *OneWirex, UINT8_T val);
-	UINT8_T OneWireLib_ReadByte(OneWire_HandlerType *OneWirex);
+	UINT8_T OneWireLib_Init(OneWire_HandleType *OneWirex, void(*pFuncDelayus)(UINT32_T delay));
+	UINT8_T OneWireLib_DeInit(OneWire_HandleType *OneWirex);
+	UINT8_T OneWireLib_START(OneWire_HandleType *OneWirex);
+	UINT8_T OneWireLib_WriteByte(OneWire_HandleType *OneWirex, UINT8_T val);
+	UINT8_T OneWireLib_ReadByte(OneWire_HandleType *OneWirex);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

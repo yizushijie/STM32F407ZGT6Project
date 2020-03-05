@@ -1,8 +1,8 @@
 #include "si5351a_cfg.h"
 
 //===变量定义
-SI5351A_HandlerType			g_Si5351aDevice0={0};
-pSI5351A_HandlerType		pSi5351aDevice0=&g_Si5351aDevice0;
+SI5351A_HandleType			g_Si5351aDevice0={0};
+pSI5351A_HandleType		pSi5351aDevice0=&g_Si5351aDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pSI5351A_HandlerType		pSi5351aDevice0=&g_Si5351aDevice0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void SI5351A_I2C_ParamsInit(SI5351A_HandlerType* SI5351Ax)
+void SI5351A_I2C_ParamsInit(SI5351A_HandleType* SI5351Ax)
 {
 	//---初始化参数
 	memset(SI5351Ax->msgClockCTRL,0x4F, SI5351A_CLKOUT_CHANNEL_SIZE);
@@ -26,16 +26,16 @@ void SI5351A_I2C_ParamsInit(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_Device0_Init(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_Device0_Init(SI5351A_HandleType* SI5351Ax)
 {
-	SI5351Ax->msgI2C.msgI2Cx = NULL;
-	SI5351Ax->msgI2C.msgSCL.msgGPIOPort = GPIOB;
-	SI5351Ax->msgI2C.msgSCL.msgGPIOBit = LL_GPIO_PIN_8;
-	SI5351Ax->msgI2C.msgSDA.msgGPIOPort = GPIOB;
-	SI5351Ax->msgI2C.msgSDA.msgGPIOBit = LL_GPIO_PIN_9;
-	SI5351Ax->msgI2C.msgModelIsHW = 0;
+	SI5351Ax->msgI2C.pMsgI2Cx = NULL;
+	SI5351Ax->msgI2C.msgSCL.msgPort = GPIOB;
+	SI5351Ax->msgI2C.msgSCL.msgBit = LL_GPIO_PIN_8;
+	SI5351Ax->msgI2C.msgSDA.msgPort = GPIOB;
+	SI5351Ax->msgI2C.msgSDA.msgBit = LL_GPIO_PIN_9;
+	SI5351Ax->msgI2C.msgHwMode = 0;
 	SI5351Ax->msgI2C.msgPluseWidth = 1;
-	SI5351Ax->msgI2C.msgDelayus = NULL;
+	SI5351Ax->msgI2C.pMsgDelayus = NULL;
 	SI5351Ax->msgI2C.msgAddr = SI5351A_WADDR;
 	SI5351Ax->msgI2C.msgClockSpeed = 0;
 	return OK_0;
@@ -48,7 +48,7 @@ UINT8_T SI5351A_I2C_Device0_Init(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_Device1_Init(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_Device1_Init(SI5351A_HandleType* SI5351Ax)
 {
 	return OK_0;
 }
@@ -60,7 +60,7 @@ UINT8_T SI5351A_I2C_Device1_Init(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_Device2_Init(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_Device2_Init(SI5351A_HandleType* SI5351Ax)
 {
 	return OK_0;
 }
@@ -72,7 +72,7 @@ UINT8_T SI5351A_I2C_Device2_Init(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明： 软件模拟I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SWI2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T val)
+UINT8_T SI5351A_SWI2C_WriteSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T val)
 {
 	UINT8_T _return = OK_0;
 	//---启动并发送写操作
@@ -116,9 +116,38 @@ GoToExit:
 //////输出参数:
 //////说		明： 硬件I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_HWI2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T val)
+UINT8_T SI5351A_HWI2C_WriteSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T val)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(SI5351Ax->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	//---发送寄存器地址,存储单元的地址
+	_return = I2CTask_MHW_PollMode_SendByte(&(SI5351Ax->msgI2C), addr, 0);
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---发送数据，内部寄存器数据
+	_return = I2CTask_MHW_PollMode_SendByte(&(SI5351Ax->msgI2C), val, 1);
+	if (_return != OK_0)
+	{
+		//---发送数据错误
+		_return = ERROR_3;
+		goto GoToExit;
+	}
+	//---退出操作入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(SI5351Ax->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -128,15 +157,16 @@ UINT8_T SI5351A_HWI2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, U
 //////输出参数:
 //////说		明： I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T val)
+UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T val)
 {
-	if (SI5351Ax->msgI2C.msgModelIsHW == 0)
+	if (SI5351Ax->msgI2C.msgHwMode == 0)
 	{
 		//---软件模拟I2C
 		return SI5351A_SWI2C_WriteSingle(SI5351Ax, addr, val);
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(SI5351Ax->msgI2C));
 		//---硬件I2C
 		return SI5351A_HWI2C_WriteSingle(SI5351Ax, addr, val);
 	}
@@ -149,7 +179,7 @@ UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UIN
 //////输出参数:
 //////说		明： 软件模拟I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SWI2C_ReadSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal)
+UINT8_T SI5351A_SWI2C_ReadSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal)
 {
 	UINT8_T _return = OK_0;
 	//---启动写数据
@@ -203,9 +233,42 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_HWI2C_ReadSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal)
+UINT8_T SI5351A_HWI2C_ReadSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(SI5351Ax->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	//---发送寄存器地址,存储单元的地址
+	_return = I2CTask_MHW_PollMode_SendByte(&(SI5351Ax->msgI2C), addr, 0);
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---启动IIC并发送器件地址，读数据
+	_return = I2CTask_MHW_PollMode_START(&(SI5351Ax->msgI2C), 0);
+	if (_return != OK_0)
+	{
+		//---启动读数据失败
+		_return = ERROR_3;
+		goto GoToExit;
+	}
+	//---发送不应答信号
+	_return = I2CTask_MHW_SendACK(&(SI5351Ax->msgI2C), 1);
+	//---读取数据
+	*pVal = I2CTask_MHW_PollMode_ReadByte(&(SI5351Ax->msgI2C));
+	//---退出入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(SI5351Ax->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -215,15 +278,16 @@ UINT8_T SI5351A_HWI2C_ReadSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UI
 //////输出参数:
 //////说		明： I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_ReadSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal)
+UINT8_T SI5351A_I2C_ReadSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal)
 {
-	if (SI5351Ax->msgI2C.msgModelIsHW == 0)
+	if (SI5351Ax->msgI2C.msgHwMode == 0)
 	{
 		//---软件模拟I2C
 		return SI5351A_SWI2C_ReadSingle(SI5351Ax, addr, pVal);
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(SI5351Ax->msgI2C));
 		//---硬件I2C
 		return SI5351A_HWI2C_ReadSingle(SI5351Ax, addr, pVal);
 	}
@@ -236,7 +300,7 @@ UINT8_T SI5351A_I2C_ReadSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT
 //////输出参数:
 //////说		明： 软件模拟I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SWI2C_WriteBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T SI5351A_SWI2C_WriteBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -286,9 +350,45 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_HWI2C_WriteBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T SI5351A_HWI2C_WriteBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(SI5351Ax->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	//---发送寄存器地址,内部寄存器地址
+	I2CTask_MSW_SendByte(&(SI5351Ax->msgI2C), addr);
+	//---发送寄存器地址,存储单元的地址
+	_return = I2CTask_MHW_PollMode_SendByte(&(SI5351Ax->msgI2C), addr, 0);
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---发送多组数据，连续写
+	for (i = 0; i < length; i++)
+	{
+		//---发送数据，内部寄存器数据
+		_return = I2CTask_MHW_PollMode_SendByte(&(SI5351Ax->msgI2C), pVal[i], ((i == (length - 1)) ? 1 : 0));
+		if (_return != OK_0)
+		{
+			//---发送数据错误
+			_return = (ERROR_3 + i);
+			goto GoToExit;
+		}
+	}
+	//---退出操作入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(SI5351Ax->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -298,15 +398,16 @@ UINT8_T SI5351A_HWI2C_WriteBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_WriteBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T SI5351A_I2C_WriteBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
-	if (SI5351Ax->msgI2C.msgModelIsHW == 0)
+	if (SI5351Ax->msgI2C.msgHwMode == 0)
 	{
 		//---软件模拟I2C
 		return SI5351A_SWI2C_WriteBulk(SI5351Ax, addr, pVal, length);
 	}
 	else
 	{
+		I2CTask_MHW_CheckClock(&(SI5351Ax->msgI2C));
 		//---硬件I2C
 		return SI5351A_HWI2C_WriteBulk(SI5351Ax, addr, pVal,length);
 	}
@@ -319,7 +420,7 @@ UINT8_T SI5351A_I2C_WriteBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8
 //////输出参数:
 //////说		明： 软件模拟I2C传输命令
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SWI2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T SI5351A_SWI2C_ReadBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T i = 0;
@@ -355,12 +456,8 @@ UINT8_T SI5351A_SWI2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT
 	{
 		//---读取数据
 		pVal[i] = I2CTask_MSW_ReadByte(&(SI5351Ax->msgI2C));
-		if (i == (length - 1))
-		{
-			_return = 1;
-		}
 		//---发送应答信号
-		I2CTask_MSW_SendACK(&(SI5351Ax->msgI2C), _return);
+		I2CTask_MSW_SendACK(&(SI5351Ax->msgI2C), (i == (length - 1)) ? 1 : 0);
 	}
 	_return = OK_0;
 	//---退出入口函数
@@ -377,9 +474,48 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_HWI2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T SI5351A_HWI2C_ReadBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
-	return ERROR_1;
+	UINT8_T _return = OK_0;
+	UINT8_T i = 0;
+	//---启动IIC并发送器件地址，写数据
+	_return = I2CTask_MHW_PollMode_START(&(SI5351Ax->msgI2C), 1);
+	if (_return != OK_0)
+	{
+		//---启动写数据失败
+		_return = ERROR_1;
+		goto GoToExit;
+	}
+	//---发送寄存器地址,存储单元的地址
+	_return = I2CTask_MHW_PollMode_SendByte(&(SI5351Ax->msgI2C), addr, 0);
+	if (_return != OK_0)
+	{
+		//---发送数据失败
+		_return = ERROR_2;
+		goto GoToExit;
+	}
+	//---启动IIC并发送器件地址，读数据
+	_return = I2CTask_MHW_PollMode_START(&(SI5351Ax->msgI2C), 0);
+	if (_return != OK_0)
+	{
+		//---启动读数据失败
+		_return = ERROR_3;
+		goto GoToExit;
+	}
+	//---连续读取6组数据
+	for (i = 0; i < length; i++)
+	{
+		//---发送应答信号
+		I2CTask_MHW_SendACK(&(SI5351Ax->msgI2C), (i == (length - 1)) ? 1 : 0);
+		//---读取数据
+		pVal[i] = I2CTask_MHW_PollMode_ReadByte(&(SI5351Ax->msgI2C));
+	}
+	_return = OK_0;
+	//---退出入口
+GoToExit:
+	//---发送停止信号
+	I2CTask_MHW_PollMode_STOP(&(SI5351Ax->msgI2C));
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -389,15 +525,16 @@ UINT8_T SI5351A_HWI2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
+UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length)
 {
-	if (SI5351Ax->msgI2C.msgModelIsHW == 0)
+	if (SI5351Ax->msgI2C.msgHwMode == 0)
 	{
 		//---软件模拟I2C
 		return SI5351A_SWI2C_ReadBulk(SI5351Ax, addr, pVal, length);
 	}
 	else
-	{
+	{		
+		I2CTask_MHW_CheckClock(&(SI5351Ax->msgI2C));
 		//---硬件I2C
 		return SI5351A_HWI2C_ReadBulk(SI5351Ax, addr, pVal, length);
 	}
@@ -421,7 +558,7 @@ UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_ConfigMSNBReg(SI5351A_HandlerType* SI5351Ax, UINT8_T regMSNAddr, UINT32_T a, UINT32_T b, UINT32_T c)
+UINT8_T SI5351A_I2C_ConfigMSNBReg(SI5351A_HandleType* SI5351Ax, UINT8_T regMSNAddr, UINT32_T a, UINT32_T b, UINT32_T c)
 {
 	UINT32_T p1 = 0;
 	UINT32_T p2 = 0;
@@ -493,7 +630,7 @@ UINT8_T SI5351A_I2C_ConfigMSNBReg(SI5351A_HandlerType* SI5351Ax, UINT8_T regMSNA
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_ConfigMSREG(SI5351A_HandlerType* SI5351Ax, UINT8_T regMSAddr, UINT32_T pllDIV, UINT32_T clkoutDIV)
+UINT8_T SI5351A_I2C_ConfigMSREG(SI5351A_HandleType* SI5351Ax, UINT8_T regMSAddr, UINT32_T pllDIV, UINT32_T clkoutDIV)
 {
 	UINT32_T p1 = 0;
 	UINT32_T p2 = 0;
@@ -547,7 +684,7 @@ UINT8_T SI5351A_I2C_ConfigMSREG(SI5351A_HandlerType* SI5351Ax, UINT8_T regMSAddr
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_CalcConfig(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq)
+UINT8_T SI5351A_CalcConfig(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq)
 {
 	UINT64_T pllFreq;
 	UINT8_T  clkoutDIV = 0;
@@ -670,7 +807,7 @@ UINT8_T SI5351A_CalcConfig(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T SI5351A_I2C_Init(SI5351A_HandleType* SI5351Ax, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
 	UINT8_T _return = OK_0;
 	//---参数初始化
@@ -692,19 +829,9 @@ UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT
 	{
 		return ERROR_1;
 	}
-
 	//---判断是硬件I2C还是软件I2C
-	if (isHWI2C)
-	{
-		//_return= I2CTask_MHW_Init(&(WM8510x->msgI2C), pFuncDelay);
-		SI5351Ax->msgI2C.msgModelIsHW = 1;
-	}
-	else
-	{
-		_return = I2CTask_MSW_Init(&(SI5351Ax->msgI2C), pFuncDelayus);
-		SI5351Ax->msgI2C.msgModelIsHW = 0;
-	}
-	_return = SI5351A_I2C_START(SI5351Ax);
+	(isHWI2C!=0)?(_return= I2CTask_MHW_Init(&(SI5351Ax->msgI2C),pFuncDelayus, pFuncTimerTick)):(_return = I2CTask_MSW_Init(&(SI5351Ax->msgI2C), pFuncDelayus,pFuncTimerTick));
+	_return = SI5351A_I2C_ConfigInit(SI5351Ax);
 	return _return;
 }
 
@@ -715,10 +842,10 @@ UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_DeInit(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_DeInit(SI5351A_HandleType* SI5351Ax)
 {
 	//---注销I2C设备
-	if (SI5351Ax->msgI2C.msgModelIsHW == 1)
+	if (SI5351Ax->msgI2C.msgHwMode == 1)
 	{
 		return ERROR_1;
 	}
@@ -735,10 +862,10 @@ UINT8_T SI5351A_I2C_DeInit(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_ConfigInit(SI5351A_HandleType* SI5351Ax)
 {
 	//---读取ID信息
-	UINT8_T _return = SI5351A_ReadID(SI5351Ax);
+	UINT8_T _return = SI5351A_I2C_ReadChipID(SI5351Ax);
 	if (_return==OK_0)
 	{
 		UINT8_T temp[8]={0x80,0x80,0x80,0x00,0x00,0x00,0x00,0x00};
@@ -747,7 +874,7 @@ UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax)
 		//---各通道进入PWR模式
 		SI5351A_I2C_WriteBulk(SI5351Ax, SI5351A_REG_CLK0_ADDR,temp,3);
 		//---设置驱动能力
-		SI5351A_SetClockChannelIDRV(SI5351Ax,0, SI5351A_CLK_IDRV_2mA);
+		SI5351A_I2C_SetClockChannelIDRV(SI5351Ax,0, SI5351A_CLK_IDRV_2mA);
 		//---变量归零处理
 		memset(temp, 0x00, 8);
 		SI5351A_I2C_WriteBulk(SI5351Ax, SI5351A_REG_SSC_EN_ADDR,temp,8);
@@ -765,7 +892,7 @@ UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T pllIndex)
+UINT8_T SI5351A_I2C_PLLRST(SI5351A_HandleType* SI5351Ax, UINT8_T pllIndex)
 {
 	if (pllIndex == SI5351A_PLL_RST_B)
 	{
@@ -784,7 +911,7 @@ UINT8_T SI5351A_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T pllIndex)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_ReadID(SI5351A_HandlerType* SI5351Ax)
+UINT8_T SI5351A_I2C_ReadChipID(SI5351A_HandleType* SI5351Ax)
 {
 	UINT8_T temp=0;
 	UINT8_T  _return= SI5351A_I2C_ReadSingle(SI5351Ax, SI5351A_REG_CRYSTAL_LOAD_ADDR, &temp);
@@ -810,7 +937,7 @@ UINT8_T SI5351A_ReadID(SI5351A_HandlerType* SI5351Ax)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetFreqHz(SI5351A_HandlerType* SI5351Ax,UINT8_T clkChannel, UINT64_T freq)
+UINT8_T SI5351A_I2C_SetFreqHz(SI5351A_HandleType* SI5351Ax,UINT8_T clkChannel, UINT64_T freq)
 {
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel,freq);
 }
@@ -822,7 +949,7 @@ UINT8_T SI5351A_SetFreqHz(SI5351A_HandlerType* SI5351Ax,UINT8_T clkChannel, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz)
+UINT8_T SI5351A_I2C_SetFreqKHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, float freqKHz)
 {
 	UINT64_T freq= (UINT64_T)freqKHz*1000;
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel, freq);
@@ -835,7 +962,7 @@ UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, fl
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz)
+UINT8_T SI5351A_I2C_SetFreqMHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, float freqMHz)
 {
 	UINT64_T freq = (UINT64_T)freqMHz * 1000000;
 	return SI5351A_CalcConfig(SI5351Ax, clkChannel, freq);
@@ -848,7 +975,7 @@ UINT8_T SI5351A_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, fl
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SI5351A_SetClockChannelIDRV(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv)
+UINT8_T SI5351A_I2C_SetClockChannelIDRV(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv)
 {
 	clkChannel=((clkChannel>(SI5351A_CLKOUT_CHANNEL_SIZE-1))?(SI5351A_CLKOUT_CHANNEL_SIZE-1):clkChannel);
 	SI5351Ax->msgClockCTRL[clkChannel]&=0xFC;

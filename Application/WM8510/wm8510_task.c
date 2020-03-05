@@ -7,9 +7,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_Init(WM8510_HandlerType *WM8510x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T WM8510Task_I2C_Init(WM8510_HandleType *WM8510x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
-	return WM8510Lib_I2C_Init(WM8510x, pFuncDelayus, isHWI2C);
+	return WM8510Lib_I2C_Init(WM8510x, pFuncDelayus,pFuncTimerTick, isHWI2C);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ UINT8_T WM8510Task_I2C_Init(WM8510_HandlerType *WM8510x, void(*pFuncDelayus)(UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_DeInit(WM8510_HandlerType *WM8510x)
+UINT8_T WM8510Task_I2C_DeInit(WM8510_HandleType *WM8510x)
 {
 	return WM8510Lib_I2C_DeInit(WM8510x);
 }
@@ -31,7 +31,7 @@ UINT8_T WM8510Task_I2C_DeInit(WM8510_HandlerType *WM8510x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_SetFreqHz(WM8510_HandlerType *WM8510x, UINT32_T freq)
+UINT8_T WM8510Task_I2C_SetFreqHz(WM8510_HandleType *WM8510x, UINT32_T freq)
 {
 	return WM8510Lib_I2C_SetFreqHz(WM8510x, freq);
 }
@@ -43,7 +43,7 @@ UINT8_T WM8510Task_I2C_SetFreqHz(WM8510_HandlerType *WM8510x, UINT32_T freq)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_SetFreqKHz(WM8510_HandlerType *WM8510x, float freq)
+UINT8_T WM8510Task_I2C_SetFreqKHz(WM8510_HandleType *WM8510x, float freq)
 {
 	return WM8510Lib_I2C_SetFreqKHz(WM8510x, freq);
 }
@@ -55,7 +55,7 @@ UINT8_T WM8510Task_I2C_SetFreqKHz(WM8510_HandlerType *WM8510x, float freq)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_SetFreqMHz(WM8510_HandlerType *WM8510x, float freq)
+UINT8_T WM8510Task_I2C_SetFreqMHz(WM8510_HandleType *WM8510x, float freq)
 {
 	return WM8510Lib_I2C_SetFreqMHz(WM8510x, freq);
 }
@@ -66,7 +66,7 @@ UINT8_T WM8510Task_I2C_SetFreqMHz(WM8510_HandlerType *WM8510x, float freq)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void WM8510Task_I2C_Reset(WM8510_HandlerType *WM8510x)
+void WM8510Task_I2C_Reset(WM8510_HandleType *WM8510x)
 {
 	WM8510Lib_I2C_Reset(WM8510x);
 }
@@ -78,7 +78,7 @@ void WM8510Task_I2C_Reset(WM8510_HandlerType *WM8510x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510_HandlerType *WM8510x, UINT32_T freq)
+UINT8_T WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510_HandleType *WM8510x, UINT32_T freq)
 {
 	return WM8510Lib_I2C_SetFreqHzWithAllFreqReg(WM8510x, freq);
 }
@@ -90,7 +90,7 @@ UINT8_T WM8510Task_I2C_SetFreqHzWithAllFreqReg(WM8510_HandlerType *WM8510x, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_CalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x)
+UINT8_T WM8510Task_CalibrateFreqKHzOutPut(WM8510_HandleType *WM8510x)
 {
 	return WM8510Lib_CalibrateFreqKHzOutPut(WM8510x);
 }
@@ -102,7 +102,7 @@ UINT8_T WM8510Task_CalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(WM8510_HandlerType *WM8510x, UINT32_T freq)
+UINT8_T WM8510Task_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(WM8510_HandleType *WM8510x, UINT32_T freq)
 {
 	return WM8510Lib_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(WM8510x, freq);
 }
@@ -114,7 +114,7 @@ UINT8_T WM8510Task_I2C_SetFreqHzWithAllFreqRegAndCalibrateFreqKHzOutPut(WM8510_H
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_I2C_CalibrateClock(WM8510_HandlerType *WM8510x)
+UINT8_T WM8510Task_I2C_CalibrateClock(WM8510_HandleType *WM8510x)
 {
 	return WM8510Lib_I2C_CalibrateClock(WM8510x);
 }
@@ -126,7 +126,7 @@ UINT8_T WM8510Task_I2C_CalibrateClock(WM8510_HandlerType *WM8510x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T WM8510Task_Task(WM8510_HandlerType *WM8510x, UINT8_T *pMsgIn, UINT8_T *pMsgOut)
+UINT8_T WM8510Task_Task(WM8510_HandleType *WM8510x, UINT8_T *pMsgIn, UINT8_T *pMsgOut)
 {
 	UINT32_T freq = pMsgIn[0];
 	freq = (freq << 8) + pMsgIn[1];

@@ -18,7 +18,10 @@ extern "C" {
 	//---CLK----------SPI_CLK(必须) PA5
 	//---DIN----------SPI_MOSI(必须) PA7
 	//---DOUT---------SPI_MISO(必须) PA6
-	//---自动量产切换一次之后，耗时113ms
+	//---自动量程切换一次之后，耗时113ms
+	//////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---开始//////////////////////////////////////////// 
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===退出睡眠模式
 	#define ADS1256_CMD_WAKEUP							0x00
@@ -139,7 +142,13 @@ extern "C" {
 	//===GPIO0输入/输出的配置
 	#define ADS1256_GPIO0_MODE_OUTPUT					0xEF
 	#define ADS1256_GPIO0_MODE_INPUT					0x10
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---开始///////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===参考电压
 	#define ADS1256_REF_MV								2500
 	//===Buffer关闭最大采集电压
@@ -167,90 +176,103 @@ extern "C" {
 	//===是否使能ADS1256的校准功能
 	#define ADS1256_SELF_CALIBRATION_ENABLE				0
 	#define ADS1256_SELF_CALIBRATION_SPAN_TIME_MS		1000
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---结束////////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===定义结构体
-	typedef struct _ADS1256_HandlerType					ADS1256_HandlerType;
-
+	typedef struct _ADS1256_HandleType					ADS1256_HandleType;
 	//===定义指针结构体
-	typedef	struct _ADS1256_HandlerType					*pADS1256_HandlerType;
-
+	typedef	struct _ADS1256_HandleType					*pADS1256_HandleType;
 	//===定义结构体
-	struct _ADS1256_HandlerType
+	struct _ADS1256_HandleType
 	{
-		UINT8_T msgReady;															//---设备是否准备就绪，0---工作正常；1---工作异常
-		UINT8_T msgChipID;															//---设备的ID信息
-		UINT8_T	msgGain;															//---增益设置
-		UINT8_T msgCalcError[ADS1256_CHANNEL_MAX];									//---是否需要校准偏差 0===不叫准，1---校准
-		UINT8_T msgNowChannel;														//---当前转换的通道
-		UINT8_T msgOldChannel;														//---上一次转换的通道
-		UINT8_T	msgIsPositive[ADS1256_CHANNEL_MAX];									//---0---无数据，1---是负数，2---是正值
-		UINT8_T msgChannelMode[ADS1256_CHANNEL_MAX];								//---输入装换模式,0---无配置；1---单端模式；2---差分模式
-		UINT16_T msgChannelPowerError[ADS1256_CHANNEL_MAX];							//---通道的基础误差
-		UINT16_T msgChannelPowerX1Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX2Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX4Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX8Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX16Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX32Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT16_T msgChannelPowerX64Error[ADS1256_CHANNEL_MAX];						//---通道的基础误差
-		UINT32_T msgChannelNowPowerResult[ADS1256_CHANNEL_MAX];						//---当前ADC计算的电压结果
-		UINT32_T msgChannelOldPowerResult[ADS1256_CHANNEL_MAX];						//---上一次ADC计算的电压结果
-		UINT32_T msgChannelADCResult[ADS1256_CHANNEL_MAX];							//---ADC转换结果
-		UINT8_T msgWaitms;															//---等待时间,单位是ms
-		UINT8_T msgSleepMode;														//---休眠模式，0---不休眠，1---休眠模式
-		UINT8_T msgDRate;															//---数据转换的速率，默认是0xF0
-		UINT8_T msgBufferON;														//---是否开启缓存区，0---不开启，1---开启
-		UINT32_T msgRecordTime;														//---当前的时间
-		GPIO_HandlerType	msgDRDY;												//---准备好信号
-		GPIO_HandlerType	msgHWRST;												//---硬件复位信号
-		SPI_HandlerType		msgSPI;													//---使用的SPI模式
-		void(*msgDelayms)(UINT32_T delay);										//---延时参数
+		UINT8_T msgReady;																								//---设备是否准备就绪，0---工作正常；1---工作异常
+		UINT8_T msgChipID;																								//---设备的ID信息
+		UINT8_T	msgGain;																								//---增益设置
+		UINT8_T msgCalcError[ADS1256_CHANNEL_MAX];																		//---是否需要校准偏差 0===不叫准，1---校准
+		UINT8_T msgNowChannel;																							//---当前转换的通道
+		UINT8_T msgOldChannel;																							//---上一次转换的通道
+		UINT8_T	msgPositive[ADS1256_CHANNEL_MAX];																		//---0---无数据，1---是负数，2---是正值
+		UINT8_T msgChannelMode[ADS1256_CHANNEL_MAX];																	//---输入装换模式,0---无配置；1---单端模式；2---差分模式
+		UINT16_T msgChannelPowerError[ADS1256_CHANNEL_MAX];																//---通道的基础误差
+		UINT16_T msgChannelPowerX1Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX2Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX4Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX8Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX16Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX32Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT16_T msgChannelPowerX64Error[ADS1256_CHANNEL_MAX];															//---通道的基础误差
+		UINT32_T msgChannelNowPowerResult[ADS1256_CHANNEL_MAX];															//---当前ADC计算的电压结果
+		UINT32_T msgChannelOldPowerResult[ADS1256_CHANNEL_MAX];															//---上一次ADC计算的电压结果
+		UINT32_T msgChannelADCResult[ADS1256_CHANNEL_MAX];																//---ADC转换结果
+		UINT8_T msgWaitms;																								//---等待时间,单位是ms
+		UINT8_T msgSleepMode;																							//---休眠模式，0---不休眠，1---休眠模式
+		UINT8_T msgDRate;																								//---数据转换的速率，默认是0xF0
+		UINT8_T msgBufferON;																							//---是否开启缓存区，0---不开启，1---开启
+		UINT32_T msgRecordTick;																							//---当前的时间
+		GPIO_HandleType	msgDRDY;																						//---准备好信号
+		GPIO_HandleType	msgHWRST;																						//---硬件复位信号
+		SPI_HandleType		msgSPI;																						//---使用的SPI模式
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===任务函数
-	#define ADS1256_TASK_ONE		pADS1256Device0
-	#define ADS1256_TASK_TWO		0
-	#define ADS1256_TASK_THREE		0
+	#define ADS1256_TASK_ONE							pADS1256Device0
+	#define ADS1256_TASK_TWO							0
+	#define ADS1256_TASK_THREE							0
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	
 	//===外部调用接口
-	extern ADS1256_HandlerType  	g_ADS1256Device0;
-	extern pADS1256_HandlerType 	pADS1256Device0;
+	extern ADS1256_HandleType  						g_ADS1256Device0;
+	extern pADS1256_HandleType 						pADS1256Device0;
 
 	//===函数定义
-	UINT8_T ADS1256_SPI_Init(ADS1256_HandlerType *ADS1256x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);
-	UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandlerType *ADS1256x);
-	UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
-	UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandlerType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
-	UINT8_T ADS1256_SPI_WriteReg( ADS1256_HandlerType *ADS1256x, UINT8_T regID, UINT8_T regVal );
-	UINT8_T ADS1256_SPI_ReadReg( ADS1256_HandlerType *ADS1256x, UINT8_T regAddr, UINT8_T *pRVal );
-	UINT8_T ADS1256_SPI_WriteCmd( ADS1256_HandlerType *ADS1256x, UINT8_T cmd );
-	UINT8_T ADS1256_SPI_HardReset( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_SoftReset( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_Reset(ADS1256_HandlerType* ADS1256x);
-	UINT8_T ADS1256_SPI_WAKEUP( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_SDATAC( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_ReadChipID( ADS1256_HandlerType *ADS1256x, UINT8_T *pDeviceID );
-	UINT8_T ADS1256_SPI_ReadDRate( ADS1256_HandlerType *ADS1256x, UINT8_T *pDRate );
-	UINT8_T ADS1256_SPI_SetDRate( ADS1256_HandlerType *ADS1256x, UINT8_T rate );
-	UINT8_T ADS1256_SPI_ReadGain( ADS1256_HandlerType *ADS1256x, UINT8_T *pGain );
-	UINT8_T ADS1256_SPI_SetGain( ADS1256_HandlerType *ADS1256x, UINT8_T gain );
-	UINT8_T ADS1256_SPI_SetClockOutRate( ADS1256_HandlerType *ADS1256x, UINT8_T clockRate );
-	UINT8_T ADS1256_SPI_DisableBuffer( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_Calibration( ADS1256_HandlerType *ADS1256x, UINT8_T calibCmdReg );
-	UINT8_T ADS1256_SPI_SelfCalibration( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_DisabledAutoCalibration( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_EnabledAutoCalibration( ADS1256_HandlerType *ADS1256x );
-	UINT8_T ADS1256_SPI_SetSingleChannal( ADS1256_HandlerType *ADS1256x, UINT8_T ch );
-	UINT8_T ADS1256_SPI_SetDifferenceChannal( ADS1256_HandlerType *ADS1256x, UINT8_T ch );
-	UINT8_T ADS1256_SPI_SetChannalMode( ADS1256_HandlerType *ADS1256x, UINT8_T ch, UINT8_T isDiff );
-	UINT8_T ADS1256_SPI_ReadChannelResult( ADS1256_HandlerType *ADS1256x, UINT8_T ch );
-	UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandlerType* ADS1256x, UINT8_T ch);
-	UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandlerType* ADS1256x, UINT8_T ch);
-	UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandlerType *ADS1256x);
-	UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandlerType *ADS1256x);
-	UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandlerType* ADS1256x);
-	UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandlerType* ADS1256x, UINT8_T ch);
+	UINT8_T ADS1256_SPI_Init(ADS1256_HandleType *ADS1256x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);
+	UINT8_T ADS1256_SPI_WaitDRDY(ADS1256_HandleType *ADS1256x);
+	UINT8_T ADS1256_SPI_SW_SendCmd(ADS1256_HandleType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
+	UINT8_T ADS1256_SPI_HW_SendCmd(ADS1256_HandleType *ADS1256x, UINT8_T cmd, UINT8_T *pRVal);
+	UINT8_T ADS1256_SPI_WriteReg( ADS1256_HandleType *ADS1256x, UINT8_T regID, UINT8_T regVal );
+	UINT8_T ADS1256_SPI_ReadReg( ADS1256_HandleType *ADS1256x, UINT8_T regAddr, UINT8_T *pRVal );
+	UINT8_T ADS1256_SPI_WriteCmd( ADS1256_HandleType *ADS1256x, UINT8_T cmd );
+	UINT8_T ADS1256_SPI_HardReset( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_SoftReset( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_Reset(ADS1256_HandleType* ADS1256x);
+	UINT8_T ADS1256_SPI_WAKEUP( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_SDATAC( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_ReadChipID( ADS1256_HandleType *ADS1256x, UINT8_T *pDeviceID );
+	UINT8_T ADS1256_SPI_ReadDRate( ADS1256_HandleType *ADS1256x, UINT8_T *pDRate );
+	UINT8_T ADS1256_SPI_SetDRate( ADS1256_HandleType *ADS1256x, UINT8_T rate );
+	UINT8_T ADS1256_SPI_ReadGain( ADS1256_HandleType *ADS1256x, UINT8_T *pGain );
+	UINT8_T ADS1256_SPI_SetGain( ADS1256_HandleType *ADS1256x, UINT8_T gain );
+	UINT8_T ADS1256_SPI_SetClockOutRate( ADS1256_HandleType *ADS1256x, UINT8_T clockRate );
+	UINT8_T ADS1256_SPI_DisableBuffer( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_EnableBuffer( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_Calibration( ADS1256_HandleType *ADS1256x, UINT8_T calibCmdReg );
+	UINT8_T ADS1256_SPI_SelfCalibration( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_DisabledAutoCalibration( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_EnabledAutoCalibration( ADS1256_HandleType *ADS1256x );
+	UINT8_T ADS1256_SPI_SetSingleChannal( ADS1256_HandleType *ADS1256x, UINT8_T ch );
+	UINT8_T ADS1256_SPI_SetDifferenceChannal( ADS1256_HandleType *ADS1256x, UINT8_T ch );
+	UINT8_T ADS1256_SPI_SetChannalMode( ADS1256_HandleType *ADS1256x, UINT8_T ch, UINT8_T isDiff );
+	UINT8_T ADS1256_SPI_ReadChannelResult( ADS1256_HandleType *ADS1256x, UINT8_T ch );
+	UINT8_T ADS1256_SPI_CalcChannelPowerResult(ADS1256_HandleType* ADS1256x, UINT8_T ch);
+	UINT8_T ADS1256_SPI_CalcBaseError(ADS1256_HandleType* ADS1256x, UINT8_T ch);
+	UINT8_T ADS1256_SPI_CheckDevice(ADS1256_HandleType *ADS1256x);
+	UINT8_T ADS1256_SPI_ConfigInit(ADS1256_HandleType *ADS1256x);
+	UINT8_T ADS1256_SPI_AutoSelfRecovery(ADS1256_HandleType* ADS1256x);
+	UINT8_T ADS1256_SPI_AutoReadChannelResult(ADS1256_HandleType* ADS1256x, UINT8_T ch);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -15,28 +15,40 @@ extern "C" {
 	///////PC3---ADCChannel13
 	///////ADC1和ADC3才能发起DMA请求
 	///////ADC部分的驱动需要依据不同的需要进行更改，不同的项目需要，配置方式不一致，需要重新设计修改
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---开始////////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	#define  ADC_CHANNEL_NUM					1//2
 	#define	 ADC_CHANNEL_SIZE					18
 	#define  ADC_CHANNEL_MAX_SIZE				( ADC_CHANNEL_NUM*ADC_CHANNEL_SIZE )
-	
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////配置参数---结束////////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	//===定义结构体
-	typedef struct _ADCASK_HandlerType			ADCASK_HandlerType;
+	typedef struct _ADCASK_HandleType			ADCASK_HandleType;
 	//===定义指针结构体
-	typedef struct _ADCASK_HandlerType			*pADCASK_HandlerType;
+	typedef struct _ADCASK_HandleType			*pADCASK_HandleType;
 	//===结构体变量
-	struct _ADCASK_HandlerType
+	struct _ADCASK_HandleType
 	{
-		UINT8_T  msgFlag;									//---0未转换 1 转换完成
-		UINT16_T msgAChannelVal;							//---通道A的值
-		UINT16_T msgBChannelVal;							//---通道B的值
-		UINT16_T msgADCConvVal[ADC_CHANNEL_MAX_SIZE];		//---数据存储的缓存区
+		UINT8_T  msgFlag;																								//---0未转换 1 转换完成
+		UINT16_T msgAChannelVal;																						//---通道A的值
+		UINT16_T msgBChannelVal;																						//---通道B的值
+		UINT16_T msgADCConvVal[ADC_CHANNEL_MAX_SIZE];																	//---数据存储的缓存区
 	};
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 
 	//===外部调用接口
-	extern ADCASK_HandlerType	g_ABChannelADC;
-	extern pADCASK_HandlerType	pABChannelADC;
-	extern ADCASK_HandlerType	g_CDChannelADC;
-	extern pADCASK_HandlerType	pCDChannelADC;
+	extern ADCASK_HandleType	g_ABChannelADC;
+	extern pADCASK_HandleType	pABChannelADC;
+	extern ADCASK_HandleType	g_CDChannelADC;
+	extern pADCASK_HandleType	pCDChannelADC;
 
 	//===函数定义
 	UINT8_T ADC_GPIO_Init(void);
@@ -57,7 +69,7 @@ extern "C" {
 	UINT8_T ADC_ADC_Init(void);
 	UINT8_T ADC_ADCTask_START(ADC_TypeDef *ADCx);
 	UINT8_T ADC_ADCTask_STOP(ADC_TypeDef *ADCx);
-	UINT8_T ADC_HandleChannelVal(ADCASK_HandlerType *ADCASKx);
+	UINT8_T ADC_HandleChannelVal(ADCASK_HandleType *ADCASKx);
 	UINT16_T ADC_GetChipPower(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

@@ -8,31 +8,29 @@ extern "C" {
 	#include "complier_lib.h"
 	#include "gpio_task.h"
 	#include "systick_task.h"
+	#include "hw_cfg.h"
 
 	//===定义使用的外部计数模式的通道数
 	#define	CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM			2
-	//===定义是否使用电平转换芯片，带OE控制端的
-	#define CALC_FREQ_lEVEL_SHIFT
 	//===结构体定义
-	typedef struct _CalcFreq_HandlerType					CalcFreq_HandlerType;
+	typedef struct _CalcFreq_HandleType					CalcFreq_HandleType;
 	//===指针结构体定义
-	typedef struct _CalcFreq_HandlerType					*pCalcFreq_HandlerType;
+	typedef struct _CalcFreq_HandleType					*pCalcFreq_HandleType;
 	//===计算频率的数据结构体
-	struct  _CalcFreq_HandlerType
+	struct  _CalcFreq_HandleType
 	{
-		VLTUINT8_T  msgChannel;																		//---操作通道
-		VLTUINT8_T  msgStep[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];								//---操作步序
-		float		msgFreqMHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];							//---MHz频率
-		float		msgFreqKHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];							//---KHz频率
-		//void(*msgFuncTask)(void);																	//---操作任务
-		#ifdef CALC_FREQ_lEVEL_SHIFT
-		GPIO_HandlerType	msgOE[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];							//---OE控制端口
+		VLTUINT8_T  msgChannel;																							//---操作通道
+		VLTUINT8_T  msgStep[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];													//---操作步序
+		float		msgFreqMHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];												//---MHz频率
+		float		msgFreqKHz[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];												//---KHz频率
+		#ifdef CALC_FREQ_USE_lEVEL_SHIFT
+			GPIO_HandleType	msgOE[CALC_FREQ_EXTERN_COUNT_MODE_CHANNEL_NUM];												//---OE控制端口
 		#endif
 	};
 
 	//===外部调用接口
-	extern CalcFreq_HandlerType g_CalcFreq;
-	extern pCalcFreq_HandlerType pCalcFreq;
+	extern CalcFreq_HandleType 	g_CalcFreq;
+	extern pCalcFreq_HandleType 	pCalcFreq;
 
 	//===函数定义
 	void Timer_CalcFreqMode_DeInit(void);
@@ -40,7 +38,7 @@ extern "C" {
 	float Timer_GetFreqKHz(void);
 	float Timer_GetFreqMHz(void);
 	void Timer_Init(void);
-	void Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable);
+	UINT8_T Timer_Clock(TIM_TypeDef *TIMx, UINT8_T isEnable);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

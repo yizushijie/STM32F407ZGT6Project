@@ -226,6 +226,7 @@
                     <name>CCDefines</name>
                     <state>USE_FULL_LL_DRIVER</state>
                     <state>USE_HAL_DRIVER</state>
+                    <state>USE_FULL_GPIO</state>
                     <state>HSE_VALUE=8000000UL</state>
                     <state>STM32F407xx</state>
                     <state>__TARGET_FPU_VFP</state>
@@ -274,7 +275,7 @@
                 </option>
                 <option>
                     <name>CCDiagSuppress</name>
-                    <state>Pa082,Pe177</state>
+                    <state>Pa182,Pa082,Pe177,Pe188</state>
                 </option>
                 <option>
                     <name>CCDiagRemark</name>
@@ -366,7 +367,7 @@
                     <state>$PROJ_DIR$\..\STARTUP\EWARM</state>
                     <state>$PROJ_DIR$\..\Complier</state>
                     <state>$PROJ_DIR$\..\Doc</state>
-                    <state>$PROJ_DIR$\..\STM32F4xx</state>
+                    <state>$PROJ_DIR$\..\DriversEx\CMSIS\STM32F4</state>
                     <state>$PROJ_DIR$/../Application/AD5593</state>
                     <state>$PROJ_DIR$/../Application/ADC</state>
                     <state>$PROJ_DIR$/../Application/ADS868x</state>
@@ -399,7 +400,7 @@
                     <state>$PROJ_DIR$/../Application/SPI</state>
                     <state>$PROJ_DIR$/../Application/SysTick</state>
                     <state>$PROJ_DIR$/../Application/Timer</state>
-                    <state>$PROJ_DIR$/../Application/USART</state>
+                    <state>$PROJ_DIR$\..\Application\UART</state>
                     <state>$PROJ_DIR$/../Application/WM8510</state>
                     <state>$PROJ_DIR$/../Application/NRF2401</state>
                     <state>$PROJ_DIR$\..\Application\OLED</state>
@@ -425,13 +426,25 @@
                     <state>$PROJ_DIR$\..\Application\SMBUS</state>
                     <state>$PROJ_DIR$\..\Application\LIN</state>
                     <state>$PROJ_DIR$\..\Application\INA226</state>
-					<state>$PROJ_DIR$\..\Application\EXIT</state>
                     <state>$PROJ_DIR$\..\Application\SI5351A</state>
                     <state>$PROJ_DIR$\..\Application\TaskManage</state>
                     <state>$PROJ_DIR$\..\Application\HVPP</state>
                     <state>$PROJ_DIR$\..\Application\HVSP</state>
                     <state>$PROJ_DIR$\..\Application\JTAG</state>
                     <state>$PROJ_DIR$\..\Application\AHT10</state>
+                    <state>$PROJ_DIR$\..\Application\DataBus</state>
+                    <state>$PROJ_DIR$\..\Application\HardWare</state>
+                    <state>$PROJ_DIR$\..\Application\MCO</state>
+                    <state>$PROJ_DIR$\..\Application\HMC5883</state>
+                    <state>$PROJ_DIR$\..\Application\CAN</state>
+                    <state>$PROJ_DIR$\..\Application\BMP180</state>
+                    <state>$PROJ_DIR$\..\Application\MPU6050</state>
+                    <state>$PROJ_DIR$\..\Application\DMA</state>
+                    <state>$PROJ_DIR$\..\Application\EXTI</state>
+                    <state>$PROJ_DIR$\..\DriversEx\Complier</state>
+                    <state>$PROJ_DIR$\..\DriversEx\STM32F4xx</state>
+                    <state>$PROJ_DIR$\..\Application\ESP8266</state>
+                    <state>$PROJ_DIR$\..\LOG</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -447,7 +460,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -456,7 +469,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -731,7 +744,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state>STM32F407ZET6Project.hex</state>
+                    <state>Firmware.hex</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -1242,6 +1255,27 @@
             </file>
         </group>
         <group>
+            <name>AES</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\AES\aes_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>AHT10</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\AHT10\aht10_cfg.c</name>
@@ -1317,6 +1351,45 @@
             </file>
         </group>
         <group>
+            <name>BMP180</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\BMP180\bmp180_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>CAN</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\CAN\can_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\CAN\can_cfg.h</name>
+            </file>
+        </group>
+        <group>
+            <name>cJSON</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\cJSON\cJSON.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\cJSON\cJSON.h</name>
+            </file>
+        </group>
+        <group>
             <name>CRC</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\CRC\crc_cfg.c</name>
@@ -1380,6 +1453,15 @@
             </file>
         </group>
         <group>
+            <name>DataBus</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DataBus\data_bus.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DataBus\data_bus.h</name>
+            </file>
+        </group>
+        <group>
             <name>Decode</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\Decode\decode_cfg.c</name>
@@ -1440,6 +1522,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\DHT11\dht11_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>DMA</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\DMA\dma_task.h</name>
             </file>
         </group>
         <group>
@@ -1527,24 +1630,81 @@
             </file>
         </group>
         <group>
-            <name>EXIT</name>
+            <name>Encode</name>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.c</name>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_cfg.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_cfg.h</name>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_cfg.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.c</name>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_lib.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_lib.h</name>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_lib.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.c</name>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_task.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\EXIT\exit_task.h</name>
+                <name>$PROJ_DIR$\..\Application\Encode\encode_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>ESP8266</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\ESP8266\esp8266_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>EXTI</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\EXTI\exti_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>FIFO</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\fifo.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\fifo.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\queue_fifo.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\FIFO\queue_fifo.h</name>
             </file>
         </group>
         <group>
@@ -1587,6 +1747,57 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\GPIO\gpio_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>HardWare</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HardWare\hw_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HardWare\hw_cfg.h</name>
+            </file>
+        </group>
+        <group>
+            <name>HMC472</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC472\hmc472_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>HMC5883</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\HMC5883\hmc5883_task.h</name>
             </file>
         </group>
         <group>
@@ -1893,6 +2104,15 @@
             </file>
         </group>
         <group>
+            <name>MCO</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MCO\mco_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MCO\mco_cfg.h</name>
+            </file>
+        </group>
+        <group>
             <name>ModBusMaster</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\ModBusMaster\modbus_master_cfg.c</name>
@@ -1935,6 +2155,27 @@
             </file>
         </group>
         <group>
+            <name>MPU6050</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\MPU6050\mpu6050_task.h</name>
+            </file>
+        </group>
+        <group>
             <name>MyMalloc</name>
             <file>
                 <name>$PROJ_DIR$\..\Application\MyMalloc\my_malloc.c</name>
@@ -1962,6 +2203,27 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Application\NRF2401\nrf2401_task.h</name>
+            </file>
+        </group>
+        <group>
+            <name>NTC</name>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_cfg.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_lib.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_lib.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_task.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Application\NTC\ntc_task.h</name>
             </file>
         </group>
         <group>
@@ -2325,25 +2587,70 @@
             </file>
         </group>
         <group>
-            <name>USART</name>
+            <name>UART</name>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_cfg.c</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_cfg.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_cfg.h</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_cfg.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_lib.c</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_lib.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_lib.h</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_lib.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_task.c</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_task.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Application\USART\usart_task.h</name>
+                <name>$PROJ_DIR$\..\Application\UART\uart_task.h</name>
             </file>
+        </group>
+        <group>
+            <name>USB</name>
+            <group>
+                <name>USB</name>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_cfg.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_cfg.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_lib.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_lib.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_task.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USB\usb_task.h</name>
+                </file>
+            </group>
+            <group>
+                <name>USBHid</name>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_cfg.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_cfg.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_lib.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_lib.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_task.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Application\USB\USBHid\usbhid_task.h</name>
+                </file>
+            </group>
         </group>
         <group>
             <name>W25Qxx</name>
@@ -2456,10 +2763,10 @@
         <group>
             <name>CMSIS</name>
             <file>
-                <name>$PROJ_DIR$\..\STM32F4xx\system_stm32f4xx.c</name>
+                <name>$PROJ_DIR$\..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\STM32F4xx\system_stm32f4xx.h</name>
+                <name>$PROJ_DIR$\..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.h</name>
             </file>
         </group>
         <group>
@@ -2599,6 +2906,51 @@
         </group>
     </group>
     <group>
+        <name>DriversEx</name>
+        <group>
+            <name>Complier</name>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\Complier\stm32_cfg.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\Complier\stm32_cfg.h</name>
+            </file>
+        </group>
+        <group>
+            <name>STM32F4</name>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32_assert.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f407xx.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_hal_conf.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_it.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_it.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\DriversEx\STM32F4xx\stm32f4xx_ll.h</name>
+            </file>
+        </group>
+    </group>
+    <group>
+        <name>LOG</name>
+        <file>
+            <name>$PROJ_DIR$\..\LOG\log_cfg.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\LOG\log_cfg.h</name>
+        </file>
+    </group>
+    <group>
         <name>STARTUP</name>
         <group>
             <name>EWARM</name>
@@ -2606,35 +2958,5 @@
                 <name>$PROJ_DIR$\..\STARTUP\EWARM\STM32F4\startup_stm32f407xx.s</name>
             </file>
         </group>
-    </group>
-    <group>
-        <name>STM32F4xx</name>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32_assert.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32_cfg.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32_cfg.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f407xx.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_hal_conf.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_it.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_it.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\..\STM32F4xx\stm32f4xx_ll.h</name>
-        </file>
     </group>
 </project>

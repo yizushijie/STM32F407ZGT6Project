@@ -9,6 +9,9 @@ extern "C" {
 	#include"complier_lib.h"
 	#include "i2c_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---开始////////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	//===输入时钟频率
 	#define SI5351A_CLK_HZ							25000000ULL		
 	//===锁相环的最大或者最小时钟
@@ -19,7 +22,13 @@ extern "C" {
 	#define SI5351A_CLKOUT_MIN_HZ					8000ULL
 	//===最大输出通道数据
 	#define SI5351A_CLKOUT_CHANNEL_SIZE				3
-	
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////配置参数---结束////////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	//===寄存器地址
 	#define SI5351A_REG_STATUS_ADDR					0
 	#define SI5351A_REG_CLKEN_ADDR					3
@@ -95,43 +104,57 @@ extern "C" {
 	#define SI5351A_WADDR							0xC0	
 	//===读命令
 	#define SI5351A_RADDR							0xC1	
-
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _SI5351A_HandlerType				SI5351A_HandlerType;
+	typedef struct _SI5351A_HandleType				SI5351A_HandleType;
 	//===指针结构体定义
-	typedef struct _SI5351A_HandlerType				*pSI5351A_HandlerType;
-
+	typedef struct _SI5351A_HandleType				*pSI5351A_HandleType;
 	//===定义结构
-	struct _SI5351A_HandlerType
+	struct _SI5351A_HandleType
 	{
-		UINT8_T msgClockCTRL[SI5351A_CLKOUT_CHANNEL_SIZE];		//---CLK输出通道的配置寄存器
-		UINT8_T msgIsResetPll;									//---是否配置完成之后复位PLL，1---复位,0---不复位
-		I2C_HandlerType msgI2C;									//---使用的I2C设备
+		UINT8_T msgClockCTRL[SI5351A_CLKOUT_CHANNEL_SIZE];																//---CLK输出通道的配置寄存器
+		UINT8_T msgIsResetPll;																							//---是否配置完成之后复位PLL，1---复位,0---不复位
+		I2C_HandleType msgI2C;																							//---使用的I2C设备
 	};
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===定义的任务函数
 	#define SI5351A_TASK_ONE						pSi5351aDevice0
 	#define SI5351A_TASK_TWO						0
 	#define SI5351A_TASK_THREE						0
-	
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
+
 	//===外部调用接口
-	extern SI5351A_HandlerType						g_Si5351aDevice0;
-	extern pSI5351A_HandlerType						pSi5351aDevice0;
+	extern SI5351A_HandleType						g_Si5351aDevice0;
+	extern pSI5351A_HandleType						pSi5351aDevice0;
 	
 	//===函数定义
-	UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T val);
-	UINT8_T SI5351A_I2C_ReadSingle(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T SI5351A_I2C_WriteBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
-	UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandlerType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
-	UINT8_T SI5351A_I2C_Init(SI5351A_HandlerType* SI5351Ax, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);
-	UINT8_T SI5351A_I2C_DeInit(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_I2C_START(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_PLLRST(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel);
-	UINT8_T SI5351A_ReadID(SI5351A_HandlerType* SI5351Ax);
-	UINT8_T SI5351A_SetFreqHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq);
-	UINT8_T SI5351A_SetFreqKHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqKHz);
-	UINT8_T SI5351A_SetFreqMHz(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, float freqMHz);
-	UINT8_T SI5351A_SetClockChannelIDRV(SI5351A_HandlerType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv);
+	UINT8_T SI5351A_I2C_WriteSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T val);
+	UINT8_T SI5351A_I2C_ReadSingle(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal);
+	UINT8_T SI5351A_I2C_WriteBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
+	UINT8_T SI5351A_I2C_ReadBulk(SI5351A_HandleType* SI5351Ax, UINT8_T addr, UINT8_T* pVal, UINT8_T length);
+	UINT8_T SI5351A_I2C_Init(SI5351A_HandleType* SI5351Ax, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T SI5351A_I2C_DeInit(SI5351A_HandleType* SI5351Ax);
+	UINT8_T SI5351A_I2C_ConfigInit(SI5351A_HandleType* SI5351Ax);
+	UINT8_T SI5351A_I2C_PLLRST(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel);
+	UINT8_T SI5351A_I2C_ReadChipID(SI5351A_HandleType* SI5351Ax);
+	UINT8_T SI5351A_I2C_SetFreqHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, UINT64_T freq);
+	UINT8_T SI5351A_I2C_SetFreqKHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, float freqKHz);
+	UINT8_T SI5351A_I2C_SetFreqMHz(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, float freqMHz);
+	UINT8_T SI5351A_I2C_SetClockChannelIDRV(SI5351A_HandleType* SI5351Ax, UINT8_T clkChannel, UINT8_T idrv);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

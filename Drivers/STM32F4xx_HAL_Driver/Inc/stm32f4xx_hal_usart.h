@@ -306,7 +306,7 @@ typedef  void (*pUSART_CallbackTypeDef)(USART_HandleTypeDef *husart);  /*!< poin
 #define USART_IT_TXE                 ((uint32_t)(USART_CR1_REG_INDEX << 28U | USART_CR1_TXEIE))
 #define USART_IT_TC                  ((uint32_t)(USART_CR1_REG_INDEX << 28U | USART_CR1_TCIE))
 #define USART_IT_RXNE                ((uint32_t)(USART_CR1_REG_INDEX << 28U | USART_CR1_RXNEIE))
-#define USART_IT_IDLE                ((uint32_t)(USART_CR1_REG_INDEX << 28U | USART_CR1_IDLEIE))
+#define UART_IT_IDLE                ((uint32_t)(USART_CR1_REG_INDEX << 28U | USART_CR1_IDLEIE))
 #define USART_IT_ERR                 ((uint32_t)(USART_CR3_REG_INDEX << 28U | USART_CR3_EIE))
 /**
   * @}

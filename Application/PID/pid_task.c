@@ -7,7 +7,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  PIDTask_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
+UINT8_T  PIDTask_Init(PID_HandleType *PIDx, PID_HandleType pidx)
 {
 	return PIDLib_Init(PIDx, pidx);
 }
@@ -19,7 +19,7 @@ UINT8_T  PIDTask_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-float	 PIDTask_PosCalc(PID_HandlerType *PIDx, float setVal)
+float	 PIDTask_PosCalc(PID_HandleType *PIDx, float setVal)
 {
 	return PIDLib_PosCalc(PIDx, setVal);
 }
@@ -31,7 +31,7 @@ float	 PIDTask_PosCalc(PID_HandlerType *PIDx, float setVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float	 PIDTask_IncCalc(PID_HandlerType *PIDx, float setVal)
+float	 PIDTask_IncCalc(PID_HandleType *PIDx, float setVal)
 {
 	return PIDLib_IncCalc(PIDx, setVal);
 }

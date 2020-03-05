@@ -1,8 +1,8 @@
 #include "pid_cfg.h"
 
 //===定义全局变量
-PID_HandlerType			g_PID0 = { 0 };
-pPID_HandlerType		pPID0 = &g_PID0;
+PID_HandleType			g_PID0 = { 0 };
+pPID_HandleType		pPID0 = &g_PID0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,7 +11,7 @@ pPID_HandlerType		pPID0 = &g_PID0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void PID_Task0_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
+void PID_Task0_Init(PID_HandleType *PIDx, PID_HandleType pidx)
 {
 	g_PID0 = pidx;
 }
@@ -23,7 +23,7 @@ void PID_Task0_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void PID_Task1_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
+void PID_Task1_Init(PID_HandleType *PIDx, PID_HandleType pidx)
 {
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ void PID_Task1_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void PID_Task2_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
+void PID_Task2_Init(PID_HandleType *PIDx, PID_HandleType pidx)
 {
 }
 
@@ -44,7 +44,7 @@ void PID_Task2_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  PID_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
+UINT8_T  PID_Init(PID_HandleType *PIDx, PID_HandleType pidx)
 {
 	//---指定设备的初始化
 	if ((PIDx != NULL) && (PIDx == PID_TASK_ONE))
@@ -73,7 +73,7 @@ UINT8_T  PID_Init(PID_HandlerType *PIDx, PID_HandlerType pidx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float  PID_PosCalc(PID_HandlerType *PIDx, float setVal)
+float  PID_PosCalc(PID_HandleType *PIDx, float setVal)
 {
 	float index = 0;
 
@@ -182,7 +182,7 @@ float  PID_PosCalc(PID_HandlerType *PIDx, float setVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float PID_IncCalc(PID_HandlerType *PIDx, float setVal)
+float PID_IncCalc(PID_HandleType *PIDx, float setVal)
 {
 	float ep, ei, ed;
 

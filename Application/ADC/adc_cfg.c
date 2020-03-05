@@ -1,10 +1,10 @@
 #include "adc_cfg.h"
 
 //===全局变量的定义
-ADCASK_HandlerType	g_ABChannelADC = { 0 };
-pADCASK_HandlerType	pABChannelADC = &g_ABChannelADC;
-ADCASK_HandlerType	g_CDChannelADC = { 0 };
-pADCASK_HandlerType	pCDChannelADC = &g_CDChannelADC;
+ADCASK_HandleType	g_ABChannelADC = { 0 };
+pADCASK_HandleType	pABChannelADC = &g_ABChannelADC;
+ADCASK_HandleType	g_CDChannelADC = { 0 };
+pADCASK_HandleType	pCDChannelADC = &g_CDChannelADC;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -16,7 +16,9 @@ pADCASK_HandlerType	pCDChannelADC = &g_CDChannelADC;
 UINT8_T ADC_GPIO_Init(void)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(GPIOC, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(GPIOC, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	//---GPIO的初始化----
@@ -734,7 +736,7 @@ UINT8_T ADC_ADCTask_STOP(ADC_TypeDef *ADCx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T ADC_HandleChannelVal(ADCASK_HandlerType *ADCASKx)
+UINT8_T ADC_HandleChannelVal(ADCASK_HandleType *ADCASKx)
 {
 	UINT8_T i = 0;
 	UINT16_T adcAChannel[ADC_CHANNEL_SIZE] = { 0 };
@@ -776,4 +778,21 @@ UINT16_T ADC_GetChipPower(void)
 	tempPower*=3260;
 	tempPower<<=1;
 	return (UINT16_T)(tempPower/4096);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：获取通道的电压值
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+UINT16_T ADC_GetHVPower(void)
+{
+	UINT32_T tempPower = pABChannelADC->msgAChannelVal;
+	//---将结果装换为电压值
+	tempPower -= 6;
+	tempPower *= 3260;
+	tempPower=(tempPower*9)/50;
+	return (UINT16_T)(tempPower / 4096);
 }

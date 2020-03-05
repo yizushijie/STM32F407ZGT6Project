@@ -9,6 +9,7 @@ extern "C" {
 	#include "gpio_task.h"
 	#include "dac_task.h"
 	#include "delay_task.h"
+	#include "hw_cfg.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===DPSA使能端口
@@ -104,8 +105,7 @@ extern "C" {
 	void Power_Init(void);
 	void Power_DeInit(void);
     
-	#define LM317_USE_HV_RESET
-
+	//===用于区分不同的板子
 	#ifdef LM317_USE_HV_RESET
 		//===LM317使能端口
 		#define LM317_CTRH_PORT						GPIOB
@@ -159,7 +159,7 @@ extern "C" {
 	//===定义LM317最小输出的电压值
 	#define LM317_MIN_POWER_MV					(1450)//(1440)//---默认最小值
 	//===损失的电压
-	#define LM317_LOST_POWER_MV					200
+	#define LM317_LOST_POWER_MV					300
 
 	//===函数定义
 	UINT8_T LM317_Init(UINT8_T isPowerON, UINT32_T volMV);

@@ -135,41 +135,55 @@ void Sys_Init(void)
 	NVIC_Init();
 	//---自定义内存管理初始化
 	MyMemInit();
-	//---硬件RTC的初始化
-	//SysRTCTask_HardRTCInit(pSysHWRTC,0,0);
-	//---软件RTC的初始化
-	SysRTC_SoftRTCInit(pSysSoftRTC,0,0);
+	//---RTC的初始化
+	SysRTCTask_RTCInit(pSysSoftRTC, 0,0,0);
 	//---GPIO初始化
-	GPIOTask_Init();    
+	GPIOTask_Init(SysTickTask_GetTick);
 	//---滴答定时器初始化
 	SysTickTask_Init();
 	//---随机数初始化,禁用中断方式
 	RandomTask_Init(0);
 	//---CRC校验初始化
 	CRCTask_Init();
+	//---串口的初始化
+	UARTTask_Init(pUart1, UART1_RX_MAX_SIZE, UART1_RX_BUFFER, UART_CRC_NONE, UART1_TX_MAX_SIZE, UART1_TX_BUFFER, UART_CRC_NONE, SysTickTask_GetTick);
+   //---硬件初始化
+	//HardWare_Init();
+	//---初始化MCO的输出时钟
+	//MCO1_Init();
+	//---定时器初始化
+	TimerTask_Init();
+	//---外部中断初始化
+	//EXTITask_Init();
+	//---HMC5883的初始化
+	//HMC5883Task_I2C_Init(pHmc5883Device0, DelayTask_us,DelayTask_ms, SysTickTask_GetTick, 0);
+	//---AHT10的初始化
+	//AHT10Task_I2C_Init(pAht10Device0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 0);
+	//---初始化MPU6050
+	MPU6050Task_I2C_Init(pMpu6050Device0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick, 1);
+	//UINT8_T tempID = 0;
+	//MPU6050Task_I2C_ReadChipID(pMpu6050Device0,&tempID);
 	//---ISP的初始化
-	ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
+	//ISPTask_Init(pIspDevice0,DelayTask_us,DelayTask_ms, SysTickTask_GetTick);
+	//---JTAG的初始化
+	//JTAGTask_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
 	//---WM8510
-	WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, 0);
+	//WM8510Task_I2C_Init(pWm8510Device0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---SI5351A
-	//SI5351ATask_I2C_Init(pSI5351ADevice0, DelayTask_us, 0);
+	//SI5351ATask_I2C_Init(pSi5351aDevice0, DelayTask_us, SysTickTask_GetTick, 0);
 	//---指示灯的初始化
 	//LEDTask_Init();	
 	//---DAC的初始化
-	DACTask_Init(3,1);
+	//DACTask_Init(DAC_CHANNEL_SELECT_ALL, DAC_CHANNEL_ENABLE_BUFFER);
+	//---数据总线的初始化
+	//DataBus_Init();
 	//---初始化LM317做的可调电源
-	LM317Task_Init(0,3300);
-	LM317_POWER_ON;
-	JTAG_Init(pJtagDevice0, DelayTask_us, DelayTask_ms, SysTickTask_GetTick);
-	JTAG_EnterProg(pJtagDevice0);
-	JTAG_ReadIDChip(pJtagDevice0,NULL);
-	JTAG_ReadChipID(pJtagDevice0, NULL);
-	JTAG_ExitProg(pJtagDevice0);
+	//LM317Task_Init(0,3000);
+	//LM317_POWER_ON;
+	//HMC5883Task_CalibrateMag(pHmc5883Device0);
 	//---ADC初始化
-	ADCTask_ADC_Init();
-	ADCTask_ADCTask_START(ADC1);
-	//---串口的初始化
-	USARTTask_Init(pUsart1, USART1_RX_MAX_SIZE , USART1_RX_BUFFER , USART_CRC_NONE , USART1_TX_MAX_SIZE , USART1_TX_BUFFER , USART_CRC_NONE , SysTickTask_GetTick );
+	//ADCTask_ADC_Init();
+	//ADCTask_ADCTask_START(ADC1);
 	//---开启看门狗
 	//IWDGTask_Init(pIWDG);
 }
@@ -250,7 +264,7 @@ int main(void)
 		////---在线调试命令
 		//USARTTask_FuncTask(pUSART1,NULL);
 		//---模拟RTC处理
-		//SysRTCTask_SoftBuildTask(pSysSoftRTC, SysTickTask_GetTick());
+		SysRTCTask_RTCTask(pSysSoftRTC, SysTickTask_GetTick());	
 		cnt++;
 		if (cnt > 1000)
 		{
@@ -258,7 +272,7 @@ int main(void)
 			cnt = 0;
 		}
 		DelayTask_ms(100);
-		USART_Printf(pUsart1, "Data:%d\r\n", cnt);
+		UART_Printf(pUart1, "Data:%d\r\n", cnt);
 		
 		WDT_RESET();
 	}

@@ -1,7 +1,8 @@
 stm32f407zgt6project/stm32f4xx_ll_spi.o: \
   ..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_spi.c \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_spi.h \
-  ..\STM32F4xx\stm32f4xx.h ..\STM32F4xx\stm32f407xx.h \
+  ..\DriversEx\STM32F4xx\stm32f4xx.h \
+  ..\DriversEx\STM32F4xx\stm32f407xx.h \
   ..\Drivers\CMSIS\Include\core_cm4.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   ..\Drivers\CMSIS\Include\cmsis_version.h \
@@ -9,9 +10,10 @@ stm32f407zgt6project/stm32f4xx_ll_spi.o: \
   ..\Drivers\CMSIS\Include\cmsis_armclang.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
-  ..\Drivers\CMSIS\Include\mpu_armv7.h ..\STM32F4xx\system_stm32f4xx.h \
+  ..\Drivers\CMSIS\Include\mpu_armv7.h \
+  ..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h \
-  ..\STM32F4xx\stm32f4xx_hal_conf.h \
+  ..\DriversEx\STM32F4xx\stm32f4xx_hal_conf.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
@@ -27,5 +29,24 @@ stm32f407zgt6project/stm32f4xx_ll_spi.o: \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h \
+  ..\DriversEx\STM32F4xx\stm32f4xx_ll.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_adc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_bus.h \
-  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_rcc.h
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_cortex.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_crc.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_dac.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_dma.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_dma2d.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_exti.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_gpio.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_i2c.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_iwdg.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_pwr.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_rcc.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_rng.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_rtc.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_system.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_tim.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usart.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_utils.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_wwdg.h

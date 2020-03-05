@@ -12,7 +12,6 @@ extern "C" {
 	#define DAC_REF_POWER_UV						3300000UL
 	//===每BIT对应的电压值
 	#define DAC_BIT_POWER_UV						(UINT32_T)( (((float)DAC_REF_POWER_UV)/4096)+0.5 )
-	
 	//===配置通道1
 	#define	DAC_CHANNEL_SELECT_1					1
 	//===配置通道2

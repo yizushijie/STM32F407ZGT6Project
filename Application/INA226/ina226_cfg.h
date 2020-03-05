@@ -9,7 +9,9 @@ extern "C" {
 	#include "i2c_task.h"
 	#include "gpio_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	//===配置寄存区--[0x4127]
 	#define CONFIGURATION_REG							0x00
 	//===采样电阻上的压降---[0x00000],满量程是81.92mV,最小单位是2.5uV
@@ -111,6 +113,13 @@ extern "C" {
 	#define OPERATING_MODE_SHUNT_VOLTAGE_CONT			(5<<0)
 	#define OPERATING_MODE_BUS_VOLTAGE_CONT				(6<<0)
 	#define OPERATING_MODE_SHUNT_BUS_VOLTAGE_CONT		(7<<0)
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---开始///////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===总线电压量程每BIT对应的电压值，单位是毫伏
 	#define INA226_RANG_BUS_VOLTAGE_MV_BIT				1.25f
@@ -128,14 +137,19 @@ extern "C" {
 	#define INA226_RANG_CURRENT_UA_BIT_X2				(UINT16_T)( INA226_RANG_CURRENT_UA_BIT_X1*2 )
 	//===
 	#define INA226_CALIB_REG_DEFAULT_X2					(UINT16_T)( INA226_CALIB_REG_DEFAULT_X1*2 )
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---结束////////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===结构体定义
-	typedef struct _INA226_HandlerType					INA226_HandlerType;
+	typedef struct _INA226_HandleType					INA226_HandleType;
 	//===指针结构体定义
-	typedef struct _INA226_HandlerType					* pINA226_HandlerType;
-
+	typedef struct _INA226_HandleType					* pINA226_HandleType;
 	//===AT24Cxx的数据结构体
-	struct _INA226_HandlerType
+	struct _INA226_HandleType
 	{
 		UINT16_T			msgCFGReg;					//---配置寄存器
 		UINT16_T			msgMaskReg;					//---功能配置寄存器
@@ -148,28 +162,39 @@ extern "C" {
 		float				msgShuntuV;					//---采样电阻电压,单位微伏
 		float				msgShuntuA;					//---采样电阻电流，单位微安
 		float				msgPowermW;					//---负载的功耗，单位微瓦
-		GPIO_HandlerType	msgAlert;					//---报警端口的配置，INA226是开漏模式，需要外接上拉电阻
-		I2C_HandlerType		msgI2C;						//---使用的I2C
+		GPIO_HandleType		msgAlert;					//---报警端口的配置，INA226是开漏模式，需要外接上拉电阻
+		I2C_HandleType		msgI2C;						//---使用的I2C
 	};
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
+
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===定义的任务函数
 	#define INA226_TASK_ONE								pIna226Device0
 	#define INA226_TASK_TWO								0
 	#define INA226_TASK_THREE							0
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用
-	extern INA226_HandlerType							g_Ina226Device0 ;
-	extern pINA226_HandlerType							pIna226Device0  ;
+	extern INA226_HandleType							g_Ina226Device0 ;
+	extern pINA226_HandleType							pIna226Device0  ;
 
 	//===函数定义
-	UINT8_T INA226_I2C_Device0_Init(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_Device1_Init(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_Device2_Init(INA226_HandlerType* INA226x);
-	UINT8_T INA226_I2C_Init(INA226_HandlerType* INA226x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);
-	UINT8_T INA226_ConfigInit(INA226_HandlerType* INA226x);
-	UINT8_T INA226_GetDieID(INA226_HandlerType* INA226x);
-	UINT8_T INA226_GetManuID(INA226_HandlerType* INA226x);
-	UINT8_T INA226_GetBusVoltage(INA226_HandlerType* INA226x);
+	UINT8_T INA226_I2C_Device0_Init(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_Device1_Init(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_Device2_Init(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_Init(INA226_HandleType* INA226x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T INA226_I2C_DeInit(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_ConfigInit(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_ReadDieID(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_ReadManuID(INA226_HandleType* INA226x);
+	UINT8_T INA226_I2C_GetBusVoltage(INA226_HandleType* INA226x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

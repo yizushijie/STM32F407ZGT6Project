@@ -12,7 +12,9 @@ extern "C" {
 	#include "kalman_filter.h"
 	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-	
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	//===命令寄存器
 	//===继续在以前的操作模式
 	#define ADS868X_CMD_REG_NO_OP				0x0000
@@ -132,7 +134,13 @@ extern "C" {
 	
 	//===命令读取
 	#define ADS868X_CMD_READ_BACK				0x3F		//[00]
-	
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---开始///////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===ADC采样的参考电压
 	#define ADS868X_REF_POWER_UV				4096000
 	//===输入范围-2.5 / + 2.5 Vref的+/- 10.24V
@@ -158,81 +166,94 @@ extern "C" {
 	#define ADS868X_ADC_SAMPLE_BITS				14
 	//===ADC采集数据的有效位数
 	#define ADS868X_DATA_SAMPLE_BITS			( 16-ADS868X_ADC_SAMPLE_BITS )
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置参数---结束////////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===定义结构体
-	typedef struct _ADS868X_HandlerType			ADS868X_HandlerType;
-
+	typedef struct _ADS868X_HandleType			ADS868X_HandleType;
 	//===定义指针结构体
-	typedef	struct _ADS868X_HandlerType			*pADS868X_HandlerType;
-
+	typedef	struct _ADS868X_HandleType			*pADS868X_HandleType;
 	//===定义结构体
-	struct _ADS868X_HandlerType
+	struct _ADS868X_HandleType
 	{
-		VLTUINT8_T  msgWaitms;													//---等待时间,单位是ms
-		VLTUINT8_T  msgInitRetryCount;											//---初始化重试的次数
-		VLTUINT8_T  msgReadyOK;													//---设备是否初始化成功，0---初始化成功，1---初始化失败
-		VLTUINT8_T  msgChipID;													//---设备的ID信息
-		VLTUINT8_T  msgAutoSeqEn;												//---通过AUTO_SEQ_EN的设置探测设备的存在
-		VLTUINT8_T  msgChannelPWRDN;											//---通道掉电模式
-		VLTUINT8_T  msgFeature;													//---特性设置参数
-		VLTUINT8_T  msgChannelMode[ADS868X_CHANNEL_MAX];						//---输入装换模式,0---未选中使能；1---选中使能
-		VLTUINT8_T	msgIsPositive[ADS868X_CHANNEL_MAX];							//---0---无数据，1---是负数，2---是正值
-		VLTUINT8_T  msgChannelRangeIsPositive[ADS868X_CHANNEL_MAX];				//---0---是正负量程，1---是正量程
-		VLTUINT8_T  msgChannelRange[ADS868X_CHANNEL_MAX];						//---AD通道的量程参考
-		volatile float    msgADCKP[ADS868X_CHANNEL_MAX];						//---ADC采样的比例系数
-		VLTUINT16_T msgADCDelta[ADS868X_CHANNEL_MAX];							//---ADC采样的比例差值
-		VLTUINT32_T msgREFPowerUV;												//---ADC的参考电压
-		VLTUINT32_T msgChannelRangeBaseUVX1000[ADS868X_CHANNEL_MAX];			//---AD通道的每个BIT代表的电压值，单位是uv的十倍
-		VLTUINT64_T msgChannelRangeFullUVX1000[ADS868X_CHANNEL_MAX];			//---AD通道的满量程的电压值，单位是uv的十倍
-		VLTUINT32_T msgChannelNowADCResult[ADS868X_CHANNEL_MAX];				//---AD通道的当前采样结果
-		VLTUINT32_T msgChannelOldADCResult[ADS868X_CHANNEL_MAX];				//---AD通道的上一次采样结果
-		VLTUINT32_T msgChannelPowerResult[ADS868X_CHANNEL_MAX];					//---AD通道的采样的电压结果
-		SPI_HandlerType		msgSPI;												//---使用的SPI模式
-		GPIO_HandlerType	msgHWRST;											//---硬件复位信号
-		void(*msgDelayms)(UINT32_T delay);									//---延时参数
+		VLTUINT8_T  msgWaitms;																							//---等待时间,单位是ms
+		VLTUINT8_T  msgInitRetryCount;																					//---初始化重试的次数
+		VLTUINT8_T  msgReadyOK;																							//---设备是否初始化成功，0---初始化成功，1---初始化失败
+		VLTUINT8_T  msgChipID;																							//---设备的ID信息
+		VLTUINT8_T  msgAutoSeqEn;																						//---通过AUTO_SEQ_EN的设置探测设备的存在
+		VLTUINT8_T  msgChannelPWRDN;																					//---通道掉电模式
+		VLTUINT8_T  msgFeature;																							//---特性设置参数
+		VLTUINT8_T  msgChannelMode[ADS868X_CHANNEL_MAX];																//---输入装换模式,0---未选中使能；1---选中使能
+		VLTUINT8_T	msgPositive[ADS868X_CHANNEL_MAX];																	//---0---无数据，1---是负数，2---是正值
+		VLTUINT8_T  msgChannelRangeIsPositive[ADS868X_CHANNEL_MAX];														//---0---是正负量程，1---是正量程
+		VLTUINT8_T  msgChannelRange[ADS868X_CHANNEL_MAX];																//---AD通道的量程参考
+		volatile float    msgADCKP[ADS868X_CHANNEL_MAX];																//---ADC采样的比例系数
+		VLTUINT16_T msgADCDelta[ADS868X_CHANNEL_MAX];																	//---ADC采样的比例差值
+		VLTUINT32_T msgREFPowerUV;																						//---ADC的参考电压
+		VLTUINT32_T msgChannelRangeBaseUVX1000[ADS868X_CHANNEL_MAX];													//---AD通道的每个BIT代表的电压值，单位是uv的十倍
+		VLTUINT64_T msgChannelRangeFullUVX1000[ADS868X_CHANNEL_MAX];													//---AD通道的满量程的电压值，单位是uv的十倍
+		VLTUINT32_T msgChannelNowADCResult[ADS868X_CHANNEL_MAX];														//---AD通道的当前采样结果
+		VLTUINT32_T msgChannelOldADCResult[ADS868X_CHANNEL_MAX];														//---AD通道的上一次采样结果
+		VLTUINT32_T msgChannelPowerResult[ADS868X_CHANNEL_MAX];															//---AD通道的采样的电压结果
+		SPI_HandleType		msgSPI;																						//---使用的SPI模式
+		GPIO_HandleType	msgHWRST;																						//---硬件复位信号
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===任务函数
-	#define ADS868X_TASK_ONE		pADS868XDevice0
-	#define ADS868X_TASK_TWO		0
-	#define ADS868X_TASK_THREE		0
+	#define ADS868X_TASK_ONE					pADS868XDevice0
+	#define ADS868X_TASK_TWO					0
+	#define ADS868X_TASK_THREE					0	
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	
 	//===外部调用接口
-	extern ADS868X_HandlerType		 g_ADS868XDevice0;
-	extern pADS868X_HandlerType		 pADS868XDevice0;
+	extern ADS868X_HandleType					g_ADS868XDevice0;
+	extern pADS868X_HandleType					pADS868XDevice0;
 
 	//===函数定义
-	UINT8_T ADS868X_SPI_Init(ADS868X_HandlerType* ADS868x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);
-	UINT8_T ADS868X_SPI_WriteCommandReg(ADS868X_HandlerType* ADS868x, UINT32_T cmd);
-	UINT8_T ADS868X_SPI_WriteProgramReg(ADS868X_HandlerType* ADS868x, UINT8_T addr, UINT8_T val);
-	UINT8_T ADS868X_SPI_ReadProgramReg(ADS868X_HandlerType* ADS868x, UINT8_T addr, UINT8_T* pVal);
-	UINT8_T ADS868X_SPI_ReadCommandBack(ADS868X_HandlerType* ADS868x, UINT8_T* pVal, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_NO_OP(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_STDBY(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_PWRDN(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_Reset(ADS868X_HandlerType* ADS868x,UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_AUTORST(ADS868X_HandlerType* ADS868x, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_ManualChannel(ADS868X_HandlerType* ADS868x, UINT16_T manualCHCmd, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_WriteChipID(ADS868X_HandlerType* ADS868x, UINT8_T devid, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_ReadChipID(ADS868X_HandlerType* ADS868x, UINT8_T* pDevID, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_CheckChipID(ADS868X_HandlerType* ADS868x, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_DetectionDevice(ADS868X_HandlerType* ADS868x, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_WriteAUTOSEQEN(ADS868X_HandlerType* ADS868x, UINT8_T seq, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_ReadAUTOSEQEN(ADS868X_HandlerType* ADS868x, UINT8_T* pAutoSeqEn, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_WriteChannelPWRDN(ADS868X_HandlerType* ADS868x, UINT8_T ch, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_ReadChannelPWRDN(ADS868X_HandlerType* ADS868x, UINT8_T* pPWRDN, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_WriteFeature(ADS868X_HandlerType* ADS868x, UINT8_T feature, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_ReadFeature(ADS868X_HandlerType* ADS868x, UINT8_T* pFeature, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_WriteChannelRange(ADS868X_HandlerType* ADS868x, UINT8_T chReg, UINT8_T range, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_ReadChannelRange(ADS868X_HandlerType* ADS868x, UINT8_T chReg, UINT8_T* pRange, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_ChannelRange(ADS868X_HandlerType* ADS868x, UINT8_T chIndex);
-	UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandlerType* ADS868x, UINT8_T chIndex, UINT8_T isCalcDelta);
-	UINT8_T ADS868X_SPI_GetAutoRSTResult(ADS868X_HandlerType* ADS868x, UINT8_T chNum, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_GetAutoRSTNSampleResult(ADS868X_HandlerType* ADS868x, UINT8_T chNum, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_GetManualChannelResult(ADS868X_HandlerType* ADS868x, UINT16_T manualChannel, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_GetManualChannelNSampleResult(ADS868X_HandlerType* ADS868x, UINT16_T manualChannel, UINT8_T isAutoInit);
-	UINT8_T ADS868X_SPI_CalibrationChannelErr(ADS868X_HandlerType* ADS868x);
-	UINT8_T ADS868X_SPI_ConfigInit(ADS868X_HandlerType* ADS868x, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_Init(ADS868X_HandleType* ADS868x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHW);
+	UINT8_T ADS868X_SPI_WriteCommandReg(ADS868X_HandleType* ADS868x, UINT32_T cmd);
+	UINT8_T ADS868X_SPI_WriteProgramReg(ADS868X_HandleType* ADS868x, UINT8_T addr, UINT8_T val);
+	UINT8_T ADS868X_SPI_ReadProgramReg(ADS868X_HandleType* ADS868x, UINT8_T addr, UINT8_T* pVal);
+	UINT8_T ADS868X_SPI_ReadCommandBack(ADS868X_HandleType* ADS868x, UINT8_T* pVal, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_NO_OP(ADS868X_HandleType* ADS868x,UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_STDBY(ADS868X_HandleType* ADS868x,UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_PWRDN(ADS868X_HandleType* ADS868x,UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_Reset(ADS868X_HandleType* ADS868x,UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_AUTORST(ADS868X_HandleType* ADS868x, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_ManualChannel(ADS868X_HandleType* ADS868x, UINT16_T manualCHCmd, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_WriteChipID(ADS868X_HandleType* ADS868x, UINT8_T devid, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_ReadChipID(ADS868X_HandleType* ADS868x, UINT8_T* pDevID, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_CheckChipID(ADS868X_HandleType* ADS868x, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_DetectionDevice(ADS868X_HandleType* ADS868x, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_WriteAUTOSEQEN(ADS868X_HandleType* ADS868x, UINT8_T seq, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_ReadAUTOSEQEN(ADS868X_HandleType* ADS868x, UINT8_T* pAutoSeqEn, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_WriteChannelPWRDN(ADS868X_HandleType* ADS868x, UINT8_T ch, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_ReadChannelPWRDN(ADS868X_HandleType* ADS868x, UINT8_T* pPWRDN, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_WriteFeature(ADS868X_HandleType* ADS868x, UINT8_T feature, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_ReadFeature(ADS868X_HandleType* ADS868x, UINT8_T* pFeature, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_WriteChannelRange(ADS868X_HandleType* ADS868x, UINT8_T chReg, UINT8_T range, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_ReadChannelRange(ADS868X_HandleType* ADS868x, UINT8_T chReg, UINT8_T* pRange, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_ChannelRange(ADS868X_HandleType* ADS868x, UINT8_T chIndex);
+	UINT8_T ADS868X_SPI_CalcChannelPower(ADS868X_HandleType* ADS868x, UINT8_T chIndex, UINT8_T isCalcDelta);
+	UINT8_T ADS868X_SPI_GetAutoRSTResult(ADS868X_HandleType* ADS868x, UINT8_T chNum, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_GetAutoRSTNSampleResult(ADS868X_HandleType* ADS868x, UINT8_T chNum, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_GetManualChannelResult(ADS868X_HandleType* ADS868x, UINT16_T manualChannel, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_GetManualChannelNSampleResult(ADS868X_HandleType* ADS868x, UINT16_T manualChannel, UINT8_T isAutoInit);
+	UINT8_T ADS868X_SPI_CalibrationChannelErr(ADS868X_HandleType* ADS868x);
+	UINT8_T ADS868X_SPI_ConfigInit(ADS868X_HandleType* ADS868x, UINT8_T isAutoInit);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

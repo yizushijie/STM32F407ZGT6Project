@@ -7,9 +7,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T SHT2XTask_I2C_Init(SHT2X_HandleType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
-	return SHT2XLib_I2C_Init(SHT2x, pFuncDelayus, isHWI2C);
+	return SHT2XLib_I2C_Init(SHT2x, pFuncDelayus,pFuncTimerTick, isHWI2C);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ UINT8_T SHT2XTask_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_DeInit(SHT2X_HandlerType *SHT2x)
+UINT8_T SHT2XTask_I2C_DeInit(SHT2X_HandleType *SHT2x)
 {
 	return SHT2XLib_I2C_DeInit(SHT2x);
 }
@@ -31,7 +31,7 @@ UINT8_T SHT2XTask_I2C_DeInit(SHT2X_HandlerType *SHT2x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_SoftReset(SHT2X_HandlerType *SHT2x)
+UINT8_T SHT2XTask_I2C_SoftReset(SHT2X_HandleType *SHT2x)
 {
 	return SHT2XLib_I2C_SoftReset(SHT2x);
 }
@@ -43,7 +43,7 @@ UINT8_T SHT2XTask_I2C_SoftReset(SHT2X_HandlerType *SHT2x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_GetSerialNumber(SHT2X_HandlerType *SHT2x)
+UINT8_T SHT2XTask_I2C_GetSerialNumber(SHT2X_HandleType *SHT2x)
 {
 	return SHT2XLib_I2C_GetSerialNumber(SHT2x);
 }
@@ -55,7 +55,7 @@ UINT8_T SHT2XTask_I2C_GetSerialNumber(SHT2X_HandlerType *SHT2x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_ReadUserReg(SHT2X_HandlerType *SHT2x, UINT8_T *pReg)
+UINT8_T SHT2XTask_I2C_ReadUserReg(SHT2X_HandleType *SHT2x, UINT8_T *pReg)
 {
 	return SHT2XLib_I2C_ReadUserReg(SHT2x, pReg);
 }
@@ -67,7 +67,7 @@ UINT8_T SHT2XTask_I2C_ReadUserReg(SHT2X_HandlerType *SHT2x, UINT8_T *pReg)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_WriteUserReg(SHT2X_HandlerType *SHT2x, UINT8_T reg)
+UINT8_T SHT2XTask_I2C_WriteUserReg(SHT2X_HandleType *SHT2x, UINT8_T reg)
 {
 	return SHT2XLib_I2C_WriteUserReg(SHT2x, reg);
 }
@@ -79,7 +79,7 @@ UINT8_T SHT2XTask_I2C_WriteUserReg(SHT2X_HandlerType *SHT2x, UINT8_T reg)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_ReadTempPoll(SHT2X_HandlerType *SHT2x)
+UINT8_T SHT2XTask_I2C_ReadTempPoll(SHT2X_HandleType *SHT2x)
 {
 	return SHT2XLib_I2C_ReadTempPoll(SHT2x);
 }
@@ -91,7 +91,7 @@ UINT8_T SHT2XTask_I2C_ReadTempPoll(SHT2X_HandlerType *SHT2x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_ReadHumiPoll(SHT2X_HandlerType *SHT2x)
+UINT8_T SHT2XTask_I2C_ReadHumiPoll(SHT2X_HandleType *SHT2x)
 {
 	return SHT2XLib_I2C_ReadHumiPoll(SHT2x);
 }
@@ -103,7 +103,7 @@ UINT8_T SHT2XTask_I2C_ReadHumiPoll(SHT2X_HandlerType *SHT2x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_ReadTempHM(SHT2X_HandlerType *SHT2x)
+UINT8_T SHT2XTask_I2C_ReadTempHM(SHT2X_HandleType *SHT2x)
 {
 	return SHT2XLib_I2C_ReadTempHM(SHT2x);
 }
@@ -115,7 +115,32 @@ UINT8_T SHT2XTask_I2C_ReadTempHM(SHT2X_HandlerType *SHT2x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T SHT2XTask_I2C_ReadHumiHM(SHT2X_HandlerType *SHT2x)
+UINT8_T SHT2XTask_I2C_ReadHumiHM(SHT2X_HandleType *SHT2x)
 {
 	return SHT2XLib_I2C_ReadHumiHM(SHT2x);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float SHT2XTask_I2C_GetTemp(SHT2X_HandleType* SHT2x)
+{
+	return SHT2XLib_I2C_GetTemp(SHT2x);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float SHT2XTask_I2C_GetHumi(SHT2X_HandleType* SHT2x)
+{
+	return SHT2XLib_I2C_GetHumi(SHT2x);
 }

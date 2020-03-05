@@ -7,7 +7,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KalmanOneFilter_Init(KalmanOneFilter_HandlerType* KalmanFilterX, float initMeasureX, float initMeasureP)
+void KalmanOneFilter_Init(KalmanOneFilter_HandleType* KalmanFilterX, float initMeasureX, float initMeasureP)
 {
 	//---待测量的初始值
 	KalmanFilterX->x = initMeasureX;
@@ -28,7 +28,7 @@ void KalmanOneFilter_Init(KalmanOneFilter_HandlerType* KalmanFilterX, float init
 //////输出参数:  滤波后的值
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float KalmanOneFilter_Filter(KalmanOneFilter_HandlerType* KalmanFilterX, float newMeasure)
+float KalmanOneFilter_Filter(KalmanOneFilter_HandleType* KalmanFilterX, float newMeasure)
 {
 	//---预测
 	//---x的先验估计由上一个时间点的后验估计值和输入信息给出
@@ -53,7 +53,7 @@ float KalmanOneFilter_Filter(KalmanOneFilter_HandlerType* KalmanFilterX, float n
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KalmanTwoFilter_Init(KalmanTwoFilter_HandlerType* KalmanFilterX, float* initMeasureX, float(*initMeasureP)[2])
+void KalmanTwoFilter_Init(KalmanTwoFilter_HandleType* KalmanFilterX, float* initMeasureX, float(*initMeasureP)[2])
 {
 	KalmanFilterX->x[0] = initMeasureX[0];
 	KalmanFilterX->x[1] = initMeasureX[1];
@@ -82,7 +82,7 @@ void KalmanTwoFilter_Init(KalmanTwoFilter_HandlerType* KalmanFilterX, float* ini
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-float KalmanTwoFilter_Filter(KalmanTwoFilter_HandlerType* KalmanFilterX, float newMeasure)
+float KalmanTwoFilter_Filter(KalmanTwoFilter_HandleType* KalmanFilterX, float newMeasure)
 {
 	float temp0 = 0.0f;
 	float temp1 = 0.0f;

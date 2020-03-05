@@ -9,7 +9,10 @@ extern "C" {
 	#include "delay_task.h"
 	#include "i2c_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
-
+	//////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	//===写命令
 	#define AHT10_WADDR									0x70	
 	//===读命令
@@ -20,38 +23,55 @@ extern "C" {
 	#define AHT10_CMD_MEASURE							0xAC	
 	//===软件复位
 	#define AHT10_CMD_RESET								0xBA
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////寄存器定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////
 	//===结构体定义
-	typedef struct _AHT10_HandlerType					AHT10_HandlerType;
+	typedef struct _AHT10_HandleType					AHT10_HandleType;
 	//===指针结构体定义
-	typedef struct _AHT10_HandlerType					*pAHT10_HandlerType;
+	typedef struct _AHT10_HandleType					*pAHT10_HandleType;
 	//===SHT2X的数据结构体
-	struct _AHT10_HandlerType
+	struct _AHT10_HandleType
 	{
-		INT32_T				msgTemp;															//---放大100倍的温度值
-		INT32_T				msgHumi;															//---放大100倍的湿度值
-		UINT16_T			msgIntervalTime;														//---轮询时间间隔,单位是ms
-		UINT32_T			msgRecordTime;															//---记录的时间参数
-		I2C_HandlerType		msgI2C;																	//---使用的I2C
-		UINT32_T(*msgTimeTick)(void);																//---时间节拍
+		UINT8_T				msgPositive;																				//---0---是正值，1---是负数
+		INT32_T				msgTemp;																				//---放大100倍的温度值
+		INT32_T				msgHumiX10000;																				//---放大10000倍的湿度值
+		UINT16_T			msgIntervalTime;																			//---轮询时间间隔,单位是ms
+		UINT32_T			msgRecordTick;																				//---记录的时间参数
+		I2C_HandleType		msgI2C;																						//---使用的I2C
 	};
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////结构体定义---结束//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 	//===定义的任务函数
 	#define AHT10_TASK_ONE								pAht10Device0
 	#define AHT10_TASK_TWO								0
 	#define AHT10_TASK_THREE							0
+	////////////////////////////////////////////////////////////////////////////////////// 
+	//////////////////////////配置宏定义---开始//////////////////////////////////////////// 
+	//////////////////////////////////////////////////////////////////////////////////////	
 
 	//===外部调用接口
-	extern AHT10_HandlerType							g_Aht10Device0;
-	extern pAHT10_HandlerType							pAht10Device0;
+	extern AHT10_HandleType							g_Aht10Device0;
+	extern pAHT10_HandleType							pAht10Device0;
 
 	//===函数定义
-	UINT8_T AHT10_I2C_DeInit(AHT10_HandlerType* AHT10x);
-	UINT8_T AHT10_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T AHT10_I2C_Config(AHT10_HandlerType* AHT10x);
-	UINT8_T AHT10_I2C_StartMeasure(AHT10_HandlerType* AHT10x);
-	UINT8_T AHT10_I2C_STATE(AHT10_HandlerType* AHT10x);
-	UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x);
+	UINT8_T AHT10_I2C_DeInit(AHT10_HandleType* AHT10x);
+	UINT8_T AHT10_I2C_Init(AHT10_HandleType* AHT10x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T AHT10_I2C_Config(AHT10_HandleType* AHT10x);
+	UINT8_T AHT10_I2C_StartMeasure(AHT10_HandleType* AHT10x);
+	UINT8_T AHT10_I2C_STATE(AHT10_HandleType* AHT10x);
+	UINT8_T AHT10_I2C_ReadTempHumi(AHT10_HandleType* AHT10x);
+	float AHT10_I2C_GetTemp(AHT10_HandleType* AHT10x);
+	float AHT10_I2C_GetHumi(AHT10_HandleType* AHT10x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

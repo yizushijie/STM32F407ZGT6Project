@@ -7,6 +7,7 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	//===使用包含的头文件
 	#include "complier_lib.h"
+	#include "systick_task.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////
 	//////////////位带操作,实现51类似的GPIO控制功能////////////////////////////////////////
@@ -108,17 +109,17 @@ extern "C" {
 	
 	/////////////////////////////////////////////////////////////////////////////////////
 	//===设置端口为输出模式
-	#define GPIO_SET_WRITE(	name, index )			LL_GPIO_SetPinMode(	name, index,LL_GPIO_MODE_OUTPUT)	
+	#define GPIO_SET_WRITE(	name, index )			GPIO_SetPinMode( name, index,LL_GPIO_MODE_OUTPUT)	
 	//===设置端口为输入模式
-	#define GPIO_SET_READ(	name, index )			LL_GPIO_SetPinMode(	name, index,LL_GPIO_MODE_INPUT)	
+	#define GPIO_SET_READ(	name, index )			GPIO_SetPinMode( name, index,LL_GPIO_MODE_INPUT)	
 	//===设置端口输出高
-	#define GPIO_OUT_1(	name, index )				LL_GPIO_SetOutputPin(  name, index )	
+	#define GPIO_OUT_1(	name, index )				GPIO_SetOutputPin( name, index )	
 	//===设置端口输出低
-	#define GPIO_OUT_0(	name, index )				LL_GPIO_ResetOutputPin( name, index )	
+	#define GPIO_OUT_0(	name, index )				GPIO_ResetOutputPins( name, index )	
 	//===设置端口输出取反
-	#define GPIO_OUT_C(	name, index )				LL_GPIO_TogglePin(	name, index )	
-	//===获取端口的输入状态
-	#define GPIO_GET_STATE(	name, index )			LL_GPIO_IsInputPinSet(	name, index )	
+	#define GPIO_OUT_C(	name, index )				GPIO_TogglePin( name, index )	
+	//===获取端口的输入状态,0---低电平，1---高电平
+	#define GPIO_GET_STATE(	name, index )			GPIO_ReadInputPort( name, index )//((LL_GPIO_ReadInputPort(name)&index ))
 	//===GPIO低八位的数据
 	#define GPIO_L8BITS_OUT( name, val	)			( name->ODR=(name->ODR&0xFF00)| (val&0x00FF) )	
 	//===GPIO高八位的数据
@@ -127,19 +128,25 @@ extern "C" {
 	#define GPIO_16BITS_OUT( name, val	)			( name->ODR=(val&0xFFFF) )
 	
 	//===定义结构体
-	typedef struct _GPIO_HandlerType				GPIO_HandlerType;
+	typedef struct _GPIO_HandleType					GPIO_HandleType;
 	//===定义指针结构体
-	typedef	struct _GPIO_HandlerType				*pGPIO_HandlerType;
+	typedef	struct _GPIO_HandleType					*pGPIO_HandleType;
 	//===结构定义
-	struct _GPIO_HandlerType
+	struct _GPIO_HandleType
 	{
-		GPIO_TypeDef	*msgGPIOPort;																//---端口
-		UINT32_T		msgGPIOBit;																	//---序号
+		GPIO_TypeDef	*msgPort;																						//---端口
+		UINT32_T		msgBit;																							//---序号
 	};
 
 	//===函数定义
-	void GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable);
-	void GPIO_Init(void);
+	UINT8_T GPIO_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable);
+	void GPIO_Init(UINT32_T(*pFuncTimerTick)(void));
+	void GPIO_SetPinMode(GPIO_TypeDef* GPIOx, UINT32_T Pin, UINT32_T Mode);
+	void GPIO_SetOutputPin(GPIO_TypeDef* GPIOx, UINT32_T PinMask);
+	void GPIO_ResetOutputPins(GPIO_TypeDef* GPIOx, UINT32_T PinMask);
+	void GPIO_TogglePin(GPIO_TypeDef* GPIOx, UINT32_T PinMask);
+	UINT32_T GPIO_ReadInputPort(GPIO_TypeDef* GPIOx, UINT32_T PinMask);
+	UINT8_T GPIO_WaitPinPort(GPIO_HandleType* GPIOx, UINT8_T isHighLevel);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

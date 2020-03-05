@@ -19,6 +19,9 @@
     <Filter Include="Application\ADS869x">
       <UniqueIdentifier>{7F892EDF-EBEA-0BED-7458-529FE0B842AC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\AES">
+      <UniqueIdentifier>{E186296C-4D12-9730-5623-1A25C22DF330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\AHT10">
       <UniqueIdentifier>{0673A81C-7289-A6B2-BB00-32D42756773A}</UniqueIdentifier>
     </Filter>
@@ -30,6 +33,12 @@
     </Filter>
     <Filter Include="Application\BKP">
       <UniqueIdentifier>{E58B296C-5117-9730-5A28-1A25C632F330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\BMP180">
+      <UniqueIdentifier>{A04664B4-8C2A-250A-F58A-1F5DE18D0F8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\CAN">
+      <UniqueIdentifier>{DA8E296C-461A-9730-4F2B-1A25BB35F330}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\CRC">
       <UniqueIdentifier>{0091296C-6C1C-9730-752D-1A25E137F330}</UniqueIdentifier>
@@ -43,11 +52,17 @@
     <Filter Include="Application\DHT11">
       <UniqueIdentifier>{8ABCDE1C-F6D2-DCB2-3F4A-68D4AB9FAD3A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\DMA">
+      <UniqueIdentifier>{9A94296C-0620-9730-0F31-1A257B3BF330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\DS1302">
       <UniqueIdentifier>{A5326AB9-9116-2B0F-FA76-2562E6791591}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\DS18B20">
       <UniqueIdentifier>{EC91B3E6-58F3-90F4-E160-D7A64DC1C7B3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\DataBus">
+      <UniqueIdentifier>{ECB82E0C-581A-0C1A-E187-52CC4DE842D9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Decode">
       <UniqueIdentifier>{CC5CCCBA-B840-8D10-21A1-87630DA47792}</UniqueIdentifier>
@@ -61,11 +76,17 @@
     <Filter Include="Application\ENC28J60">
       <UniqueIdentifier>{18A80F52-0437-991B-AD55-AD1699C3A9C1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\EXIT">
-      <UniqueIdentifier>{62E45CF1-4EDD-7B43-770F-61C863675B4F}</UniqueIdentifier>
+    <Filter Include="Application\ESP8266">
+      <UniqueIdentifier>{C682DE35-32E4-BB43-BB51-02F627B2F202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\EXTI">
+      <UniqueIdentifier>{C2E55CF1-AEDE-7B43-D710-61C8C3685B4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\Encode">
       <UniqueIdentifier>{F661C4BD-E245-8513-4BA6-7F6637A96F95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\FIFO">
+      <UniqueIdentifier>{8C305DF1-7829-7C43-A15B-61C88DB35B4F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\FLASH">
       <UniqueIdentifier>{B6D2041D-22E9-02B3-6B60-8ED4D7B5D33A}</UniqueIdentifier>
@@ -124,11 +145,17 @@
     <Filter Include="Application\LIN">
       <UniqueIdentifier>{2BB6296C-9741-9730-A052-1A250C5DF330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\LMS">
+      <UniqueIdentifier>{B4B6296C-2042-9730-2953-1A25955DF330}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Application\MAX961x">
       <UniqueIdentifier>{86EE4474-F24F-2282-7BBD-6834E71D5941}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\MCO">
       <UniqueIdentifier>{A7B9296C-1345-9730-1C56-1A258860F330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\MPU6050">
+      <UniqueIdentifier>{05480A97-71A9-E7A4-FA16-2E5766771E64}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\ModBusMaster">
       <UniqueIdentifier>{FED72902-EAFC-7882-1348-5E12FFCB77A0}</UniqueIdentifier>
@@ -141,6 +168,9 @@
     </Filter>
     <Filter Include="Application\NRF2401">
       <UniqueIdentifier>{55459DE7-C1A6-7AF5-4A14-C1A7B674B1B4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\NTC">
+      <UniqueIdentifier>{0DC0296C-794B-9730-825C-1A25EE66F330}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\OLED">
       <UniqueIdentifier>{8C2C62F1-7825-8143-A157-66C88DAF604F}</UniqueIdentifier>
@@ -196,8 +226,17 @@
     <Filter Include="Application\Timer">
       <UniqueIdentifier>{69CE121E-D5E4-10B4-1E5C-9CD58AB1E13B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\USART">
-      <UniqueIdentifier>{D718181E-432F-16B4-8CA6-A1D5F8FBE63B}</UniqueIdentifier>
+    <Filter Include="Application\UART">
+      <UniqueIdentifier>{C44965F1-B042-8443-D974-69C8C5CC634F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\USB">
+      <UniqueIdentifier>{B2DD296C-1E69-9730-277A-1A259384F330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\USB\USB">
+      <UniqueIdentifier>{0BA18004-7702-5E12-0070-A4C46CD094D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\USB\USBHid">
+      <UniqueIdentifier>{6049D00C-4C43-F95E-35B0-8F6F21495FCB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Application\W25Qxx">
       <UniqueIdentifier>{A7C869E3-93AC-2A39-FC0C-258CE80F15BB}</UniqueIdentifier>
@@ -210,6 +249,9 @@
     </Filter>
     <Filter Include="Application\WWDG">
       <UniqueIdentifier>{41BE66F1-2DB7-8543-56E9-6AC84241654F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\cJSON">
+      <UniqueIdentifier>{A5CC101F-11E3-0EB5-5A5A-9AD6C6AFDF3C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Complier">
       <UniqueIdentifier>{A062D8B7-8C2F-33C3-B548-216BA1746851}</UniqueIdentifier>
@@ -226,14 +268,23 @@
     <Filter Include="Drivers\STM32F4xx_HAL_Driver">
       <UniqueIdentifier>{B53EBC8A-A1F9-AB36-4AB1-2481364BF6C6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DriversEx">
+      <UniqueIdentifier>{2121C3C5-8D8B-773C-D6C9-28E242735591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DriversEx\Complier">
+      <UniqueIdentifier>{0BCE3272-F7B1-F3C7-6012-EE1A4C15DE49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DriversEx\STM32F4xx">
+      <UniqueIdentifier>{9357A2E3-FFB8-7FF1-8826-C6A3F486B6B0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LOG">
+      <UniqueIdentifier>{A700880B-130A-887C-9C85-9E7C088E937C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="STARTUP">
       <UniqueIdentifier>{384599C1-A424-185D-AD3C-A333199B7EBE}</UniqueIdentifier>
     </Filter>
     <Filter Include="STARTUP\MDKARM">
       <UniqueIdentifier>{2358C722-0F26-BB28-F8B9-2B4FE426978D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="STM32F4xx">
-      <UniqueIdentifier>{C87EFADD-34E9-AE54-7D27-60FAE9D08CA9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +333,15 @@
     <ClInclude Include="..\Application\ADS869x\ads869x_task.h">
       <Filter>Application\ADS869x</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\AES\aes_cfg.h">
+      <Filter>Application\AES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AES\aes_lib.h">
+      <Filter>Application\AES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\AES\aes_task.h">
+      <Filter>Application\AES</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\AHT10\aht10_cfg.h">
       <Filter>Application\AHT10</Filter>
     </ClInclude>
@@ -314,6 +374,24 @@
     </ClInclude>
     <ClInclude Include="..\Application\BKP\bkp_task.h">
       <Filter>Application\BKP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\BMP180\bmp180_cfg.h">
+      <Filter>Application\BMP180</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\BMP180\bmp180_lib.h">
+      <Filter>Application\BMP180</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\BMP180\bmp180_task.h">
+      <Filter>Application\BMP180</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\CAN\can_cfg.h">
+      <Filter>Application\CAN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\CAN\can_lib.h">
+      <Filter>Application\CAN</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\CAN\can_task.h">
+      <Filter>Application\CAN</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\CRC\crc_cfg.h">
       <Filter>Application\CRC</Filter>
@@ -351,6 +429,15 @@
     <ClInclude Include="..\Application\DHT11\dht11_task.h">
       <Filter>Application\DHT11</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\DMA\dma_cfg.h">
+      <Filter>Application\DMA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DMA\dma_lib.h">
+      <Filter>Application\DMA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DMA\dma_task.h">
+      <Filter>Application\DMA</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\DS1302\ds1302_cfg.h">
       <Filter>Application\DS1302</Filter>
     </ClInclude>
@@ -368,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\DS18B20\ds18b20_task.h">
       <Filter>Application\DS18B20</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\DataBus\data_bus.h">
+      <Filter>Application\DataBus</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\Decode\decode_cfg.h">
       <Filter>Application\Decode</Filter>
@@ -405,14 +495,23 @@
     <ClInclude Include="..\Application\ENC28J60\enc28j60_task.h">
       <Filter>Application\ENC28J60</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\EXIT\exit_cfg.h">
-      <Filter>Application\EXIT</Filter>
+    <ClInclude Include="..\Application\ESP8266\esp8266_cfg.h">
+      <Filter>Application\ESP8266</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\EXIT\exit_lib.h">
-      <Filter>Application\EXIT</Filter>
+    <ClInclude Include="..\Application\ESP8266\esp8266_lib.h">
+      <Filter>Application\ESP8266</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\EXIT\exit_task.h">
-      <Filter>Application\EXIT</Filter>
+    <ClInclude Include="..\Application\ESP8266\esp8266_task.h">
+      <Filter>Application\ESP8266</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\EXTI\exti_cfg.h">
+      <Filter>Application\EXTI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\EXTI\exti_lib.h">
+      <Filter>Application\EXTI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\EXTI\exti_task.h">
+      <Filter>Application\EXTI</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\Encode\encode_cfg.h">
       <Filter>Application\Encode</Filter>
@@ -422,6 +521,12 @@
     </ClInclude>
     <ClInclude Include="..\Application\Encode\encode_task.h">
       <Filter>Application\Encode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\FIFO\fifo.h">
+      <Filter>Application\FIFO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\FIFO\queue_fifo.h">
+      <Filter>Application\FIFO</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\FLASH\flash_cfg.h">
       <Filter>Application\FLASH</Filter>
@@ -582,6 +687,9 @@
     <ClInclude Include="..\Application\LIN\lin_task.h">
       <Filter>Application\LIN</Filter>
     </ClInclude>
+    <ClInclude Include="..\Application\LMS\lms_filter.h">
+      <Filter>Application\LMS</Filter>
+    </ClInclude>
     <ClInclude Include="..\Application\MAX961x\max961x_cfg.h">
       <Filter>Application\MAX961x</Filter>
     </ClInclude>
@@ -593,6 +701,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\MCO\mco_cfg.h">
       <Filter>Application\MCO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MPU6050\mpu6050_cfg.h">
+      <Filter>Application\MPU6050</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MPU6050\mpu6050_lib.h">
+      <Filter>Application\MPU6050</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\MPU6050\mpu6050_task.h">
+      <Filter>Application\MPU6050</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\ModBusMaster\modbus_master_cfg.h">
       <Filter>Application\ModBusMaster</Filter>
@@ -623,6 +740,15 @@
     </ClInclude>
     <ClInclude Include="..\Application\NRF2401\nrf2401_task.h">
       <Filter>Application\NRF2401</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\NTC\ntc_cfg.h">
+      <Filter>Application\NTC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\NTC\ntc_lib.h">
+      <Filter>Application\NTC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\NTC\ntc_task.h">
+      <Filter>Application\NTC</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\OLED\oled_cfg.h">
       <Filter>Application\OLED</Filter>
@@ -777,14 +903,32 @@
     <ClInclude Include="..\Application\Timer\timer_task.h">
       <Filter>Application\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_cfg.h">
-      <Filter>Application\USART</Filter>
+    <ClInclude Include="..\Application\UART\uart_cfg.h">
+      <Filter>Application\UART</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_lib.h">
-      <Filter>Application\USART</Filter>
+    <ClInclude Include="..\Application\UART\uart_lib.h">
+      <Filter>Application\UART</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application\USART\usart_task.h">
-      <Filter>Application\USART</Filter>
+    <ClInclude Include="..\Application\UART\uart_task.h">
+      <Filter>Application\UART</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USB\usb_cfg.h">
+      <Filter>Application\USB\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USB\usb_lib.h">
+      <Filter>Application\USB\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USB\usb_task.h">
+      <Filter>Application\USB\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USBHid\usbhid_cfg.h">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USBHid\usbhid_lib.h">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\USB\USBHid\usbhid_task.h">
+      <Filter>Application\USB\USBHid</Filter>
     </ClInclude>
     <ClInclude Include="..\Application\W25Qxx\w25qxx_cfg.h">
       <Filter>Application\W25Qxx</Filter>
@@ -821,6 +965,9 @@
     </ClInclude>
     <ClInclude Include="..\Application\WWDG\wwdg_task.h">
       <Filter>Application\WWDG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Application\cJSON\cJSON.h">
+      <Filter>Application\cJSON</Filter>
     </ClInclude>
     <ClInclude Include="..\Complier\complier_cfg.h">
       <Filter>Complier</Filter>
@@ -867,6 +1014,9 @@
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_gpio.h">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClInclude>
+    <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_i2c.h">
+      <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
+    </ClInclude>
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_iwdg.h">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClInclude>
@@ -900,29 +1050,32 @@
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_wwdg.h">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32_assert.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32_cfg.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f407xx.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx_hal_conf.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx_it.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\stm32f4xx_ll.h">
-      <Filter>STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\STM32F4xx\system_stm32f4xx.h">
+    <ClInclude Include="..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.h">
       <Filter>Drivers\CMSIS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\Complier\stm32_cfg.h">
+      <Filter>DriversEx\Complier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32_assert.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f407xx.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx_hal_conf.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx_it.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx_ll.h">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LOG\log_cfg.h">
+      <Filter>LOG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -971,6 +1124,15 @@
     <ClCompile Include="..\Application\ADS869x\ads869x_task.c">
       <Filter>Application\ADS869x</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\AES\aes_cfg.c">
+      <Filter>Application\AES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AES\aes_lib.c">
+      <Filter>Application\AES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\AES\aes_task.c">
+      <Filter>Application\AES</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\AHT10\aht10_cfg.c">
       <Filter>Application\AHT10</Filter>
     </ClCompile>
@@ -1000,6 +1162,24 @@
     </ClCompile>
     <ClCompile Include="..\Application\BKP\bkp_task.c">
       <Filter>Application\BKP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\BMP180\bmp180_cfg.c">
+      <Filter>Application\BMP180</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\BMP180\bmp180_lib.c">
+      <Filter>Application\BMP180</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\BMP180\bmp180_task.c">
+      <Filter>Application\BMP180</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\CAN\can_cfg.c">
+      <Filter>Application\CAN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\CAN\can_lib.c">
+      <Filter>Application\CAN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\CAN\can_task.c">
+      <Filter>Application\CAN</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\CRC\crc_cfg.c">
       <Filter>Application\CRC</Filter>
@@ -1037,6 +1217,15 @@
     <ClCompile Include="..\Application\DHT11\dht11_task.c">
       <Filter>Application\DHT11</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\DMA\dma_cfg.c">
+      <Filter>Application\DMA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DMA\dma_lib.c">
+      <Filter>Application\DMA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DMA\dma_task.c">
+      <Filter>Application\DMA</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\DS1302\ds1302_cfg.c">
       <Filter>Application\DS1302</Filter>
     </ClCompile>
@@ -1054,6 +1243,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\DS18B20\ds18b20_task.c">
       <Filter>Application\DS18B20</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\DataBus\data_bus.c">
+      <Filter>Application\DataBus</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\Decode\decode_cfg.c">
       <Filter>Application\Decode</Filter>
@@ -1091,14 +1283,23 @@
     <ClCompile Include="..\Application\ENC28J60\enc28j60_task.c">
       <Filter>Application\ENC28J60</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\EXIT\exit_cfg.c">
-      <Filter>Application\EXIT</Filter>
+    <ClCompile Include="..\Application\ESP8266\esp8266_cfg.c">
+      <Filter>Application\ESP8266</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\EXIT\exit_lib.c">
-      <Filter>Application\EXIT</Filter>
+    <ClCompile Include="..\Application\ESP8266\esp8266_lib.c">
+      <Filter>Application\ESP8266</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\EXIT\exit_task.c">
-      <Filter>Application\EXIT</Filter>
+    <ClCompile Include="..\Application\ESP8266\esp8266_task.c">
+      <Filter>Application\ESP8266</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\EXTI\exti_cfg.c">
+      <Filter>Application\EXTI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\EXTI\exti_lib.c">
+      <Filter>Application\EXTI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\EXTI\exti_task.c">
+      <Filter>Application\EXTI</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\Encode\encode_cfg.c">
       <Filter>Application\Encode</Filter>
@@ -1108,6 +1309,12 @@
     </ClCompile>
     <ClCompile Include="..\Application\Encode\encode_task.c">
       <Filter>Application\Encode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\FIFO\fifo.c">
+      <Filter>Application\FIFO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\FIFO\queue_fifo.c">
+      <Filter>Application\FIFO</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\FLASH\flash_cfg.c">
       <Filter>Application\FLASH</Filter>
@@ -1268,6 +1475,9 @@
     <ClCompile Include="..\Application\LIN\lin_task.c">
       <Filter>Application\LIN</Filter>
     </ClCompile>
+    <ClCompile Include="..\Application\LMS\lms_filter.c">
+      <Filter>Application\LMS</Filter>
+    </ClCompile>
     <ClCompile Include="..\Application\MAX961x\max961x_cfg.c">
       <Filter>Application\MAX961x</Filter>
     </ClCompile>
@@ -1279,6 +1489,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\MCO\mco_cfg.c">
       <Filter>Application\MCO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MPU6050\mpu6050_cfg.c">
+      <Filter>Application\MPU6050</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MPU6050\mpu6050_lib.c">
+      <Filter>Application\MPU6050</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\MPU6050\mpu6050_task.c">
+      <Filter>Application\MPU6050</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\ModBusMaster\modbus_master_cfg.c">
       <Filter>Application\ModBusMaster</Filter>
@@ -1309,6 +1528,15 @@
     </ClCompile>
     <ClCompile Include="..\Application\NRF2401\nrf2401_task.c">
       <Filter>Application\NRF2401</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\NTC\ntc_cfg.c">
+      <Filter>Application\NTC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\NTC\ntc_lib.c">
+      <Filter>Application\NTC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\NTC\ntc_task.c">
+      <Filter>Application\NTC</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\OLED\oled_cfg.c">
       <Filter>Application\OLED</Filter>
@@ -1463,14 +1691,32 @@
     <ClCompile Include="..\Application\Timer\timer_task.c">
       <Filter>Application\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_cfg.c">
-      <Filter>Application\USART</Filter>
+    <ClCompile Include="..\Application\UART\uart_cfg.c">
+      <Filter>Application\UART</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_lib.c">
-      <Filter>Application\USART</Filter>
+    <ClCompile Include="..\Application\UART\uart_lib.c">
+      <Filter>Application\UART</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\USART\usart_task.c">
-      <Filter>Application\USART</Filter>
+    <ClCompile Include="..\Application\UART\uart_task.c">
+      <Filter>Application\UART</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USB\usb_cfg.c">
+      <Filter>Application\USB\USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USB\usb_lib.c">
+      <Filter>Application\USB\USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USB\usb_task.c">
+      <Filter>Application\USB\USB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USBHid\usbhid_cfg.c">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USBHid\usbhid_lib.c">
+      <Filter>Application\USB\USBHid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\USB\USBHid\usbhid_task.c">
+      <Filter>Application\USB\USBHid</Filter>
     </ClCompile>
     <ClCompile Include="..\Application\W25Qxx\w25qxx_cfg.c">
       <Filter>Application\W25Qxx</Filter>
@@ -1507,6 +1753,9 @@
     </ClCompile>
     <ClCompile Include="..\Application\WWDG\wwdg_task.c">
       <Filter>Application\WWDG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Application\cJSON\cJSON.c">
+      <Filter>Application\cJSON</Filter>
     </ClCompile>
     <ClCompile Include="..\Complier\complier_cfg.c">
       <Filter>Complier</Filter>
@@ -1577,17 +1826,20 @@
     <ClCompile Include="..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_utils.c">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClCompile>
+    <ClCompile Include="..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.c">
+      <Filter>Drivers\CMSIS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DriversEx\Complier\stm32_cfg.c">
+      <Filter>DriversEx\Complier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DriversEx\STM32F4xx\stm32f4xx_it.c">
+      <Filter>DriversEx\STM32F4xx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LOG\log_cfg.c">
+      <Filter>LOG</Filter>
+    </ClCompile>
     <ClCompile Include="..\STARTUP\MDKARM\STM32F4\startup_stm32f407xx.s">
       <Filter>STARTUP\MDKARM</Filter>
-    </ClCompile>
-    <ClCompile Include="..\STM32F4xx\stm32_cfg.c">
-      <Filter>STM32F4xx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\STM32F4xx\stm32f4xx_it.c">
-      <Filter>STM32F4xx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\STM32F4xx\system_stm32f4xx.c">
-      <Filter>Drivers\CMSIS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

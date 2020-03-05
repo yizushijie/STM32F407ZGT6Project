@@ -7,7 +7,7 @@
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
+void RFASK_EEPROMInit(RFASK_HandleType* rfask, AT24CXX_HandleType* AT24CXXx)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T tempAddrX1[16] = { 0 };
@@ -237,7 +237,7 @@ void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx)
 //////输出参数: 
 //////说		明： 
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T RFASK_EEPROMWrite(AT24CXX_HandlerType* AT24CXXx, UINT16_T addr, UINT32_T cfgVal, UINT8_T cout)
+UINT8_T RFASK_EEPROMWrite(AT24CXX_HandleType* AT24CXXx, UINT16_T addr, UINT32_T cfgVal, UINT8_T cout)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T temp[4] = { 0 };

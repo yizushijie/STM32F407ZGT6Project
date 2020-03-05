@@ -102,20 +102,20 @@ extern "C" {
 	typedef enum
 	{
 		CMD_ENCODE_NONE				= 0,
-		CMD_ENCODE_CHA_OPEN			= 1,				//打开RF信号源通道1
-		CMD_ENCODE_CHA_CLOSE		= 2,				//关闭RF信号源通道1
-		CMD_ENCODE_CHB_OPEN			= 3,				//打开RF信号源通道2
-		CMD_ENCODE_CHB_CLOSE		= 4,				//关闭RF信号源通道2
-		CMD_ENCODE_CHC_OPEN			= 5,				//打开RF信号源通道3
-		CMD_ENCODE_CHC_CLOSE		= 6,				//关闭RF信号源通道3
-		CMD_ENCODE_CHD_OPEN			= 7,				//打开RF信号源通道4
-		CMD_ENCODE_CHD_CLOSE		= 8,				//关闭RF信号源通道5
-		CMD_DECODE_RST				= 9,				//复位解码的状态
-		CMD_DECODE_READ				= 10,				//读取解码的状态
-		CMD_ENCODE_CHA_HIGH			= 11,				//信号源通道输出高
-		CMD_ENCODE_CHB_HIGH			= 12,				//信号源通道输出高
-		CMD_ENCODE_CHC_HIGH			= 13,				//信号源通道输出高
-		CMD_ENCODE_CHD_HIGH			= 14,				//信号源通道输出高
+		CMD_ENCODE_CHA_OPEN			= 1,																				//打开RF信号源通道1
+		CMD_ENCODE_CHA_CLOSE		= 2,																				//关闭RF信号源通道1
+		CMD_ENCODE_CHB_OPEN			= 3,																				//打开RF信号源通道2
+		CMD_ENCODE_CHB_CLOSE		= 4,																				//关闭RF信号源通道2
+		CMD_ENCODE_CHC_OPEN			= 5,																				//打开RF信号源通道3
+		CMD_ENCODE_CHC_CLOSE		= 6,																				//关闭RF信号源通道3
+		CMD_ENCODE_CHD_OPEN			= 7,																				//打开RF信号源通道4
+		CMD_ENCODE_CHD_CLOSE		= 8,																				//关闭RF信号源通道5
+		CMD_DECODE_RST				= 9,																				//复位解码的状态
+		CMD_DECODE_READ				= 10,																				//读取解码的状态
+		CMD_ENCODE_CHA_HIGH			= 11,																				//信号源通道输出高
+		CMD_ENCODE_CHB_HIGH			= 12,																				//信号源通道输出高
+		CMD_ENCODE_CHC_HIGH			= 13,																				//信号源通道输出高
+		CMD_ENCODE_CHD_HIGH			= 14,																				//信号源通道输出高
 
 	}RF_CMD_CODE;
 

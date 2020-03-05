@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 16
+# Visual Studio Version 16
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STM32F407ZGT6Project", "MDKARM\STM32F407ZGT6Project.vcxproj", "{A1D3BC63-8D62-462D-3681-5A2822EF56D3}"
 EndProject
 Global

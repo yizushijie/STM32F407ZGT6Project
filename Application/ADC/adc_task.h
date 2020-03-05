@@ -12,7 +12,7 @@ extern "C" {
 	UINT8_T ADCTask_ADC_Init(void);
 	UINT8_T ADCTask_ADCTask_START(ADC_TypeDef *ADCx);
 	UINT8_T ADCTask_ADCTask_STOP(ADC_TypeDef *ADCx);
-	UINT8_T ADCTask_HandleChannelVal(ADCASK_HandlerType* ADCASKx);
+	UINT8_T ADCTask_HandleChannelVal(ADCASK_HandleType* ADCASKx);
 	UINT8_T ADCTask_RFASKTask_GetADC(UINT16_T *pVal, UINT8_T num);
 	UINT16_T ADCTask_GetChipPower(void);
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -9,11 +9,12 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===º¯Êý¶¨Òå
-	UINT8_T AHT10Lib_I2C_DeInit(AHT10_HandlerType* AHT10x);
-	UINT8_T AHT10Lib_I2C_Init(AHT10_HandlerType* AHT10x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
-	UINT8_T AHT10Lib_I2C_ReadTempHumi(AHT10_HandlerType* AHT10x);
-
-	//////////////////////////////////////////////////////////////////////////////////////
+	UINT8_T AHT10Lib_I2C_DeInit(AHT10_HandleType* AHT10x);
+	UINT8_T AHT10Lib_I2C_Init(AHT10_HandleType* AHT10x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T AHT10Lib_I2C_ReadTempHumi(AHT10_HandleType* AHT10x);
+	float AHT10Lib_I2C_GetTemp(AHT10_HandleType* AHT10x);
+	float AHT10Lib_I2C_GetHumi(AHT10_HandleType* AHT10x);
+	///////////Lib///////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }
 #endif

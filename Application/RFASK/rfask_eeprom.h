@@ -132,8 +132,8 @@ extern "C" {
 	#define RFASK_POINTTWO_ADC_PASS_MIN_ADDR_X3				( RFASK_TYPE_ADDR_X3+78	)			//2Byte
 	
 	//===º¯Êý¶¨Òå
-	void RFASK_EEPROMInit(RFASK_HandlerType* rfask, AT24CXX_HandlerType* AT24CXXx);
-	UINT8_T RFASK_EEPROMWrite(AT24CXX_HandlerType* AT24CXXx, UINT16_T addr, UINT32_T cfgVal, UINT8_T cout);
+	void RFASK_EEPROMInit(RFASK_HandleType* rfask, AT24CXX_HandleType* AT24CXXx);
+	UINT8_T RFASK_EEPROMWrite(AT24CXX_HandleType* AT24CXXx, UINT16_T addr, UINT32_T cfgVal, UINT8_T cout);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

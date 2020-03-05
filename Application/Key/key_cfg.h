@@ -11,55 +11,45 @@ extern "C" {
 #include "rfaskhw_cfg.h"
 #include "rfask_task.h"
 //////////////////////////////////////////////////////////////////////////////////////
-//===>>MultiButton START=========================================================
-//===轮训时间调度
-#define TICKS_INTERVAL			5	//ms
+	//===>>MultiButton START=========================================================
+	#define KEY_TICKS_INTERVAL			5	//ms																		//---轮训时间调度
+	#define KEY_DEBOUNCE_TICKS			4	//MAX 8																		//---消抖处理
+	#define KEY_SHORT_TICKS				(300 /KEY_TICKS_INTERVAL)														//---短按
+	#define KEY_LONG_TICKS				(1000 /KEY_TICKS_INTERVAL)														//---长按
 
-//===消抖处理
-#define DEBOUNCE_TICKS			4	//MAX 8
-
-//===短按
-#define SHORT_TICKS				(300 /TICKS_INTERVAL)
-
-//===长按
-#define LONG_TICKS				(1000 /TICKS_INTERVAL)
-
-//===按键回调函数
-	typedef void(*KeyButtonCallBack)(void*);
+	typedef void(*KeyPressEventCallBack)(void*);																		//---按键回调函数
 
 	//===按键事件枚举
 	typedef enum
 	{
-		PRESS_DOWN = 0,			//---按键按下，每次按下都触发
-		PRESS_UP,				//---按键弹起，每次松开都触发
-		PRESS_REPEAT,			//---重复按下触发，变量repeat计数连击次数
-		SINGLE_CLICK,			//---单击按键事件
-		DOUBLE_CLICK,			//---双击按键事件
-		LONG_RRESS_START,		//---达到长按时间阈值时触发一次
-		LONG_PRESS_HOLD,		//---长按期间一直触发
-		NUM_OF_EVENT,			//---按键事件的个数
-		NONE_PRESS				//---没有按键按下
-	}KeyButtonPressEvent;
+		KEY_PRESS_NONE = 0,																								//---没有按键按下
+		KEY_PRESS_DOWN ,																								//---按键按下，每次按下都触发
+		KEY_PRESS_UP,																									//---按键弹起，每次松开都触发
+		KEY_PRESS_REPEAT,																								//---重复按下触发，变量repeat计数连击次数
+		KEY_SINGLE_CLICK,																								//---单击按键事件
+		KEY_DOUBLE_CLICK,																								//---双击按键事件
+		KEY_LONG_RRESS_START,																							//---达到长按时间阈值时触发一次
+		KEY_LONG_PRESS_HOLD,																							//---长按期间一直触发
+		KEY_NUM_OF_EVENT																								//---按键事件的个数
+	}KeyPressEvent;
 
 	//===定义结构体
-	typedef struct _KeyButton_HandlerType	 KeyButton_HandlerType;
-
+	typedef struct _KeyPress_HandleType				 KeyPress_HandleType;
 	//===定义指针结构体
-	typedef struct _KeyButton_HandlerType	*pKeyButton_HandlerType;
-
+	typedef struct _KeyPress_HandleType				*pKeyPress_HandleType;
 	//===按键按钮结构
-	struct _KeyButton_HandlerType
+	struct _KeyPress_HandleType
 	{
-		UINT32_T msgTicks;					//---计数
-		UINT8_T  msgRepeat;					//---重复次数
-		UINT8_T  msgEvent;					//---事件类型
-		UINT8_T  msgState;					//---状态
-		UINT8_T  msgDebounceCNT;					//---软件消抖计数
-		UINT8_T  msgActiveLevel;					//---按键有效电平
-		UINT8_T  msgButtonLevel;					//---按键电平
-		UINT8_T(*msgFuncReadPinLevel)(void);			//---按键读取函数
-		KeyButtonCallBack  msgCB[NUM_OF_EVENT];			//---按键响应事件
-		KeyButton_HandlerType* msgNext;					//---指向下一按键处理函数
+		UINT32_T msgTick;																								//---计数
+		UINT8_T  msgRepeatCount;																						//---重复次数																						
+		UINT8_T  msgState;																								//---状态
+		UINT8_T  msgDebounceCNT;																						//---软件消抖计数
+		UINT8_T  msgActiveLevel;																						//---按键有效电平
+		UINT8_T  msgLevel;																								//---按键电平
+		KeyPressEvent msgKeyPressEvent;																					//---事件类型
+		UINT8_T(*msgFuncReadPinLevel)(void);																			//---按键读取函数
+		KeyPressEventCallBack  msgCallBack[KEY_NUM_OF_EVENT];															//---按键响应事件
+		KeyPress_HandleType  *pMsgNext;																					//---指向下一按键处理函数
 	};
 
 	//===<<MultiButton END=========================================================

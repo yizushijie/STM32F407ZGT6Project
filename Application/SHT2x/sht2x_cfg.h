@@ -56,16 +56,16 @@ extern "C" {
 	#define SHT2X_RADDR									0x81	
 	
 	//===结构体定义
-	typedef struct _SHT2X_HandlerType					SHT2X_HandlerType;
+	typedef struct _SHT2X_HandlerType					SHT2X_HandleType;
 	//===指针结构体定义
-	typedef struct _SHT2X_HandlerType					*pSHT2X_HandlerType;
+	typedef struct _SHT2X_HandlerType					*pSHT2X_HandleType;
 	//===SHT2X的数据结构体
 	struct _SHT2X_HandlerType
 	{
-		UINT8_T msgSerialNumber[8 + 4 + 2];															//---设备序列号
-		INT16_T msgTempX100;																		//---放大100倍的温度值
-		INT16_T msgHumiX100;																		//---放大100倍的湿度值
-		I2C_HandlerType msgI2C;																		//---使用的I2C
+		UINT8_T msgSerialNumber[8 + 4 + 2];																				//---设备序列号
+		INT16_T msgTemp;																								//---放大100倍的温度值
+		INT16_T msgHumiX100;																							//---放大100倍的湿度值
+		I2C_HandleType msgI2C;																							//---使用的I2C
 	};
 
 	//===定义的任务函数
@@ -74,30 +74,32 @@ extern "C" {
 	#define SHT2X_TASK_THREE							0
 
 	//===外部调用接口
-	extern SHT2X_HandlerType							g_Sht2xDevice0;
-	extern pSHT2X_HandlerType							pSht2xDevice0;
+	extern SHT2X_HandleType							g_Sht2xDevice0;
+	extern pSHT2X_HandleType							pSht2xDevice0;
 
 	//===函数定义
-	UINT8_T SHT2X_I2C_Init(SHT2X_HandlerType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C);
-	UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_Device1_Init(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_Device2_Init(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_DeInit(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_SWI2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd);
-	UINT8_T SHT2X_HWI2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd);
-	UINT8_T SHT2X_I2C_WriteCmd(SHT2X_HandlerType *SHT2x, UINT8_T cmd);
-	UINT8_T SHT2X_I2C_SoftReset(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_SWI2C_GetSerialNumber(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_HWI2C_GetSerialNumber(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_GetSerialNumber(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_ReadUserReg(SHT2X_HandlerType *SHT2x, UINT8_T *pReg);
-	UINT8_T SHT2X_I2C_WriteUserReg(SHT2X_HandlerType *SHT2x, UINT8_T reg);
-	UINT8_T SHT2X_I2C_ReadPoll(SHT2X_HandlerType *SHT2x, UINT16_T *pVal, UINT8_T cmd);
-	UINT8_T SHT2X_I2C_ReadTempPoll(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_ReadHumiPoll(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_ReadHM(SHT2X_HandlerType *SHT2x, UINT16_T *pVal, UINT8_T cmd);
-	UINT8_T SHT2X_I2C_ReadTempHM(SHT2X_HandlerType *SHT2x);
-	UINT8_T SHT2X_I2C_ReadHumiHM(SHT2X_HandlerType *SHT2x);
+	UINT8_T SHT2X_I2C_Init(SHT2X_HandleType *SHT2x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C);
+	UINT8_T SHT2X_I2C_Device0_Init(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_Device1_Init(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_Device2_Init(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_DeInit(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_SWI2C_WriteCmd(SHT2X_HandleType *SHT2x, UINT8_T cmd);
+	UINT8_T SHT2X_HWI2C_WriteCmd(SHT2X_HandleType *SHT2x, UINT8_T cmd);
+	UINT8_T SHT2X_I2C_WriteCmd(SHT2X_HandleType *SHT2x, UINT8_T cmd);
+	UINT8_T SHT2X_I2C_SoftReset(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_SWI2C_GetSerialNumber(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_HWI2C_GetSerialNumber(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_GetSerialNumber(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_ReadUserReg(SHT2X_HandleType *SHT2x, UINT8_T *pReg);
+	UINT8_T SHT2X_I2C_WriteUserReg(SHT2X_HandleType *SHT2x, UINT8_T reg);
+	UINT8_T SHT2X_I2C_ReadPoll(SHT2X_HandleType *SHT2x, UINT16_T *pVal, UINT8_T cmd);
+	UINT8_T SHT2X_I2C_ReadTempPoll(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_ReadHumiPoll(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_ReadHM(SHT2X_HandleType *SHT2x, UINT16_T *pVal, UINT8_T cmd);
+	UINT8_T SHT2X_I2C_ReadTempHM(SHT2X_HandleType *SHT2x);
+	UINT8_T SHT2X_I2C_ReadHumiHM(SHT2X_HandleType *SHT2x);
+	float SHT2X_I2C_GetTemp(SHT2X_HandleType* SHT2x);
+	float SHT2X_I2C_GetHumi(SHT2X_HandleType* SHT2x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

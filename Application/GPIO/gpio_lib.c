@@ -7,10 +7,26 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void GPIOLib_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
+UINT8_T GPIOLib_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
+{
+	#ifdef USE_MCU_STM32
+		return GPIO_Clock(GPIOx, isEnable);
+	#else
+		return OK_0;
+	#endif
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+void GPIOLib_Init(UINT32_T(*pFuncTimerTick)(void))
 {
 #ifdef USE_MCU_STM32
-	GPIO_Clock(GPIOx, isEnable);
+	GPIO_Init(pFuncTimerTick);
 #endif
 }
 
@@ -21,9 +37,7 @@ void GPIOLib_Clock(GPIO_TypeDef *GPIOx, UINT8_T isEnable)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void GPIOLib_Init(void)
+UINT8_T GPIOLib_WaitPinPort(GPIO_HandleType* GPIOx, UINT8_T isHighLevel)
 {
-#ifdef USE_MCU_STM32
-	GPIO_Init();
-#endif
+	return GPIO_WaitPinPort(GPIOx, isHighLevel);
 }

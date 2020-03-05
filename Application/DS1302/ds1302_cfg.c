@@ -1,8 +1,8 @@
 #include "ds1302_cfg.h"
 
 //===全局变量定义
-DS1302_HandlerType		g_Ds1302Device0 = { 0 };
-pDS1302_HandlerType		pDs1302Device0 = &g_Ds1302Device0;
+DS1302_HandleType		g_Ds1302Device0 = { 0 };
+pDS1302_HandleType		pDs1302Device0 = &g_Ds1302Device0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -11,24 +11,26 @@ pDS1302_HandlerType		pDs1302Device0 = &g_Ds1302Device0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS1302_Device0_Init(DS1302_HandlerType *DS1302x)
+UINT8_T DS1302_Device0_Init(DS1302_HandleType *DS1302x)
 {
-	DS1302x->msgCS.msgGPIOPort = GPIOB;
-	DS1302x->msgCS.msgGPIOBit = LL_GPIO_PIN_5;
+	DS1302x->msgCS.msgPort = GPIOB;
+	DS1302x->msgCS.msgBit = LL_GPIO_PIN_5;
 
-	DS1302x->msgCLK.msgGPIOPort = GPIOB;
-	DS1302x->msgCLK.msgGPIOBit = LL_GPIO_PIN_6;
+	DS1302x->msgCLK.msgPort = GPIOB;
+	DS1302x->msgCLK.msgBit = LL_GPIO_PIN_6;
 
-	DS1302x->msgDAT.msgGPIOPort = GPIOB;
-	DS1302x->msgDAT.msgGPIOBit = LL_GPIO_PIN_8;
+	DS1302x->msgDAT.msgPort = GPIOB;
+	DS1302x->msgDAT.msgBit = LL_GPIO_PIN_8;
 
 	DS1302x->msgPluseWidth = 1000;
-	DS1302x->msgDelayus = NULL;
+	DS1302x->pMsgDelayus = NULL;
 
 	//---使能端口时钟
-	GPIOTask_Clock(DS1302x->msgCS.msgGPIOPort, 1);
-	GPIOTask_Clock(DS1302x->msgCLK.msgGPIOPort, 1);
-	GPIOTask_Clock(DS1302x->msgDAT.msgGPIOPort, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(DS1302x->msgCS.msgPort,  PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(DS1302x->msgCLK.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(DS1302x->msgDAT.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -41,20 +43,20 @@ UINT8_T DS1302_Device0_Init(DS1302_HandlerType *DS1302x)
 #endif
 
 	//---CS端口的初始化
-	GPIO_InitStruct.Pin = DS1302x->msgCS.msgGPIOBit;
-	LL_GPIO_Init(DS1302x->msgCS.msgGPIOPort, &GPIO_InitStruct);
-	GPIO_OUT_0(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
+	GPIO_InitStruct.Pin = DS1302x->msgCS.msgBit;
+	LL_GPIO_Init(DS1302x->msgCS.msgPort, &GPIO_InitStruct);
+	GPIO_OUT_0(DS1302x->msgCS.msgPort, DS1302x->msgCS.msgBit);
 
 	//---CLK端口的初始化
-	GPIO_InitStruct.Pin = DS1302x->msgCLK.msgGPIOBit;
-	LL_GPIO_Init(DS1302x->msgCLK.msgGPIOPort, &GPIO_InitStruct);
-	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
+	GPIO_InitStruct.Pin = DS1302x->msgCLK.msgBit;
+	LL_GPIO_Init(DS1302x->msgCLK.msgPort, &GPIO_InitStruct);
+	GPIO_OUT_0(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
 
 	//---DAT端口的初始化
 	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
-	GPIO_InitStruct.Pin = DS1302x->msgDAT.msgGPIOBit;
-	LL_GPIO_Init(DS1302x->msgDAT.msgGPIOPort, &GPIO_InitStruct);
-	GPIO_OUT_1(DS1302x->msgDAT.msgGPIOPort, DS1302x->msgDAT.msgGPIOBit);
+	GPIO_InitStruct.Pin = DS1302x->msgDAT.msgBit;
+	LL_GPIO_Init(DS1302x->msgDAT.msgPort, &GPIO_InitStruct);
+	GPIO_OUT_1(DS1302x->msgDAT.msgPort, DS1302x->msgDAT.msgBit);
 	return OK_0;
 }
 
@@ -65,7 +67,7 @@ UINT8_T DS1302_Device0_Init(DS1302_HandlerType *DS1302x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS1302_Device1_Init(DS1302_HandlerType *DS1302x)
+UINT8_T DS1302_Device1_Init(DS1302_HandleType *DS1302x)
 {
 	return OK_0;
 }
@@ -77,7 +79,7 @@ UINT8_T DS1302_Device1_Init(DS1302_HandlerType *DS1302x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS1302_Device2_Init(DS1302_HandlerType *DS1302x)
+UINT8_T DS1302_Device2_Init(DS1302_HandleType *DS1302x)
 {
 	return OK_0;
 }
@@ -89,7 +91,7 @@ UINT8_T DS1302_Device2_Init(DS1302_HandlerType *DS1302x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS1302_Init(DS1302_HandlerType *DS1302x, void(*pFuncDelayus)(UINT32_T delay))
+UINT8_T DS1302_Init(DS1302_HandleType *DS1302x, void(*pFuncDelayus)(UINT32_T delay))
 {
 	//---指定设备的初始化
 	if ((DS1302x != NULL) && (DS1302x == DS1302_TASK_ONE))
@@ -108,16 +110,8 @@ UINT8_T DS1302_Init(DS1302_HandlerType *DS1302x, void(*pFuncDelayus)(UINT32_T de
 	{
 		return ERROR_1;
 	}
-
-   //---us延时
-	if (pFuncDelayus!=NULL)
-	{
-		DS1302x->msgDelayus = pFuncDelayus;
-	}
-	else
-	{
-		DS1302x->msgDelayus = DelayTask_us;
-	}
+	//---us延时
+	(pFuncDelayus != NULL)?(DS1302x->pMsgDelayus = pFuncDelayus):(DS1302x->pMsgDelayus = DelayTask_us);
 	//---退出休眠模式
 	DS1302_DisableSleepMode(DS1302x);
 	return OK_0;
@@ -130,33 +124,20 @@ UINT8_T DS1302_Init(DS1302_HandlerType *DS1302x, void(*pFuncDelayus)(UINT32_T de
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_WriteByteLSB(DS1302_HandlerType* DS1302x, UINT8_T wVal)
+void DS1302_WriteByteLSB(DS1302_HandleType* DS1302x, UINT8_T wVal)
 {
 	UINT8_T i = 0;
 	for (i=0;i<8;i++)
 	{
-		if ((wVal&0x01)!=0)
-		{
-			GPIO_OUT_1(DS1302x->msgDAT.msgGPIOPort, DS1302x->msgDAT.msgGPIOBit);
-		}
-		else
-		{
-			GPIO_OUT_0(DS1302x->msgDAT.msgGPIOPort, DS1302x->msgDAT.msgGPIOBit);
-		}
-		GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-		if (DS1302x->msgPluseWidth > 0)
-		{
-			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-		}
-		GPIO_OUT_1(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-		if (DS1302x->msgPluseWidth > 0)
-		{
-			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-		}
+		((wVal & 0x01) != 0)?(GPIO_OUT_1(DS1302x->msgDAT.msgPort, DS1302x->msgDAT.msgBit)):(GPIO_OUT_0(DS1302x->msgDAT.msgPort, DS1302x->msgDAT.msgBit));
+		GPIO_OUT_0(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+		DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
+		GPIO_OUT_1(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+		DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
 		wVal >>= 1;
 	}
 	//---??????
-	GPIO_OUT_1(DS1302x->msgDAT.msgGPIOPort, DS1302x->msgDAT.msgGPIOBit);
+	GPIO_OUT_1(DS1302x->msgDAT.msgPort, DS1302x->msgDAT.msgBit);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -166,20 +147,17 @@ void DS1302_WriteByteLSB(DS1302_HandlerType* DS1302x, UINT8_T wVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS1302_ReadByteLSB(DS1302_HandlerType* DS1302x)
+UINT8_T DS1302_ReadByteLSB(DS1302_HandleType* DS1302x)
 {
 	UINT8_T i = 0;
 	UINT8_T _return = 0;
 	for (i = 0; i < 8; i++)
 	{
-		GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-		if (DS1302x->msgPluseWidth > 0)
-		{
-			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-		}	
+		GPIO_OUT_0(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+		DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
 		_return >>= 1;
 		//---读取1bit的数据
-		if (GPIO_GET_STATE(DS1302x->msgDAT.msgGPIOPort, DS1302x->msgDAT.msgGPIOBit) != 0)
+		if (GPIO_GET_STATE(DS1302x->msgDAT.msgPort, DS1302x->msgDAT.msgBit) != 0)
 		{
 			_return |= 0x80;
 		}
@@ -187,11 +165,8 @@ UINT8_T DS1302_ReadByteLSB(DS1302_HandlerType* DS1302x)
 		{
 			_return &= 0x7F;
 		}
-		GPIO_OUT_1(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-		if (DS1302x->msgPluseWidth > 0)
-		{
-			DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-		}
+		GPIO_OUT_1(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+		DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
 	}
 	return _return;
 }
@@ -203,7 +178,7 @@ UINT8_T DS1302_ReadByteLSB(DS1302_HandlerType* DS1302x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_DisableSleepMode(DS1302_HandlerType* DS1302x)
+void DS1302_DisableSleepMode(DS1302_HandleType* DS1302x)
 {
 	UINT8_T _return = 0x00;
 	DS1302_ReadReg(DS1302x, DS1302_REG_SECOND, &_return);
@@ -222,7 +197,7 @@ void DS1302_DisableSleepMode(DS1302_HandlerType* DS1302x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void  DS1302_EnableSleepMode(DS1302_HandlerType* DS1302x)
+void  DS1302_EnableSleepMode(DS1302_HandleType* DS1302x)
 {
 	//---使能休眠模式
 	DS1302_WriteTime(DS1302x, DS1302_REG_SECOND, 0x80);
@@ -236,7 +211,7 @@ void  DS1302_EnableSleepMode(DS1302_HandlerType* DS1302x)
 //////输出参数: 0---设备存在，1---设备异常
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS1302_CheckDevice(DS1302_HandlerType* DS1302x)
+UINT8_T DS1302_CheckDevice(DS1302_HandleType* DS1302x)
 {
 	UINT8_T _return = 0x00;
 	DS1302_ReadReg(DS1302x, DS1302_REG_SECOND, &_return);
@@ -258,27 +233,18 @@ UINT8_T DS1302_CheckDevice(DS1302_HandlerType* DS1302x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_WriteReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T dat)
+void DS1302_WriteReg(DS1302_HandleType *DS1302x, UINT8_T addr, UINT8_T dat)
 {
-	GPIO_OUT_0(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
-	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-	if (DS1302x->msgPluseWidth > 0)
-	{
-		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-	}
-	GPIO_OUT_1(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
-	if (DS1302x->msgPluseWidth > 0)
-	{
-		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-	}
+	GPIO_OUT_0(DS1302x->msgCS.msgPort, DS1302x->msgCS.msgBit);
+	GPIO_OUT_0(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+	DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
+	GPIO_OUT_1(DS1302x->msgCS.msgPort, DS1302x->msgCS.msgBit);
+	DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
 	DS1302_WriteByteLSB(DS1302x, addr&0xFE);
 	DS1302_WriteByteLSB(DS1302x, dat);
-	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-	if (DS1302x->msgPluseWidth > 0)
-	{
-		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-	}
-	GPIO_OUT_0(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
+	GPIO_OUT_0(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+	DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
+	GPIO_OUT_0(DS1302x->msgCS.msgPort, DS1302x->msgCS.msgBit);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -288,27 +254,18 @@ void DS1302_WriteReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T dat)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_ReadReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T *pVal)
+void DS1302_ReadReg(DS1302_HandleType *DS1302x, UINT8_T addr, UINT8_T *pVal)
 {
-	GPIO_OUT_0(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
-	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-	if (DS1302x->msgPluseWidth > 0)
-	{
-		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-	}
-	GPIO_OUT_1(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);
-	if (DS1302x->msgPluseWidth > 0)
-	{
-		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-	}
+	GPIO_OUT_0(DS1302x->msgCS.msgPort, DS1302x->msgCS.msgBit);
+	GPIO_OUT_0(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+	DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
+	GPIO_OUT_1(DS1302x->msgCS.msgPort, DS1302x->msgCS.msgBit);
+	DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
 	DS1302_WriteByteLSB(DS1302x, addr|0x01);
 	*pVal=DS1302_ReadByteLSB(DS1302x);
-	GPIO_OUT_0(DS1302x->msgCLK.msgGPIOPort, DS1302x->msgCLK.msgGPIOBit);
-	if (DS1302x->msgPluseWidth > 0)
-	{
-		DS1302x->msgDelayus(DS1302x->msgPluseWidth);
-	}
-	GPIO_OUT_0(DS1302x->msgCS.msgGPIOPort, DS1302x->msgCS.msgGPIOBit);	
+	GPIO_OUT_0(DS1302x->msgCLK.msgPort, DS1302x->msgCLK.msgBit);
+	DS1302x->pMsgDelayus(DS1302x->msgPluseWidth);
+	GPIO_OUT_0(DS1302x->msgCS.msgPort, DS1302x->msgCS.msgBit);	
 	
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -318,7 +275,7 @@ void DS1302_ReadReg(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T *pVal)
 //////输出参数:
 //////说		明：编程时间
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_WriteTime(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T dat)
+void DS1302_WriteTime(DS1302_HandleType *DS1302x, UINT8_T addr, UINT8_T dat)
 {
 	//---取消写保护
 	DS1302_WriteReg(DS1302x, DS1302_REG_CONTROL, 0x00);
@@ -334,7 +291,7 @@ void DS1302_WriteTime(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T dat)
 //////输出参数:
 //////说		明：读取时间
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_ReadTime(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T *pVal)
+void DS1302_ReadTime(DS1302_HandleType *DS1302x, UINT8_T addr, UINT8_T *pVal)
 {
 	DS1302_ReadReg(DS1302x, addr, pVal);
 }
@@ -346,7 +303,7 @@ void DS1302_ReadTime(DS1302_HandlerType *DS1302x, UINT8_T addr, UINT8_T *pVal)
 //////输出参数:
 //////说		明：编程实时时钟
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_WriteRTC(DS1302_HandlerType *DS1302x, RTC_HandlerType rtcTime)
+void DS1302_WriteRTC(DS1302_HandleType *DS1302x, RTC_HandleType rtcTime)
 {
 	DS1302x->msgRTC = rtcTime;
 	//---取消写保护
@@ -376,7 +333,7 @@ void DS1302_WriteRTC(DS1302_HandlerType *DS1302x, RTC_HandlerType rtcTime)
 //////输出参数:
 //////说		明：读取实时时钟
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_ReadRTC(DS1302_HandlerType *DS1302x)
+void DS1302_ReadRTC(DS1302_HandleType *DS1302x)
 {
 	//---读秒数据
 	DS1302_ReadReg(DS1302x, DS1302_REG_SECOND, &(DS1302x->msgRTC.second));
@@ -439,7 +396,7 @@ void DS1302_ReadRTC(DS1302_HandlerType *DS1302x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void DS1302_ReadBurstRTC(DS1302_HandlerType* DS1302x)
+void DS1302_ReadBurstRTC(DS1302_HandleType* DS1302x)
 {
 	UINT8_T i = 0;
 	UINT8_T rtc[7] = {0};

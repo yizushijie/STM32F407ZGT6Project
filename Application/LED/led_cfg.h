@@ -11,8 +11,8 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	//===重新交换了一下D通道解码成功的端口
-	#define LED_WORK_PORT				GPIOF
-	#define LED_WORK_BIT				LL_GPIO_PIN_10
+	#define LED_WORK_PORT				GPIOE
+	#define LED_WORK_BIT				LL_GPIO_PIN_5
 	#define LED_WORK_WRITE				GPIO_SET_WRITE(LED_WORK_PORT,LED_WORK_BIT)
 	#define LED_WORK_READ				GPIO_SET_READ(LED_WORK_PORT,LED_WORK_BIT)
 	#define LED_WORK_OUT_0				GPIO_OUT_0(LED_WORK_PORT,LED_WORK_BIT)

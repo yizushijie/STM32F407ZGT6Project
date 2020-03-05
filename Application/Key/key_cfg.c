@@ -2,7 +2,7 @@
 
 //===>>MultiButton START=========================================================
 //===按键事件列表
-KeyButton_HandlerType * pHeadHandle = NULL;
+KeyPress_HandleType * pHeadHandle = NULL;
 
 //===用于计数
 UINT32_T(*keyButtonFuncTimeTick)(void) = NULL;
@@ -27,12 +27,12 @@ UINT32_T g_KeyLoopReadIndex = 0;
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_Init(KeyButton_HandlerType* handle, UINT8_T(*pPinReadLevel)(), UINT8_T pinActiveLevel)
+void KeyButton_Init(KeyPress_HandleType* handle, UINT8_T(*pPinReadLevel)(), UINT8_T pinActiveLevel)
 {
-	memset(handle, 0, sizeof(KeyButton_HandlerType));
-	handle->msgEvent = (UINT8_T)NONE_PRESS;
+	memset(handle, 0, sizeof(KeyPress_HandleType));
+	handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_NONE;
 	handle->msgFuncReadPinLevel = pPinReadLevel;
-	handle->msgButtonLevel = handle->msgFuncReadPinLevel();
+	handle->msgLevel = handle->msgFuncReadPinLevel();
 	handle->msgActiveLevel = pinActiveLevel;
 }
 
@@ -43,9 +43,9 @@ void KeyButton_Init(KeyButton_HandlerType* handle, UINT8_T(*pPinReadLevel)(), UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_Attach(KeyButton_HandlerType *handle, KeyButtonPressEvent event, KeyButtonCallBack cb)
+void KeyButton_Attach(KeyPress_HandleType *handle, KeyPressEvent event, KeyPressEventCallBack cb)
 {
-	handle->msgCB[event] = cb;
+	handle->msgCallBack[event] = cb;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -55,21 +55,21 @@ void KeyButton_Attach(KeyButton_HandlerType *handle, KeyButtonPressEvent event, 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-KeyButtonPressEvent KeyButton_GetButtonEvent(KeyButton_HandlerType* handle)
+KeyPressEvent KeyButton_GetButtonEvent(KeyPress_HandleType* handle)
 {
-	return (KeyButtonPressEvent)(handle->msgEvent);
+	return (KeyPressEvent)(handle->msgKeyPressEvent);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
+//////函	数：
+//////功	能：
 //////输入参数:
 //////输出参数: 0---事件启动；1---事件已经存在
-//////说		明：
+//////说	明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T KeyButton_START(KeyButton_HandlerType *btn)
+UINT8_T KeyButton_START(KeyPress_HandleType *btn)
 {
-	KeyButton_HandlerType* target = pHeadHandle;
+	KeyPress_HandleType* target = pHeadHandle;
 	while (target)
 	{
 		if (target == btn)
@@ -77,33 +77,33 @@ UINT8_T KeyButton_START(KeyButton_HandlerType *btn)
 			//---按键事件已经存在
 			return 1;
 		}
-		target = target->msgNext;
+		target = target->pMsgNext;
 	}
-	btn->msgNext = pHeadHandle;
+	btn->pMsgNext = pHeadHandle;
 	pHeadHandle = btn;
 	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//////函		数：
-//////功		能：
+//////函	数：
+//////功	能：
 //////输入参数:
 //////输出参数:
-//////说		明：
+//////说	明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_STOP(KeyButton_HandlerType* btn)
+void KeyButton_STOP(KeyPress_HandleType* btn)
 {
-	KeyButton_HandlerType** curr;
+	KeyPress_HandleType** curr;
 	for (curr = &pHeadHandle; *curr; )
 	{
-		KeyButton_HandlerType* entry = *curr;
+		KeyPress_HandleType* entry = *curr;
 		if (entry == btn)
 		{
-			*curr = entry->msgNext;
+			*curr = entry->pMsgNext;
 		}
 		else
 		{
-			curr = &entry->msgNext;
+			curr = &entry->pMsgNext;
 		}
 	}
 }
@@ -115,11 +115,11 @@ void KeyButton_STOP(KeyButton_HandlerType* btn)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_CallBackHandlerEvent(KeyButton_HandlerType* handle, UINT8_T event)
+void KeyButton_CallBackHandlerEvent(KeyPress_HandleType* handle, UINT8_T event)
 {
-	if (handle->msgCB[event] != NULL)
+	if (handle->msgCallBack[event] != NULL)
 	{
-		handle->msgCB[event]((KeyButton_HandlerType*)handle);
+		handle->msgCallBack[event]((KeyPress_HandleType*)handle);
 	}
 }
 
@@ -130,23 +130,23 @@ void KeyButton_CallBackHandlerEvent(KeyButton_HandlerType* handle, UINT8_T event
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void KeyButton_HandlerEvent(KeyButton_HandlerType* handle)
+void KeyButton_HandlerEvent(KeyPress_HandleType* handle)
 {
 	UINT32_T read_gpio_level = handle->msgFuncReadPinLevel();
 
 	//ticks counter working..
 	if ((handle->msgState) > 0)
 	{
-		handle->msgTicks++;
+		handle->msgTick++;
 	}
 
 	//---消抖处理
-	if (read_gpio_level != handle->msgButtonLevel)
+	if (read_gpio_level != handle->msgLevel)
 	{
 		//---连续多次按键的状态和上衣状态不一致；代表按下稳定
-		if (++(handle->msgDebounceCNT) >= DEBOUNCE_TICKS)
+		if (++(handle->msgDebounceCNT) >= KEY_DEBOUNCE_TICKS)
 		{
-			handle->msgButtonLevel = read_gpio_level;
+			handle->msgLevel = read_gpio_level;
 			handle->msgDebounceCNT = 0;
 		}
 	}
@@ -160,96 +160,96 @@ void KeyButton_HandlerEvent(KeyButton_HandlerType* handle)
 	switch (handle->msgState)
 	{
 		case 0:
-			if (handle->msgButtonLevel == handle->msgActiveLevel)
+			if (handle->msgLevel == handle->msgActiveLevel)
 			{
 				//---按键按下
-				handle->msgEvent = (UINT8_T)PRESS_DOWN;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_DOWN;
 
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, PRESS_DOWN);
-				handle->msgTicks = 0;
-				handle->msgRepeat = 1;
+				KeyButton_CallBackHandlerEvent(handle, KEY_PRESS_DOWN);
+				handle->msgTick = 0;
+				handle->msgRepeatCount = 1;
 				handle->msgState = 1;
 			}
 			else
 			{
-				handle->msgEvent = (UINT8_T)NONE_PRESS;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_NONE;
 			}
 			break;
 
 		case 1:
-			if (handle->msgButtonLevel != handle->msgActiveLevel)
+			if (handle->msgLevel != handle->msgActiveLevel)
 			{
 				//---释放按键，按键弹起
-				handle->msgEvent = (UINT8_T)PRESS_UP;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_UP;
 
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, PRESS_UP);
-				handle->msgTicks = 0;
+				KeyButton_CallBackHandlerEvent(handle, KEY_PRESS_UP);
+				handle->msgTick = 0;
 				handle->msgState = 2;
 			}
-			else if (handle->msgTicks > LONG_TICKS)
+			else if (handle->msgTick > KEY_LONG_TICKS)
 			{
 				//---按键长时间按下
-				handle->msgEvent = (UINT8_T)LONG_RRESS_START;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_LONG_RRESS_START;
 
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, LONG_RRESS_START);
+				KeyButton_CallBackHandlerEvent(handle, KEY_LONG_RRESS_START);
 				handle->msgState = 5;
 			}
 			break;
 
 		case 2:
-			if (handle->msgButtonLevel == handle->msgActiveLevel)
+			if (handle->msgLevel == handle->msgActiveLevel)
 			{
 				//---按键再次按下
-				handle->msgEvent = (UINT8_T)PRESS_DOWN;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_DOWN;
 
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, PRESS_DOWN);
-				handle->msgRepeat++;
-				if (handle->msgRepeat == 2)
+				KeyButton_CallBackHandlerEvent(handle, KEY_PRESS_DOWN);
+				handle->msgRepeatCount++;
+				if (handle->msgRepeatCount == 2)
 				{
 					//---回到事件处理函数
-					KeyButton_CallBackHandlerEvent(handle, DOUBLE_CLICK);
+					KeyButton_CallBackHandlerEvent(handle, KEY_DOUBLE_CLICK);
 				}
 
 				//---按键多次按下
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, PRESS_REPEAT);
-				handle->msgTicks = 0;
+				KeyButton_CallBackHandlerEvent(handle, KEY_PRESS_REPEAT);
+				handle->msgTick = 0;
 				handle->msgState = 3;
 			}
-			else if (handle->msgTicks > SHORT_TICKS)
+			else if (handle->msgTick > KEY_SHORT_TICKS)
 			{
-				if (handle->msgRepeat == 1)
+				if (handle->msgRepeatCount == 1)
 				{
 					//---单击
-					handle->msgEvent = (UINT8_T)SINGLE_CLICK;
+					handle->msgKeyPressEvent = (UINT8_T)KEY_SINGLE_CLICK;
 
 					//---回到事件处理函数
-					KeyButton_CallBackHandlerEvent(handle, SINGLE_CLICK);
+					KeyButton_CallBackHandlerEvent(handle, KEY_SINGLE_CLICK);
 				}
-				else if (handle->msgRepeat == 2)
+				else if (handle->msgRepeatCount == 2)
 				{
-					handle->msgEvent = (UINT8_T)DOUBLE_CLICK;
+					handle->msgKeyPressEvent = (UINT8_T)KEY_DOUBLE_CLICK;
 				}
 				handle->msgState = 0;
 			}
 			break;
 
 		case 3:
-			if (handle->msgButtonLevel != handle->msgActiveLevel)
+			if (handle->msgLevel != handle->msgActiveLevel)
 			{
 				//---释放按键
-				handle->msgEvent = (UINT8_T)PRESS_UP;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_UP;
 
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, PRESS_UP);
-				if (handle->msgTicks < SHORT_TICKS)
+				KeyButton_CallBackHandlerEvent(handle, KEY_PRESS_UP);
+				if (handle->msgTick < KEY_SHORT_TICKS)
 				{
 					//---按键短按
-					handle->msgTicks = 0;
+					handle->msgTick = 0;
 					handle->msgState = 2;
 				}
 				else
@@ -261,21 +261,21 @@ void KeyButton_HandlerEvent(KeyButton_HandlerType* handle)
 			break;
 
 		case 5:
-			if (handle->msgButtonLevel == handle->msgActiveLevel)
+			if (handle->msgLevel == handle->msgActiveLevel)
 			{
 				//---按键长时间按下
-				handle->msgEvent = (UINT8_T)LONG_PRESS_HOLD;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_LONG_PRESS_HOLD;
 
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, LONG_PRESS_HOLD);
+				KeyButton_CallBackHandlerEvent(handle, KEY_LONG_PRESS_HOLD);
 			}
 			else
 			{
 				//---按键释放
-				handle->msgEvent = (UINT8_T)PRESS_UP;
+				handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_UP;
 
 				//---回到事件处理函数
-				KeyButton_CallBackHandlerEvent(handle, PRESS_UP);
+				KeyButton_CallBackHandlerEvent(handle, KEY_PRESS_UP);
 
 				//---状态清零
 				handle->msgState = 0; //reset
@@ -285,7 +285,7 @@ void KeyButton_HandlerEvent(KeyButton_HandlerType* handle)
 
 			//---状态清零
 			handle->msgState = 0; //reset
-			handle->msgEvent = (UINT8_T)NONE_PRESS;
+			handle->msgKeyPressEvent = (UINT8_T)KEY_PRESS_NONE;
 			break;
 	}
 }
@@ -299,8 +299,8 @@ void KeyButton_HandlerEvent(KeyButton_HandlerType* handle)
 //////////////////////////////////////////////////////////////////////////////
 void KeyButton_TimeTicks()
 {
-	KeyButton_HandlerType* target;
-	for (target = pHeadHandle; target; target = target->msgNext)
+	KeyPress_HandleType* target;
+	for (target = pHeadHandle; target; target = target->pMsgNext)
 	{
 		KeyButton_HandlerEvent(target);
 	}
@@ -334,7 +334,7 @@ void KeyButton_PollTicks()
 {
 	UINT32_T nowTime = 0;
 	UINT32_T cnt = 0;
-	KeyButton_HandlerType* target;
+	KeyPress_HandleType* target;
 	if (keyButtonFuncTimeTick != NULL)
 	{
 		//---获取当前时间节拍
@@ -354,7 +354,7 @@ void KeyButton_PollTicks()
 		if (cnt >= g_KeyButtonTimeSpan)
 		{
 			//---便利事件处理
-			for (target = pHeadHandle; target; target = target->msgNext)
+			for (target = pHeadHandle; target; target = target->pMsgNext)
 			{
 				KeyButton_HandlerEvent(target);
 			}
@@ -522,11 +522,12 @@ void KeyButton4_PRESS_UP_Handler(void* btn)
 void Key_BINInit(void)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(BINA_CTR_PORT, 1);
-	GPIOTask_Clock(BINB_CTR_PORT, 1);
-	GPIOTask_Clock(BINC_CTR_PORT, 1);
-	GPIOTask_Clock(BIND_CTR_PORT, 1);
-
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(BINA_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(BINB_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(BINC_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(BIND_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
@@ -568,10 +569,12 @@ void Key_BINInit(void)
 void Key_SOTInit(void)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(SOTA_CTR_PORT, 1);
-	GPIOTask_Clock(SOTB_CTR_PORT, 1);
-	GPIOTask_Clock(SOTC_CTR_PORT, 1);
-	GPIOTask_Clock(SOTD_CTR_PORT, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(SOTA_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(SOTB_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(SOTC_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(SOTD_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -614,10 +617,12 @@ void Key_SOTInit(void)
 void Key_EOTInit(void)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(EOTA_CTR_PORT, 1);
-	GPIOTask_Clock(EOTB_CTR_PORT, 1);
-	GPIOTask_Clock(EOTC_CTR_PORT, 1);
-	GPIOTask_Clock(EOTD_CTR_PORT, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(EOTA_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(EOTB_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(EOTC_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(EOTD_CTR_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -852,13 +857,15 @@ void Key_BINDPass(UINT8_T isPass)
 void Key_GenSelInit(void)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(GEN_SEL0_PORT, 1);
-	GPIOTask_Clock(GEN_SEL1_PORT, 1);
-	GPIOTask_Clock(GEN_SEL2_PORT, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(GEN_SEL0_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(GEN_SEL1_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(GEN_SEL2_PORT, PERIPHERAL_CLOCK_ENABLE);
 	//GPIOTask_Clock(GEN_SEL3_PORT, 1);
 	//GPIOTask_Clock(GEN_SEL4_PORT, 1);
 	//GPIOTask_Clock(GEN_SEL5_PORT, 1);
 	//GPIOTask_Clock(GEN_SEL6_PORT, 1);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };

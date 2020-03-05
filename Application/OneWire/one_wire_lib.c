@@ -7,7 +7,7 @@
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWireLib_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT32_T delay))
+UINT8_T OneWireLib_Init(OneWire_HandleType *OneWirex, void(*pFuncDelayus)(UINT32_T delay))
 {
 	return OneWire_Init(OneWirex, pFuncDelayus);
 }
@@ -19,7 +19,7 @@ UINT8_T OneWireLib_Init(OneWire_HandlerType *OneWirex, void(*pFuncDelayus)(UINT3
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWireLib_DeInit(OneWire_HandlerType *OneWirex)
+UINT8_T OneWireLib_DeInit(OneWire_HandleType *OneWirex)
 {
 	return OneWire_DeInit(OneWirex);
 }
@@ -31,7 +31,7 @@ UINT8_T OneWireLib_DeInit(OneWire_HandlerType *OneWirex)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWireLib_START(OneWire_HandlerType *OneWirex)
+UINT8_T OneWireLib_START(OneWire_HandleType *OneWirex)
 {
 	return OneWire_START(OneWirex);
 }
@@ -43,7 +43,7 @@ UINT8_T OneWireLib_START(OneWire_HandlerType *OneWirex)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWireLib_WriteByte(OneWire_HandlerType *OneWirex, UINT8_T val)
+UINT8_T OneWireLib_WriteByte(OneWire_HandleType *OneWirex, UINT8_T val)
 {
 	return OneWire_WriteByte(OneWirex, val);
 }
@@ -55,7 +55,7 @@ UINT8_T OneWireLib_WriteByte(OneWire_HandlerType *OneWirex, UINT8_T val)
 //////输出参数:
 //////说	   明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T OneWireLib_ReadByte(OneWire_HandlerType *OneWirex)
+UINT8_T OneWireLib_ReadByte(OneWire_HandleType *OneWirex)
 {
 	return OneWire_ReadByte(OneWirex);
 }

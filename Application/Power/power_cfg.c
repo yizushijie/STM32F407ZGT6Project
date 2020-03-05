@@ -10,17 +10,19 @@
 void Power_Init(void)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(DPSA_CTRH_PORT, 1);
-	GPIOTask_Clock(DPSA_CTRL_PORT, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(DPSA_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(DPSA_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
 
-	GPIOTask_Clock(DPSB_CTRH_PORT, 1);
-	GPIOTask_Clock(DPSB_CTRL_PORT, 1);
+	GPIOTask_Clock(DPSB_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(DPSB_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
 
-	GPIOTask_Clock(DPSC_CTRH_PORT, 1);
-	GPIOTask_Clock(DPSC_CTRL_PORT, 1);
+	GPIOTask_Clock(DPSC_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(DPSC_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
 
-	GPIOTask_Clock(DPSD_CTRH_PORT, 1);
-	GPIOTask_Clock(DPSD_CTRL_PORT, 1);
+	GPIOTask_Clock(DPSD_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(DPSD_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -88,6 +90,8 @@ void Power_DeInit(void)
 	DPSD_POWER_HZ;
 }
 
+//===LM317输出电压的偏移
+UINT16_T g_Lm317LostPower= LM317_LOST_POWER_MV;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -99,8 +103,10 @@ void Power_DeInit(void)
 UINT8_T LM317_Init(UINT8_T isPowerON,UINT32_T volMV)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(LM317_CTRH_PORT, 1);
-	GPIOTask_Clock(LM317_CTRL_PORT, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(LM317_CTRH_PORT, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(LM317_CTRL_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
@@ -158,6 +164,7 @@ UINT8_T LM317_DeInit(void)
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T LM317_PowerMV(UINT32_T volMV)
 {
+	volMV +=LM317_LOST_POWER_MV;
 	if (volMV > LM317_MAX_POWER_MV)
 	{
 		volMV=LM317_MAX_POWER_MV;
@@ -166,7 +173,7 @@ UINT8_T LM317_PowerMV(UINT32_T volMV)
 	{
 		volMV = LM317_MIN_POWER_MV;
 	}
-	volMV -= (LM317_BASE_POWER_MV- LM317_LOST_POWER_MV);
+	volMV -= LM317_BASE_POWER_MV;
 	//---运放放大2倍，反算DAC的值，需要除于放大倍数
 	volMV >>= 1;
 	DACTask_ChannelMV(DAC_CHANNEL_SELECT_1, volMV);

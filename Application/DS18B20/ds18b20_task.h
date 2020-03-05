@@ -8,11 +8,12 @@ extern "C" {
 	#include "ds18b20_lib.h"
 	//////////////////////////////////////////////////////////////////////////////////////
 	//---º¯Êý¶¨Òå
-	UINT8_T DS18B20Task_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
-	UINT8_T DS18B20Task_OneWire_DeInit(DS18B20_HandlerType *DS18B20x);
-	UINT8_T DS18B20Task_OneWire_ReadDeviceID(DS18B20_HandlerType *DS18B20x, UINT8_T *id);
-	UINT16_T DS18B20Task_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x);
-	UINT16_T DS18B20Task_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id);
+	UINT8_T  DS18B20Task_OneWire_Init(DS18B20_HandleType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void));
+	UINT8_T  DS18B20Task_OneWire_DeInit(DS18B20_HandleType *DS18B20x);
+	UINT8_T	 DS18B20Task_OneWire_ReadDeviceID(DS18B20_HandleType *DS18B20x, UINT8_T *id);
+	UINT16_T DS18B20Task_OneWire_ReadTemp(DS18B20_HandleType *DS18B20x);
+	UINT16_T DS18B20Task_OneWire_ReadTempByID(DS18B20_HandleType *DS18B20x, UINT8_T *id);
+	float	 DS18B20Task_OneWire_GetTemp(DS18B20_HandleType* DS18B20x);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

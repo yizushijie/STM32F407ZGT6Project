@@ -10,19 +10,16 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	//===定义结构体
-	typedef struct _W5500_HandlerType			W5500_HandlerType;
-
+	typedef struct _W5500_HandleType			W5500_HandleType;
 	//===定义指针结构体
-	typedef	struct _W5500_HandlerType			* pW5500_HandlerType;
-
+	typedef	struct _W5500_HandleType			* pW5500_HandleType;
 	//===定义结构体
-	struct _W5500_HandlerType
+	struct _W5500_HandleType
 	{
-		SPI_HandlerType		msgSPI;												//---使用的SPI模式
-		GPIO_HandlerType	msgHWRST;											//---硬件复位信号
-		GPIO_HandlerType	msgHWINT;											//---硬件中断信号
-
-		void(*msgDelayms)(UINT32_T delay);									//---延时参数
+		SPI_HandleType		msgSPI;																						//---使用的SPI模式
+		GPIO_HandleType		msgHWRST;																					//---硬件复位信号
+		GPIO_HandleType		msgHWINT;																					//---硬件中断信号
+		void(*pMsgDelayms)(UINT32_T delay);																				//---延时参数
 	};
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

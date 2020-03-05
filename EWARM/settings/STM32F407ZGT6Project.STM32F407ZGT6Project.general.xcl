@@ -1,8 +1,8 @@
 "D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\bin\armproc.dll" 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\bin\armstlink2.dll" 
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\bin\armjlink2.dll" 
 
-"I:\STM32_MCU\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\STM32F407ZGT6Project\Exe\STM32F407ZET6Project.out" 
+"E:\STM32Project\NewProject\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\STM32F407ZGT6Project\Exe\STM32F407ZET6Project.out" 
 
 --plugin="D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\bin\armbat.dll" 
 

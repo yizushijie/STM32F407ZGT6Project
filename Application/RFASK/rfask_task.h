@@ -8,7 +8,7 @@ extern "C" {
 	#include "rfask_lib.h"
 	#include "timer_task.h"
 	#include "wm8510_task.h"
-	#include "usart_task.h"
+	#include "uart_task.h"
 	#include "power_task.h"
 	#include "adc_task.h"
 	#include "led_task.h"
@@ -103,21 +103,21 @@ extern "C" {
 	#define RFASK_FREQ_CURRENT_CONT_EQUAL_POINT_MAX_NUM				3
 	
 	//===º¯Êý¶¨Òå
-	void     RFASKTask_Init(RFASK_HandlerType *rfask, AT24CXX_HandlerType* AT24CXXx);
-	UINT32_T RFASKTask_CalcXTAL(RFASK_HandlerType *rfask, UINT32_T rfX100MHz);
-	UINT8_T  RFASKTask_SetDeviceType(RFASK_HandlerType *rfask, UINT8_T deviceType);
-	UINT32_T RFASKTask_GetDeviceType(RFASK_HandlerType *rfask);
-	UINT32_T RFASKTask_SetClockFreq(RFASK_HandlerType *rfask, WM8510_HandlerType *WM8510x, UINT32_T rfX100MHz);
-	UINT8_T  RFASKTask_WM8510Task(USART_HandlerType*USARTx, WM8510_HandlerType *WM8510x, AT24CXX_HandlerType* AT24CXXx);
-	UINT8_T  RFASKTask_YSELTask(USART_HandlerType*USARTx, RFASK_HandlerType *rfask, WM8510_HandlerType *WM8510x, AT24CXX_HandlerType* AT24CXXx);
-	UINT8_T  RFASKTask_ActivateSites(RFASK_HandlerType *rfask, UINT8_T activateSites);
-	UINT8_T  RFASKTask_SitesCurrent(RFASK_HandlerType *rfask);
-	UINT8_T  RFASKTask_SetFreqCurrentPointCmd(FREQ_CURRENT_HandlerType *rfaskFreqCurrent, UINT8_T cmd);
-	UINT8_T  RFASKTask_FreqCurrentScan(USART_HandlerType*USARTx, RFASK_HandlerType *rfask, FREQ_CURRENT_HandlerType *rfaskFreqCurrent, WM8510_HandlerType *WM8510x);
-	UINT8_T  RFASKTask_HandlerTask(USART_HandlerType*USARTx, RFASK_HandlerType *rfask, WM8510_HandlerType *WM8510x, AT24CXX_HandlerType* AT24CXXx);
+	void     RFASKTask_Init(RFASK_HandleType *rfask, AT24CXX_HandleType* AT24CXXx);
+	UINT32_T RFASKTask_CalcXTAL(RFASK_HandleType *rfask, UINT32_T rfX100MHz);
+	UINT8_T  RFASKTask_SetDeviceType(RFASK_HandleType *rfask, UINT8_T deviceType);
+	UINT32_T RFASKTask_GetDeviceType(RFASK_HandleType *rfask);
+	UINT32_T RFASKTask_SetClockFreq(RFASK_HandleType *rfask, WM8510_HandleType *WM8510x, UINT32_T rfX100MHz);
+	UINT8_T  RFASKTask_WM8510Task(UART_HandleType*UARTx, WM8510_HandleType *WM8510x, AT24CXX_HandleType* AT24CXXx);
+	UINT8_T  RFASKTask_YSELTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM8510_HandleType *WM8510x, AT24CXX_HandleType* AT24CXXx);
+	UINT8_T  RFASKTask_ActivateSites(RFASK_HandleType *rfask, UINT8_T activateSites);
+	UINT8_T  RFASKTask_SitesCurrent(RFASK_HandleType *rfask);
+	UINT8_T  RFASKTask_SetFreqCurrentPointCmd(FREQ_CURRENT_HandleType *rfaskFreqCurrent, UINT8_T cmd);
+	UINT8_T  RFASKTask_FreqCurrentScan(UART_HandleType*UARTx, RFASK_HandleType *rfask, FREQ_CURRENT_HandleType *rfaskFreqCurrent, WM8510_HandleType *WM8510x);
+	UINT8_T  RFASKTask_HandlerTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM8510_HandleType *WM8510x, AT24CXX_HandleType* AT24CXXx);
 	UINT8_T  RFASKTask_ScanYSEL(void);
-	UINT8_T  RFASKTask_Task(USART_HandlerType*USARTx, RFASK_HandlerType *rfask, WM8510_HandlerType *WM8510x, AT24CXX_HandlerType* AT24CXXx);
-	UINT8_T  RFASKTask_KeyTask(USART_HandlerType*USARTx, RFASK_HandlerType *rfask, WM8510_HandlerType *WM8510x, UINT8_T activateSites);
+	UINT8_T  RFASKTask_Task(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM8510_HandleType *WM8510x, AT24CXX_HandleType* AT24CXXx);
+	UINT8_T  RFASKTask_KeyTask(UART_HandleType*UARTx, RFASK_HandleType *rfask, WM8510_HandleType *WM8510x, UINT8_T activateSites);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

@@ -12,7 +12,7 @@ extern "C" {
 	UINT8_T ADCLib_ADC_Init(void);
 	UINT8_T ADCLib_ADCTask_START(ADC_TypeDef *ADCx);
 	UINT8_T ADCLib_ADCTask_STOP(ADC_TypeDef *ADCx);
-	UINT8_T ADCLib_HandleChannelVal(ADCASK_HandlerType *ADCASKx);
+	UINT8_T ADCLib_HandleChannelVal(ADCASK_HandleType *ADCASKx);
 	UINT16_T ADCLib_GetChipPower(void);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus

@@ -6,9 +6,9 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563Lib_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT8_T isHWI2C)
+UINT8_T PCF8563Lib_I2C_Init(PCF8563_HandleType *PCF8563x, void(*pFuncDelayus)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void), UINT8_T isHWI2C)
 {
-	return PCF8563_I2C_Init(PCF8563x, pFuncDelayus, isHWI2C);
+	return PCF8563_I2C_Init(PCF8563x, pFuncDelayus,pFuncTimerTick, isHWI2C);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ UINT8_T PCF8563Lib_I2C_Init(PCF8563_HandlerType *PCF8563x, void(*pFuncDelayus)(U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563Lib_I2C_DeInit(PCF8563_HandlerType *PCF8563x)
+UINT8_T PCF8563Lib_I2C_DeInit(PCF8563_HandleType *PCF8563x)
 {
 	return PCF8563_I2C_DeInit(PCF8563x);
 }
@@ -30,7 +30,7 @@ UINT8_T PCF8563Lib_I2C_DeInit(PCF8563_HandlerType *PCF8563x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563Lib_I2C_ClockOut(PCF8563_HandlerType *PCF8563x, UINT8_T preVal)
+UINT8_T PCF8563Lib_I2C_ClockOut(PCF8563_HandleType *PCF8563x, UINT8_T preVal)
 {
 	return PCF8563_I2C_ClockOut(PCF8563x, preVal);
 }
@@ -42,7 +42,7 @@ UINT8_T PCF8563Lib_I2C_ClockOut(PCF8563_HandlerType *PCF8563x, UINT8_T preVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563Lib_I2C_ReadRTC(PCF8563_HandlerType *PCF8563x)
+UINT8_T PCF8563Lib_I2C_ReadRTC(PCF8563_HandleType *PCF8563x)
 {
 	return PCF8563_I2C_ReadRTC(PCF8563x);
 }
@@ -54,7 +54,7 @@ UINT8_T PCF8563Lib_I2C_ReadRTC(PCF8563_HandlerType *PCF8563x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T PCF8563Lib_I2C_WriteRTC(PCF8563_HandlerType *PCF8563x, RTC_HandlerType rtc)
+UINT8_T PCF8563Lib_I2C_WriteRTC(PCF8563_HandleType *PCF8563x, RTC_HandleType rtc)
 {
 	return PCF8563_I2C_WriteRTC(PCF8563x, rtc);
 }

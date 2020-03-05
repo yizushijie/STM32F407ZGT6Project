@@ -12,7 +12,7 @@ VLTUINT8_T 	g_TaskMangeIndex= TASK_MANAGE_ISP_USART;
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T Task_Manage_1()
 {
-	return ISPTask_USARTCmd_Task(pIspDevice0, pUsart1);
+	return ISPTask_UARTCmd_Task(pIspDevice0, pUart1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@ UINT8_T Task_Manage_1()
 //////////////////////////////////////////////////////////////////////////////
 UINT8_T Task_Manage_2()
 {
-	return JTAGTask_USARTCmd_Task(pJtagDevice0, pUsart1);
+	return JTAGTask_UARTCmd_Task(pJtagDevice0, pUart1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -89,18 +89,18 @@ UINT8_T Task_Manage_Step()
 UINT8_T Task_Manage(void)
 {
 	//---判断接收是否完成
-	if (USARTTask_GetReadState(pUsart1) == 1)
+	if (UARTTask_GetState(&(pUart1->msgRxdHandle)) == 1)
 	{
 		//---CRC的校验和设备ID校验
-		if ((USARTTask_CRCTask_Read(pUsart1) == OK_0) && (USARTTask_DeviceID(pUsart1) == OK_0))
+		if ((UARTTask_Read_CRCTask(pUart1) == OK_0) && (UARTTask_DeviceID(pUart1) == OK_0))
 		{
-			if ((pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset]>= CMD_ISP_BASE_CMD)&&
-				(pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] <=CMD_ISP_END_CMD))
+			if ((pUart1->msgRxdHandle.pMsgVal[pUart1->msgCmdIndex + pUart1->msgIndexOffset]>= CMD_ISP_BASE_CMD)&&
+				(pUart1->msgRxdHandle.pMsgVal[pUart1->msgCmdIndex + pUart1->msgIndexOffset] <=CMD_ISP_END_CMD))
 			{
 				g_TaskMangeIndex = TASK_MANAGE_ISP_USART;
 			}
-			else if ((pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] >= CMD_JTAG_BASE_CMD) &&
-				(pUsart1->msgRxdHandler.pMsgVal[pUsart1->msgCmdIndex + pUsart1->msgIndexOffset] <= CMD_JTAG_END_CMD))
+			else if ((pUart1->msgRxdHandle.pMsgVal[pUart1->msgCmdIndex + pUart1->msgIndexOffset] >= CMD_JTAG_BASE_CMD) &&
+				(pUart1->msgRxdHandle.pMsgVal[pUart1->msgCmdIndex + pUart1->msgIndexOffset] <= CMD_JTAG_END_CMD))
 			{
 				g_TaskMangeIndex = TASK_MANAGE_JTAG_USART;
 			}
@@ -114,9 +114,9 @@ UINT8_T Task_Manage(void)
 		else
 		{
 			//---发生CRC校验错误
-			USART_Printf(pUsart1, "=>>串口%d:发生CRC校验错误<<=\r\n", (pUsart1->msgIndex - 1));
+			UARTTask_Printf(pUart1, "=>>SP%d:CRC Check Error<<=\r\n", (pUart1->msgIndex - 1));
 		}
-		return USARTTask_Read_Init(pUsart1);
+		return UARTTask_Read_Init(pUart1);
 	}
-	return USARTTask_TimeOVFTask(pUsart1);
+	return UARTTask_TimeTask_OverFlow(pUart1,1);
 }

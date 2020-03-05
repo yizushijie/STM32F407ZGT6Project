@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "I:\STM32_MCU\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.general.xcl" --backend -f "I:\STM32_MCU\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.driver.xcl" 
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\STM32Project\NewProject\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.general.xcl" --backend -f "E:\STM32Project\NewProject\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "I:\STM32_MCU\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.general.xcl" "--debug_file=%~1" --backend -f "I:\STM32_MCU\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.driver.xcl" 
+"D:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\STM32Project\NewProject\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.general.xcl" "--debug_file=%~1" --backend -f "E:\STM32Project\NewProject\STM32F407\STM32F407ZGT6\STM32F407ZGT6Project\EWARM\settings\STM32F407ZGT6Project.STM32F407ZGT6Project.driver.xcl" 
 
 @echo off 
 :end

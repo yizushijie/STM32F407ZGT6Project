@@ -11,11 +11,11 @@ extern "C" {
 	//////////////////////////////////////////////////////////////////////////////////////
 	
 	//===定义结构体
-	typedef struct _KalmanOneFilter_HandlerType			KalmanOneFilter_HandlerType;
+	typedef struct _KalmanOneFilter_HandleType			KalmanOneFilter_HandleType;
 	//===定义指针结构体
-	typedef	struct _KalmanOneFilter_HandlerType			*pKalmanOneFilter_HandlerType;
+	typedef	struct _KalmanOneFilter_HandleType			*pKalmanOneFilter_HandleType;
 	//===一阶卡尔曼滤波
-	 struct _KalmanOneFilter_HandlerType
+	 struct _KalmanOneFilter_HandleType
 	{
 		float x;		//---状态值
 		float A;		//---状态转移矩阵 (A)---x(n)=A*x(n-1)+u(n),u(n)~N(0,q)
@@ -27,11 +27,11 @@ extern "C" {
 	} ;
 
 	 //===定义结构体
-	 typedef struct _KalmanTwoFilter_HandlerType			KalmanTwoFilter_HandlerType;
+	 typedef struct _KalmanTwoFilter_HandleType			KalmanTwoFilter_HandleType;
 	 //===定义指针结构体
-	 typedef	struct _KalmanTwoFilter_HandlerType			*pKalmanTwoFilter_HandlerType;
+	 typedef	struct _KalmanTwoFilter_HandleType			*pKalmanTwoFilter_HandleType;
 	 //===二阶卡尔曼滤波
-	 struct _KalmanTwoFilter_HandlerType
+	 struct _KalmanTwoFilter_HandleType
 	 {
 		 float x[2];     /* state: [0]-angle [1]-diffrence of angle, 2x1 */
 		 float A[2][2];  /* X(n)=A*X(n-1)+U(n),U(n)~N(0,q), 2x2 */
@@ -43,10 +43,10 @@ extern "C" {
 	 };
 
 	//===函数定义
-	void KalmanOneFilter_Init(KalmanOneFilter_HandlerType* KalmanFilterX, float initMeasureX, float initMeasureP);
-	float KalmanOneFilter_Filter(KalmanOneFilter_HandlerType* KalmanFilterX, float newMeasure);
-	void KalmanTwoFilter_Init(KalmanTwoFilter_HandlerType* KalmanFilterX, float* initMeasureX, float(*initMeasureP)[2]);
-	float KalmanTwoFilter_Filter(KalmanTwoFilter_HandlerType* KalmanFilterX, float newMeasure);
+	void KalmanOneFilter_Init(KalmanOneFilter_HandleType* KalmanFilterX, float initMeasureX, float initMeasureP);
+	float KalmanOneFilter_Filter(KalmanOneFilter_HandleType* KalmanFilterX, float newMeasure);
+	void KalmanTwoFilter_Init(KalmanTwoFilter_HandleType* KalmanFilterX, float* initMeasureX, float(*initMeasureP)[2]);
+	float KalmanTwoFilter_Filter(KalmanTwoFilter_HandleType* KalmanFilterX, float newMeasure);
 	//////////////////////////////////////////////////////////////////////////////////////
 #ifdef __cplusplus
 }

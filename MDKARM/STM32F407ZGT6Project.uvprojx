@@ -337,9 +337,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls>-fgnu</MiscControls>
-              <Define>USE_FULL_LL_DRIVER,USE_HAL_DRIVER,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,EXTERNAL_CLOCK_VALUE=12288000,HSI_VALUE=16000000,LSI_VALUE=32000,STM32F407xx,__TARGET_FPU_VFP,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,ARM_MATH_CM4,__FPU_PRESENT=1</Define>
+              <Define>USE_FULL_LL_DRIVER,USE_HAL_DRIVER,USE_FULL_GPIO,HSE_VALUE=8000000UL,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,EXTERNAL_CLOCK_VALUE=12288000,HSI_VALUE=16000000,LSI_VALUE=32000,STM32F407xx,__TARGET_FPU_VFP,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,ARM_MATH_CM4,__FPU_PRESENT=1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Complier;..\Doc;..\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\USART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;..\Application\SDIO;..\Application\W5500;..\Application\MAX961x;..\Application\SMBUS;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Application\LIN;..\Application\HMC5883;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\JTAG;..\Application\HVPP;..\Application\HVSP;..\Application\AHT10;..\Application\HMC472;..\Application\Encode;..\Application\EXIT;..\Application\HardWare;..\Application\MCO</IncludePath>
+              <IncludePath>..\Complier;..\Doc;..\DriversEx\Complier;..\DriversEx\STM32F4xx;..\STARTUP\MDKARM;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Drivers\STM32F4xx_HAL_Driver\Src;..\Application\APP;..\Application\IWDG;..\Application\AD5593;..\Application\AT24Cxx;..\Application\CRC;..\Application\Delay;..\Application\DHT11;..\Application\DS18B20;..\Application\GPIO;..\Application\I2C;..\Application\OneWire;..\Application\PCF8563;..\Application\Random;..\Application\SysTick;..\Application\UART;..\Application\WM8510;..\Application\HMC830;..\Application\ISP;..\Application\SPI;..\Application\LED;..\Application\ADC;..\Application\Timer;..\Application\Key;..\Application\Power;..\Application\EEPROM;..\Application\RFASK;..\Application\FLASH;..\Application\NRF2401;..\Application\LCD1602;..\Application\BKP;..\Application\SHT2x;..\Application\Decode;..\Application\CSS;..\Application\ADS868x;..\Application\IAP;..\Application\OLED;..\Application\WWDG;..\Application\W25Qxx;..\Application\RFASKHW;..\Application\DS1302;..\Application\ENC28J60;..\Application\PID;..\Application\ADS1256;..\Application\RTC;..\Application\PVD;..\Application\MyMalloc;..\Application\ADS869x;..\Application\DAC;..\Application\KalmanFilter;..\Application\SDIO;..\Application\W5500;..\Application\MAX961x;..\Application\SMBUS;..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\Application\LIN;..\Application\HMC5883;..\Application\INA226;..\Application\SI5351A;..\Application\TaskManage;..\Application\JTAG;..\Application\HVPP;..\Application\HVSP;..\Application\AHT10;..\Application\HMC472;..\Application\Encode;..\Application\EXTI;..\Application\HardWare;..\Application\MCO;..\Application\USB\USBHid;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc;..\Application\USB\USB;..\Application\ESP8266;..\Application\FIFO;..\Application\DataBus;..\Application\cJSON;..\Application\AES;..\Application\CAN;..\Application\BMP180;..\Application\MPU6050;..\Application\DMP;..\Application\DMA;..\Application\LMS;..\DriversEx\CMSIS\STM32F4;..\LOG</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -416,52 +416,57 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>STM32F4xx</GroupName>
+          <GroupName>DriversEx/Complier</GroupName>
           <Files>
-            <File>
-              <FileName>stm32_assert.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\stm32_assert.h</FilePath>
-            </File>
             <File>
               <FileName>stm32_cfg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\STM32F4xx\stm32_cfg.c</FilePath>
+              <FilePath>..\DriversEx\Complier\stm32_cfg.c</FilePath>
             </File>
             <File>
               <FileName>stm32_cfg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\stm32_cfg.h</FilePath>
+              <FilePath>..\DriversEx\Complier\stm32_cfg.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DriversEx/STM32F4xx</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32_assert.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DriversEx\STM32F4xx\stm32_assert.h</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\stm32f4xx.h</FilePath>
+              <FilePath>..\DriversEx\STM32F4xx\stm32f4xx.h</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_hal_conf.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\stm32f4xx_hal_conf.h</FilePath>
+              <FilePath>..\DriversEx\STM32F4xx\stm32f4xx_hal_conf.h</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\STM32F4xx\stm32f4xx_it.c</FilePath>
+              <FilePath>..\DriversEx\STM32F4xx\stm32f4xx_it.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_it.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\stm32f4xx_it.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f407xx.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\stm32f407xx.h</FilePath>
+              <FilePath>..\DriversEx\STM32F4xx\stm32f4xx_it.h</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_ll.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\stm32f4xx_ll.h</FilePath>
+              <FilePath>..\DriversEx\STM32F4xx\stm32f4xx_ll.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f407xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\DriversEx\STM32F4xx\stm32f407xx.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -471,12 +476,12 @@
             <File>
               <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\STM32F4xx\system_stm32f4xx.c</FilePath>
+              <FilePath>..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.c</FilePath>
             </File>
             <File>
               <FileName>system_stm32f4xx.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\STM32F4xx\system_stm32f4xx.h</FilePath>
+              <FilePath>..\DriversEx\CMSIS\STM32F4\system_stm32f4xx.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -707,6 +712,11 @@
               <FileName>stm32f4xx_ll_pwr.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_pwr.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_ll_i2c.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_i2c.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2231,37 +2241,37 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Application/USART</GroupName>
+          <GroupName>Application/UART</GroupName>
           <Files>
             <File>
-              <FileName>usart_cfg.c</FileName>
+              <FileName>uart_cfg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\USART\usart_cfg.c</FilePath>
+              <FilePath>..\Application\UART\uart_cfg.c</FilePath>
             </File>
             <File>
-              <FileName>usart_cfg.h</FileName>
+              <FileName>uart_cfg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\USART\usart_cfg.h</FilePath>
+              <FilePath>..\Application\UART\uart_cfg.h</FilePath>
             </File>
             <File>
-              <FileName>usart_lib.c</FileName>
+              <FileName>uart_lib.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\USART\usart_lib.c</FilePath>
+              <FilePath>..\Application\UART\uart_lib.c</FilePath>
             </File>
             <File>
-              <FileName>usart_lib.h</FileName>
+              <FileName>uart_lib.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\USART\usart_lib.h</FilePath>
+              <FilePath>..\Application\UART\uart_lib.h</FilePath>
             </File>
             <File>
-              <FileName>usart_task.c</FileName>
+              <FileName>uart_task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\USART\usart_task.c</FilePath>
+              <FilePath>..\Application\UART\uart_task.c</FilePath>
             </File>
             <File>
-              <FileName>usart_task.h</FileName>
+              <FileName>uart_task.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\USART\usart_task.h</FilePath>
+              <FilePath>..\Application\UART\uart_task.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2946,37 +2956,37 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Application/EXIT</GroupName>
+          <GroupName>Application/EXTI</GroupName>
           <Files>
             <File>
-              <FileName>exit_cfg.c</FileName>
+              <FileName>exti_cfg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\EXIT\exit_cfg.c</FilePath>
+              <FilePath>..\Application\EXTI\exti_cfg.c</FilePath>
             </File>
             <File>
-              <FileName>exit_cfg.h</FileName>
+              <FileName>exti_cfg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\EXIT\exit_cfg.h</FilePath>
+              <FilePath>..\Application\EXTI\exti_cfg.h</FilePath>
             </File>
             <File>
-              <FileName>exit_lib.c</FileName>
+              <FileName>exti_lib.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\EXIT\exit_lib.c</FilePath>
+              <FilePath>..\Application\EXTI\exti_lib.c</FilePath>
             </File>
             <File>
-              <FileName>exit_lib.h</FileName>
+              <FileName>exti_lib.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\EXIT\exit_lib.h</FilePath>
+              <FilePath>..\Application\EXTI\exti_lib.h</FilePath>
             </File>
             <File>
-              <FileName>exit_task.c</FileName>
+              <FileName>exti_task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Application\EXIT\exit_task.c</FilePath>
+              <FilePath>..\Application\EXTI\exti_task.c</FilePath>
             </File>
             <File>
-              <FileName>exit_task.h</FileName>
+              <FileName>exti_task.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Application\EXIT\exit_task.h</FilePath>
+              <FilePath>..\Application\EXTI\exti_task.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -3007,6 +3017,409 @@
               <FileName>mco_cfg.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Application\MCO\mco_cfg.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/USB/USBHid</GroupName>
+          <Files>
+            <File>
+              <FileName>usbhid_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\USB\USBHid\usbhid_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbhid_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\USB\USBHid\usbhid_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbhid_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\USB\USBHid\usbhid_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbhid_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\USB\USBHid\usbhid_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbhid_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\USB\USBHid\usbhid_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbhid_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\USB\USBHid\usbhid_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/USB/USB</GroupName>
+          <Files>
+            <File>
+              <FileName>usb_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\USB\USB\usb_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\USB\USB\usb_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>usb_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\USB\USB\usb_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\USB\USB\usb_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>usb_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\USB\USB\usb_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\USB\USB\usb_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/ESP8266</GroupName>
+          <Files>
+            <File>
+              <FileName>esp8266_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ESP8266\esp8266_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ESP8266\esp8266_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ESP8266\esp8266_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ESP8266\esp8266_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ESP8266\esp8266_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\ESP8266\esp8266_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/FIFO</GroupName>
+          <Files>
+            <File>
+              <FileName>fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\FIFO\fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>fifo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\FIFO\fifo.h</FilePath>
+            </File>
+            <File>
+              <FileName>queue_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\FIFO\queue_fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>queue_fifo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\FIFO\queue_fifo.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/DataBus</GroupName>
+          <Files>
+            <File>
+              <FileName>data_bus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DataBus\data_bus.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_bus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\DataBus\data_bus.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/cJSON</GroupName>
+          <Files>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\cJSON\cJSON.c</FilePath>
+            </File>
+            <File>
+              <FileName>cJSON.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\cJSON\cJSON.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/AES</GroupName>
+          <Files>
+            <File>
+              <FileName>aes_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\AES\aes_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>aes_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\AES\aes_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>aes_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\AES\aes_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>aes_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\AES\aes_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>aes_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\AES\aes_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>aes_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\AES\aes_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/CAN</GroupName>
+          <Files>
+            <File>
+              <FileName>can_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\CAN\can_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\CAN\can_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>can_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\CAN\can_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\CAN\can_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>can_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\CAN\can_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\CAN\can_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/MPU6050</GroupName>
+          <Files>
+            <File>
+              <FileName>mpu6050_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\MPU6050\mpu6050_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/BMP180</GroupName>
+          <Files>
+            <File>
+              <FileName>bmp180_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\BMP180\bmp180_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>bmp180_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\BMP180\bmp180_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>bmp180_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\BMP180\bmp180_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>bmp180_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\BMP180\bmp180_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>bmp180_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\BMP180\bmp180_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>bmp180_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\BMP180\bmp180_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/DMP</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Application/NTC</GroupName>
+          <Files>
+            <File>
+              <FileName>ntc_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\NTC\ntc_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>ntc_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\NTC\ntc_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>ntc_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\NTC\ntc_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>ntc_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\NTC\ntc_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>ntc_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\NTC\ntc_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>ntc_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\NTC\ntc_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/DMA</GroupName>
+          <Files>
+            <File>
+              <FileName>dma_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DMA\dma_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\DMA\dma_cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>dma_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DMA\dma_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\DMA\dma_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>dma_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DMA\dma_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\DMA\dma_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/LMS</GroupName>
+          <Files>
+            <File>
+              <FileName>lms_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\LMS\lms_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>lms_filter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Application\LMS\lms_filter.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>LOG</GroupName>
+          <Files>
+            <File>
+              <FileName>log_cfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LOG\log_cfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>log_cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\LOG\log_cfg.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -6,7 +6,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20Lib_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T DS18B20Lib_OneWire_Init(DS18B20_HandleType *DS18B20x, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	return DS18B20_OneWire_Init(DS18B20x, pFuncDelayus, pFuncDelayms,pFuncTimerTick);
 }
@@ -17,7 +17,7 @@ UINT8_T DS18B20Lib_OneWire_Init(DS18B20_HandlerType *DS18B20x, void(*pFuncDelayu
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20Lib_OneWire_DeInit(DS18B20_HandlerType *DS18B20x)
+UINT8_T DS18B20Lib_OneWire_DeInit(DS18B20_HandleType *DS18B20x)
 {
 	return DS18B20_OneWire_DeInit(DS18B20x);
 }
@@ -28,9 +28,9 @@ UINT8_T DS18B20Lib_OneWire_DeInit(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T DS18B20Lib_OneWire_ReadDeviceID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
+UINT8_T DS18B20Lib_OneWire_ReadDeviceID(DS18B20_HandleType *DS18B20x, UINT8_T *pId)
 {
-	return DS18B20_OneWire_ReadID(DS18B20x, id);
+	return DS18B20_OneWire_ReadID(DS18B20x, pId);
 }
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -39,7 +39,7 @@ UINT8_T DS18B20Lib_OneWire_ReadDeviceID(DS18B20_HandlerType *DS18B20x, UINT8_T *
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T DS18B20Lib_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
+UINT16_T DS18B20Lib_OneWire_ReadTemp(DS18B20_HandleType *DS18B20x)
 {
 	return DS18B20_OneWire_ReadTemp(DS18B20x);
 }
@@ -51,7 +51,19 @@ UINT16_T DS18B20Lib_OneWire_ReadTemp(DS18B20_HandlerType *DS18B20x)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T DS18B20Lib_OneWire_ReadTempByID(DS18B20_HandlerType *DS18B20x, UINT8_T *id)
+UINT16_T DS18B20Lib_OneWire_ReadTempByID(DS18B20_HandleType *DS18B20x, UINT8_T *pId)
 {
-	return DS18B20_OneWire_ReadTempByID(DS18B20x, id);
+	return DS18B20_OneWire_ReadTempByID(DS18B20x, pId);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//////函		数：
+//////功		能：
+//////输入参数:
+//////输出参数:
+//////说		明：
+//////////////////////////////////////////////////////////////////////////////
+float DS18B20Lib_OneWire_GetTemp(DS18B20_HandleType* DS18B20x)
+{
+	return DS18B20_OneWire_GetTemp(DS18B20x);
 }

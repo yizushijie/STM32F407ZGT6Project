@@ -7,7 +7,7 @@
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void RFASKLib_Init(RFASK_HandlerType *rfask)
+void RFASKLib_Init(RFASK_HandleType *rfask)
 {
 	RFASK_Init(rfask);
 }
@@ -19,7 +19,7 @@ void RFASKLib_Init(RFASK_HandlerType *rfask)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T RFASKLib_CalcXTAL(RFASK_HandlerType *rfask, UINT32_T rfX100MHz)
+UINT32_T RFASKLib_CalcXTAL(RFASK_HandleType *rfask, UINT32_T rfX100MHz)
 {
 	return RFASK_CalcXTAL(rfask, rfX100MHz);
 }
@@ -31,7 +31,7 @@ UINT32_T RFASKLib_CalcXTAL(RFASK_HandlerType *rfask, UINT32_T rfX100MHz)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  RFASKLib_SetDeviceType(RFASK_HandlerType *rfask, UINT8_T deviceType)
+UINT8_T  RFASKLib_SetDeviceType(RFASK_HandleType *rfask, UINT8_T deviceType)
 {
 	return RFASK_SetDeviceType(rfask, deviceType);
 }
@@ -43,7 +43,7 @@ UINT8_T  RFASKLib_SetDeviceType(RFASK_HandlerType *rfask, UINT8_T deviceType)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T RFASKLib_GetDeviceType(RFASK_HandlerType *rfask)
+UINT32_T RFASKLib_GetDeviceType(RFASK_HandleType *rfask)
 {
 	return RFASK_GetDeviceType(rfask);
 }
@@ -55,7 +55,7 @@ UINT32_T RFASKLib_GetDeviceType(RFASK_HandlerType *rfask)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  RFASKLib_ActivateSites(RFASK_HandlerType *rfask, UINT8_T activateSites)
+UINT8_T  RFASKLib_ActivateSites(RFASK_HandleType *rfask, UINT8_T activateSites)
 {
 	return RFASK_ActivateSites(rfask, activateSites);
 }
@@ -67,7 +67,7 @@ UINT8_T  RFASKLib_ActivateSites(RFASK_HandlerType *rfask, UINT8_T activateSites)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T  RFASKLib_SetFreqCurrentPointCmd(FREQ_CURRENT_HandlerType *rfaskFreqCurrent, UINT8_T cmd)
+UINT8_T  RFASKLib_SetFreqCurrentPointCmd(FREQ_CURRENT_HandleType *rfaskFreqCurrent, UINT8_T cmd)
 {
 	return RFASK_SetFreqCurrentPointCmd(rfaskFreqCurrent, cmd);
 }

@@ -1,9 +1,9 @@
 #include"jtag_cfg.h"
 
 //===全局变量定义
-JTAG_HandlerType	g_JtagDevice0 = { 0 };
+JTAG_HandleType	g_JtagDevice0 = { 0 };
 //===全局指针变量
-pJTAG_HandlerType	pJtagDevice0 = &g_JtagDevice0;
+pJTAG_HandleType	pJtagDevice0 = &g_JtagDevice0;
 
 ///////////////////////////////////////////////////////////////////////////////
 //////函		数：
@@ -14,18 +14,20 @@ pJTAG_HandlerType	pJtagDevice0 = &g_JtagDevice0;
 //////////////////////////////////////////////////////////////////////////////
 void JTAG_Device0_RST(UINT8_T rstState)
 {
+#ifdef JTAG_USE_HV_RESET
 	if (rstState == JTAG_RST_TO_GND)
 	{
-		RST_TO_GND;
+		RST_PORT_TO_GND;
 	}
 	else if (rstState == JTAG_RST_TO_VCC)
 	{
-		RST_TO_VCC;
+		RST_PORT_TO_VCC;
 	}
 	else
 	{
-		RST_TO_HZ;
+		RST_PORT_TO_HZ;
 	}
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -57,52 +59,52 @@ void JTAG_Device2_RST(UINT8_T rstState)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_Device0_Init(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_Device0_Init(JTAG_HandleType* JTAGx)
 {
 	//---默认状态是test_logic_reset
 	JTAGx->msgTapState = TEST_LOGIC_RESET;
 #ifdef JTAG_USE_HV_RESET
 	JTAGx->msgPortRst = JTAG_Device0_RST;
 	//---TCK->PD1---host->device
-	JTAGx->msgTCK.msgGPIOPort = GPIOD;
-	JTAGx->msgTCK.msgGPIOBit = LL_GPIO_PIN_1;
+	JTAGx->msgTCK.msgPort = GPIOD;
+	JTAGx->msgTCK.msgBit = LL_GPIO_PIN_1;
 	//---TMS->PD0---host->device
-	JTAGx->msgTMS.msgGPIOPort = GPIOD;
-	JTAGx->msgTMS.msgGPIOBit = LL_GPIO_PIN_0;
+	JTAGx->msgTMS.msgPort = GPIOD;
+	JTAGx->msgTMS.msgBit = LL_GPIO_PIN_0;
 	//---TDI->PD3---host->device
-	JTAGx->msgTDI.msgGPIOPort = GPIOD;
-	JTAGx->msgTDI.msgGPIOBit = LL_GPIO_PIN_3;
+	JTAGx->msgTDI.msgPort = GPIOD;
+	JTAGx->msgTDI.msgBit = LL_GPIO_PIN_3;
 	//---TDO->PD2---device->host
-	JTAGx->msgTDO.msgGPIOPort = GPIOA;
-	JTAGx->msgTDO.msgGPIOBit = LL_GPIO_PIN_2;
-#elif
+	JTAGx->msgTDO.msgPort = GPIOD;
+	JTAGx->msgTDO.msgBit = LL_GPIO_PIN_2;
+#else
 	//---TCK->PB3---host->device
-	JTAGx->msgTCK.msgGPIOPort = GPIOB;
-	JTAGx->msgTCK.msgGPIOBit = LL_GPIO_PIN_3;
+	JTAGx->msgTCK.msgPort = GPIOB;
+	JTAGx->msgTCK.msgBit = LL_GPIO_PIN_3;
 	//---TMS->PC5---host->device
-	JTAGx->msgTMS.msgGPIOPort = GPIOC;
-	JTAGx->msgTMS.msgGPIOBit = LL_GPIO_PIN_5;
+	JTAGx->msgTMS.msgPort = GPIOC;
+	JTAGx->msgTMS.msgBit = LL_GPIO_PIN_5;
 	//---RST->PC4---host->device
-	JTAGx->msgRST.msgGPIOPort = GPIOC;
-	JTAGx->msgRST.msgGPIOBit = LL_GPIO_PIN_4;
+	JTAGx->msgRST.msgPort = GPIOC;
+	JTAGx->msgRST.msgBit = LL_GPIO_PIN_4;
 	//---TDI->PA7---host->device
-	JTAGx->msgTDI.msgGPIOPort = GPIOA;
-	JTAGx->msgTDI.msgGPIOBit = LL_GPIO_PIN_7;
+	JTAGx->msgTDI.msgPort = GPIOA;
+	JTAGx->msgTDI.msgBit = LL_GPIO_PIN_7;
 	//---TDO->PA6---device->host
-	JTAGx->msgTDO.msgGPIOPort = GPIOA;
-	JTAGx->msgTDO.msgGPIOBit = LL_GPIO_PIN_6;
+	JTAGx->msgTDO.msgPort = GPIOA;
+	JTAGx->msgTDO.msgBit = LL_GPIO_PIN_6;
 #endif
 	//---OE使用的端口
 #ifdef JTAG_USE_lEVEL_SHIFT
-#ifdef JTAG_USE_HV_RESET
-	//---OE->PD13---控制电平装换的使能
-	JTAGx->msgOE.msgGPIOPort = GPIOD;
-	JTAGx->msgOE.msgGPIOBit = LL_GPIO_PIN_11;
-#else
-	 //---OE->PD13---控制电平装换的使能
-	JTAGx->msgOE.msgGPIOPort = GPIOD;
-	JTAGx->msgOE.msgGPIOBit = LL_GPIO_PIN_13;
-#endif
+	#ifdef JTAG_USE_HV_RESET
+		//---OE->PD13---控制电平装换的使能
+		JTAGx->msgOE.msgPort = GPIOD;
+		JTAGx->msgOE.msgBit = LL_GPIO_PIN_11;
+	#else
+		 //---OE->PD13---控制电平装换的使能
+		JTAGx->msgOE.msgPort = GPIOD;
+		JTAGx->msgOE.msgBit = LL_GPIO_PIN_13;
+	#endif
 #endif
 	JTAGx->msgPluseWidth = 0;
 	return OK_0;
@@ -115,7 +117,7 @@ UINT8_T JTAG_Device0_Init(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_Device1_Init(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_Device1_Init(JTAG_HandleType* JTAGx)
 {
 	return OK_0;
 }
@@ -127,7 +129,7 @@ UINT8_T JTAG_Device1_Init(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_Device2_Init(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_Device2_Init(JTAG_HandleType* JTAGx)
 {
 	JTAGx->msgTapState = TEST_LOGIC_RESET;
 	return OK_0;
@@ -140,17 +142,19 @@ UINT8_T JTAG_Device2_Init(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_GPIO_Init(JTAG_HandleType* JTAGx)
 {
 	//---使能GPIO的时钟
-	GPIOTask_Clock(JTAGx->msgTDI.msgGPIOPort, 1);
-	GPIOTask_Clock(JTAGx->msgTDO.msgGPIOPort, 1);
-	GPIOTask_Clock(JTAGx->msgTMS.msgGPIOPort, 1);
-	GPIOTask_Clock(JTAGx->msgTCK.msgGPIOPort, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(JTAGx->msgTDI.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(JTAGx->msgTDO.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(JTAGx->msgTMS.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	GPIOTask_Clock(JTAGx->msgTCK.msgPort, PERIPHERAL_CLOCK_ENABLE);
 	//---JTAG的OE使能端
 #ifdef JTAG_USE_lEVEL_SHIFT
-	GPIOTask_Clock(JTAGx->msgOE.msgGPIOPort, 1);
+	GPIOTask_Clock(JTAGx->msgOE.msgPort, PERIPHERAL_CLOCK_ENABLE);
 #endif
+	#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;														//---配置状态为输出模式
@@ -161,35 +165,42 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;														//---端口复用模式
 #endif
 	//---TDI---输出为低
-	GPIO_InitStruct.Pin = JTAGx->msgTDI.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTDI.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgTDI.msgBit;
+	LL_GPIO_Init(JTAGx->msgTDI.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_0(JTAGx->msgTDI);
 	//---TCK---输出为低
-	GPIO_InitStruct.Pin = JTAGx->msgTCK.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTCK.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgTCK.msgBit;
+	LL_GPIO_Init(JTAGx->msgTCK.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_0(JTAGx->msgTCK);
 	//---TMS---输出为高
-	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTMS.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgBit;
+	LL_GPIO_Init(JTAGx->msgTMS.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
-#ifndef JTAG_USE_HV_RESET
-	//---使能端口时钟
-	GPIOTask_Clock(JTAGx->msgRST.msgGPIOPort, 1);
+
+	//---RST的配置
+#ifdef JTAG_USE_HV_RESET
 	//---RST---输出为高
-	GPIO_InitStruct.Pin = JTAGx->msgRST.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgRST.msgGPIOPort, &GPIO_InitStruct);
+	JTAGx->msgPortRst(JTAG_RST_TO_VCC);
+#else
+	//---使能端口时钟
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(JTAGx->msgRST.msgPort, PERIPHERAL_CLOCK_ENABLE);
+	#endif
+	//---RST---输出为高
+	GPIO_InitStruct.Pin = JTAGx->msgRST.msgBit;
+	LL_GPIO_Init(JTAGx->msgRST.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgRST);
 #endif
 #ifdef JTAG_USE_lEVEL_SHIFT
 	//---OE---输出为低，低有效
-	GPIO_InitStruct.Pin = JTAGx->msgOE.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgOE.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgOE.msgBit;
+	LL_GPIO_Init(JTAGx->msgOE.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_0(JTAGx->msgOE);
 #endif
 	//---TDO---输入，上拉使能
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;														//---配置状态为输入模式
-	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTDO.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgBit;
+	LL_GPIO_Init(JTAGx->msgTDO.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgTDO);
 	//---端口初始化了
 	JTAGx->msgInit = 1;
@@ -203,8 +214,15 @@ UINT8_T JTAG_GPIO_Init(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_GPIO_DeInit(JTAG_HandleType* JTAGx)
 {
+	//---RST端口配置
+#ifdef JTAG_USE_HV_RESET
+	//---拉到电源
+	JTAGx->msgPortRst(JTAG_RST_TO_VCC);
+#else
+	JTAG_GPIO_OUT_1(JTAGx->msgRST);
+#endif
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;														//---配置状态为输入模式
@@ -214,36 +232,38 @@ UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 #ifndef USE_MCU_STM32F1
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;														//---端口复用模式
 #endif
+
 	//---TDI---输入上拉
-	GPIO_InitStruct.Pin = JTAGx->msgTDI.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTDI.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgTDI.msgBit;
+	LL_GPIO_Init(JTAGx->msgTDI.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgTDI);
 	//---TCK---输入上拉
-	GPIO_InitStruct.Pin = JTAGx->msgTCK.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTCK.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgTCK.msgBit;
+	LL_GPIO_Init(JTAGx->msgTCK.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgTCK);
 	//---TMS---输入上拉
-	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTMS.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgTMS.msgBit;
+	LL_GPIO_Init(JTAGx->msgTMS.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
+	//---TDO---输入上拉
+	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgBit;
+	LL_GPIO_Init(JTAGx->msgTDO.msgPort, &GPIO_InitStruct);
+	JTAG_GPIO_OUT_1(JTAGx->msgTDO);
+
+#ifdef JTAG_USE_lEVEL_SHIFT
+	//---OE---输出为低，低有效
+	JTAG_GPIO_OUT_1(JTAGx->msgOE);
+#endif
 	//---RST端口配置
 #ifdef JTAG_USE_HV_RESET
-	//---设置为高阻态
+	//---释放RST端口，设置为高阻态
 	JTAGx->msgPortRst(JTAG_RST_TO_HZ);
 #else
 	//---RST---输入上拉
-	GPIO_InitStruct.Pin = JTAGx->msgRST.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgRST.msgGPIOPort, &GPIO_InitStruct);
+	GPIO_InitStruct.Pin = JTAGx->msgRST.msgBit;
+	LL_GPIO_Init(JTAGx->msgRST.msgPort, &GPIO_InitStruct);
 	JTAG_GPIO_OUT_1(JTAGx->msgRST);
 #endif
-#ifdef JTAG_USE_lEVEL_SHIFT
-	//---OE---输出为低，低有效
-	JTAG_GPIO_OUT_0(JTAGx->msgOE);
-#endif
-	//---TDO---输入上拉
-	GPIO_InitStruct.Pin = JTAGx->msgTDO.msgGPIOBit;
-	LL_GPIO_Init(JTAGx->msgTDO.msgGPIOPort, &GPIO_InitStruct);
-	JTAG_GPIO_OUT_1(JTAGx->msgTDO);
 	//---端口未初始化了
 	JTAGx->msgInit = 0;
 	return OK_0;
@@ -256,7 +276,7 @@ UINT8_T JTAG_GPIO_DeInit(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
+UINT8_T JTAG_Init(JTAG_HandleType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), void(*pFuncDelayms)(UINT32_T delay), UINT32_T(*pFuncTimerTick)(void))
 {
 	//---使用的资源
 	if ((JTAGx != NULL) && (JTAGx == JTAG_TASK_ONE))
@@ -279,29 +299,29 @@ UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), 
 	//---注册ms的延时函数
 	if (pFuncDelayms != NULL)
 	{
-		JTAGx->msgDelayms = pFuncDelayms;
+		JTAGx->pMsgDelayms = pFuncDelayms;
 	}
 	else
 	{
-		JTAGx->msgDelayms = DelayTask_us;
+		JTAGx->pMsgDelayms = DelayTask_us;
 	}
 	//---注册us延时函数
 	if (pFuncDelayus != NULL)
 	{
-		JTAGx->msgDelayus = pFuncDelayus;
+		JTAGx->pMsgDelayus = pFuncDelayus;
 	}
 	else
 	{
-		JTAGx->msgDelayus = DelayTask_us;
+		JTAGx->pMsgDelayus = DelayTask_us;
 	}
 	//---注册滴答函数
 	if (pFuncTimerTick != NULL)
 	{
-		JTAGx->msgTimeTick = pFuncTimerTick;
+		JTAGx->pMsgTimeTick = pFuncTimerTick;
 	}
 	else
 	{
-		JTAGx->msgTimeTick = SysTickTask_GetTick;;
+		JTAGx->pMsgTimeTick = SysTickTask_GetTick;;
 	}
 	return OK_0;
 }
@@ -313,7 +333,7 @@ UINT8_T JTAG_Init(JTAG_HandlerType* JTAGx, void(*pFuncDelayus)(UINT32_T delay), 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunTestlogicReset(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunTestlogicReset(JTAG_HandleType* JTAGx)
 {
 	UINT8_T i = 0;
 	JTAG_GPIO_OUT_1(JTAGx->msgTMS);
@@ -332,7 +352,7 @@ UINT8_T JTAG_RunTestlogicReset(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunTestIdle(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunTestIdle(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -428,7 +448,7 @@ UINT8_T JTAG_RunTestIdle(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunSelectDRScan(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunSelectDRScan(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -524,7 +544,7 @@ UINT8_T JTAG_RunSelectDRScan(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunCaptureDR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunCaptureDR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -645,7 +665,7 @@ UINT8_T JTAG_RunCaptureDR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunShiftDR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunShiftDR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -769,7 +789,7 @@ UINT8_T JTAG_RunShiftDR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunExit1DR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunExit1DR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -896,7 +916,7 @@ UINT8_T JTAG_RunExit1DR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunPauseDR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunPauseDR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -1071,7 +1091,7 @@ UINT8_T JTAG_RunPauseDR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunExit2DR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -1269,7 +1289,7 @@ UINT8_T JTAG_RunExit2DR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunUpdateDR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunUpdateDR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -1412,7 +1432,7 @@ UINT8_T JTAG_RunUpdateDR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunSelectIRScan(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -1504,7 +1524,7 @@ UINT8_T JTAG_RunSelectIRScan(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunCaptureIR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunCaptureIR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -1643,7 +1663,7 @@ UINT8_T JTAG_RunCaptureIR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunShiftIR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunShiftIR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -1781,7 +1801,7 @@ UINT8_T JTAG_RunShiftIR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunExit1IR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunExit1IR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -1920,7 +1940,7 @@ UINT8_T JTAG_RunExit1IR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunPauseIR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunPauseIR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -2104,7 +2124,7 @@ UINT8_T JTAG_RunPauseIR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunExit2IR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunExit2IR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -2293,7 +2313,7 @@ UINT8_T JTAG_RunExit2IR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RunUpdateIR(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RunUpdateIR(JTAG_HandleType* JTAGx)
 {
 	switch (JTAGx->msgTapState)
 	{
@@ -2446,7 +2466,7 @@ UINT8_T JTAG_RunUpdateIR(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ShiftIR_BIT(JTAG_HandlerType* JTAGx, UINT8_T irCmd, UINT8_T bitCount, UINT8_T isRunTestIdle)
+UINT8_T JTAG_ShiftIR_BIT(JTAG_HandleType* JTAGx, UINT8_T irCmd, UINT8_T bitCount, UINT8_T isRunTestIdle)
 {
 	UINT8_T i = 0;
 	UINT8_T _return = OK_0;
@@ -2483,7 +2503,7 @@ UINT8_T JTAG_ShiftIR_BIT(JTAG_HandlerType* JTAGx, UINT8_T irCmd, UINT8_T bitCoun
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT32_T JTAG_ShiftDR_BIT(JTAG_HandlerType* JTAGx, UINT32_T drCmd, UINT8_T bitCount, UINT8_T isRunTestIdle)
+UINT32_T JTAG_ShiftDR_BIT(JTAG_HandleType* JTAGx, UINT32_T drCmd, UINT8_T bitCount, UINT8_T isRunTestIdle)
 {
 	UINT32_T i = 0;
 	UINT32_T _return = 0;
@@ -2519,7 +2539,7 @@ UINT32_T JTAG_ShiftDR_BIT(JTAG_HandlerType* JTAGx, UINT32_T drCmd, UINT8_T bitCo
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_TAPReset(JTAG_HandlerType* JTAGx, UINT8_T bit)
+UINT8_T JTAG_TAPReset(JTAG_HandleType* JTAGx, UINT8_T bit)
 {
 	JTAG_ShiftIR_BIT(JTAGx, AVR_RESET, 4, 1);
 	JTAG_ShiftDR_BIT(JTAGx, bit, 1, 1);
@@ -2533,7 +2553,7 @@ UINT8_T JTAG_TAPReset(JTAG_HandlerType* JTAGx, UINT8_T bit)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_TAPClear(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_TAPClear(JTAG_HandleType* JTAGx)
 {
 	//---发送命令
 	JTAG_ShiftIR_BIT(JTAGx, PRIVATEE3, 4, 0);
@@ -2555,7 +2575,7 @@ UINT8_T JTAG_TAPClear(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_TAPPreEnter(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_TAPPreEnter(JTAG_HandleType* JTAGx)
 {
 	//---发送命令
 	JTAG_ShiftIR_BIT(JTAGx, PROG_ENABLE, 4, 1);
@@ -2572,7 +2592,7 @@ UINT8_T JTAG_TAPPreEnter(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_TapNoOperationCommand(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_TapNoOperationCommand(JTAG_HandleType* JTAGx)
 {
 	UINT16_T _return = OK_0;
 	//---发送命令
@@ -2598,7 +2618,7 @@ UINT8_T JTAG_TapNoOperationCommand(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_TAPExit(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_TAPExit(JTAG_HandleType* JTAGx)
 {
 	UINT16_T _return = JTAG_TapNoOperationCommand(JTAGx);
 	//---校验操作
@@ -2630,15 +2650,25 @@ UINT8_T JTAG_TAPExit(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_EnterProg(JTAG_HandleType* JTAGx)
 {
+	UINT8_T _return=OK_0;
 	if (JTAGx->msgInit == 0)
 	{
 		//---初始化端口
 		JTAG_GPIO_Init(JTAGx);
 	}
+	else
+	{
+	#ifdef JTAG_USE_lEVEL_SHIFT
+		//---OE---输出为低，低有效
+		JTAG_GPIO_OUT_1(JTAGx->msgOE);
+	#endif
+	}
+	//---清理当前状态，保证编程模式能够进入
 	JTAG_TAPClear(JTAGx);
-	UINT8_T _return = JTAG_TAPPreEnter(JTAGx);
+	//---准备进入编程模式
+	_return = JTAG_TAPPreEnter(JTAGx);
 	//---校验进入结果
 	if (_return == OK_0)
 	{
@@ -2658,10 +2688,10 @@ UINT8_T JTAG_EnterProg(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ExitProg(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_ExitProg(JTAG_HandleType* JTAGx)
 {
 	//---清除Eeprom页编程模式
-	JTAGx->msgEepromIsPageMode = 0;
+	JTAGx->msgEepromPageMode = 0;
 	//---清除数据缓存区的序号
 	JTAGx->msgPageWordIndex = 0;
 	//---编程状态为空闲模式
@@ -2681,22 +2711,22 @@ UINT8_T JTAG_ExitProg(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-void JTAG_WatchTask(JTAG_HandlerType* JTAGx)
+void JTAG_WatchTask(JTAG_HandleType* JTAGx)
 {
 	UINT32_T nowTime = 0;
 	UINT32_T cnt = 0;
 	if (JTAGx->msgState != JTAG_PROG_NONE)
 	{
 		//---获取当前时间节拍
-		nowTime = JTAGx->msgTimeTick();
+		nowTime = JTAGx->pMsgTimeTick();
 		//---计算时间间隔
-		if (JTAGx->msgRecordTime > nowTime)
+		if (JTAGx->msgRecordTick > nowTime)
 		{
-			cnt = (0xFFFFFFFF - JTAGx->msgRecordTime + nowTime);
+			cnt = (0xFFFFFFFF - JTAGx->msgRecordTick + nowTime);
 		}
 		else
 		{
-			cnt = nowTime - JTAGx->msgRecordTime;
+			cnt = nowTime - JTAGx->msgRecordTick;
 		}
 		//---检查是否发生超时事件
 		if (cnt > JTAGx->msgIntervalTime)
@@ -2749,7 +2779,7 @@ void JTAG_AddWatchDevice2(void)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RemoveWatch(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RemoveWatch(JTAG_HandleType* JTAGx)
 {
 	//---使用的JTAG的端口
 	if ((JTAGx != NULL) && (JTAGx == JTAG_TASK_ONE))
@@ -2778,12 +2808,12 @@ UINT8_T JTAG_RemoveWatch(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_RefreshWatch(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_RefreshWatch(JTAG_HandleType* JTAGx)
 {
 	//---配置轮训间隔为最大值，单位是ms
 	JTAGx->msgIntervalTime = JTAG_STATE_TIME_OUT_MS;
 	//---刷新纪录时间
-	JTAGx->msgRecordTime = JTAGx->msgTimeTick();
+	JTAGx->msgRecordTick = JTAGx->pMsgTimeTick();
 	return OK_0;
 }
 
@@ -2794,7 +2824,7 @@ UINT8_T JTAG_RefreshWatch(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_AddWatch(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_AddWatch(JTAG_HandleType* JTAGx)
 {
 	UINT8_T _return = OK_0;
 	if (JTAGx != NULL)
@@ -2819,7 +2849,7 @@ UINT8_T JTAG_AddWatch(JTAG_HandlerType* JTAGx)
 			_return = ERROR_1;
 		}
 	}
-	return OK_0;
+	return _return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2829,12 +2859,12 @@ UINT8_T JTAG_AddWatch(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_SetIntervalTime(JTAG_HandlerType* JTAGx, UINT16_T intervalTime)
+UINT8_T JTAG_SetIntervalTime(JTAG_HandleType* JTAGx, UINT16_T intervalTime)
 {
 	//---配置轮训间隔时间，单位是ms
 	JTAGx->msgIntervalTime = intervalTime;
 	//---刷新纪录时间
-	JTAGx->msgRecordTime = JTAGx->msgTimeTick();
+	JTAGx->msgRecordTick = JTAGx->pMsgTimeTick();
 	return OK_0;
 }
 
@@ -2845,7 +2875,7 @@ UINT8_T JTAG_SetIntervalTime(JTAG_HandlerType* JTAGx, UINT16_T intervalTime)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT16_T JTAG_GetIntervalTime(JTAG_HandlerType* JTAGx)
+UINT16_T JTAG_GetIntervalTime(JTAG_HandleType* JTAGx)
 {
 	return JTAGx->msgIntervalTime;
 }
@@ -2857,18 +2887,14 @@ UINT16_T JTAG_GetIntervalTime(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WaitPollChipComplete(JTAG_HandlerType* JTAGx, UINT16_T cmd)
+UINT8_T JTAG_WaitPollChipComplete(JTAG_HandleType* JTAGx, UINT16_T cmd)
 {
 	UINT8_T _return = OK_0;
 	UINT32_T tempID = 0;
 	UINT32_T nowTime = 0;
 	UINT32_T oldTime = 0;
 	UINT64_T cnt = 0;
-	if (JTAGx->msgTimeTick != NULL)
-	{
-		//nowTime = JTAGx->msgSPI.msgFuncTick();
-		oldTime = JTAGx->msgTimeTick();
-	}
+	oldTime=((JTAGx->pMsgTimeTick != NULL)? JTAGx->pMsgTimeTick():0);
 	while (1)
 	{
 		tempID = JTAG_ShiftDR_BIT(JTAGx, cmd, 15, 0);
@@ -2880,10 +2906,10 @@ UINT8_T JTAG_WaitPollChipComplete(JTAG_HandlerType* JTAGx, UINT16_T cmd)
 		}
 		else
 		{
-			if (JTAGx->msgTimeTick != NULL)
+			if (JTAGx->pMsgTimeTick != NULL)
 			{
 				//---当前时间
-				nowTime = JTAGx->msgTimeTick();
+				nowTime = JTAGx->pMsgTimeTick();
 				//---判断滴答定时是否发生溢出操作
 				if (nowTime < oldTime)
 				{
@@ -2924,7 +2950,7 @@ UINT8_T JTAG_WaitPollChipComplete(JTAG_HandlerType* JTAGx, UINT16_T cmd)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_EraseChip(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_EraseChip(JTAG_HandleType* JTAGx)
 {
 	UINT8_T i = 0;
 	//---使能JTAG指令
@@ -2947,7 +2973,7 @@ UINT8_T JTAG_EraseChip(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadIDChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
+UINT8_T JTAG_ReadIDChip(JTAG_HandleType* JTAGx, UINT8_T* pVal)
 {
 	UINT8_T i = 0;
 	UINT32_T tempID = 0;
@@ -2978,7 +3004,7 @@ UINT8_T JTAG_ReadIDChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipID(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
+UINT8_T JTAG_ReadChipID(JTAG_HandleType* JTAGx, UINT8_T* pVal)
 {
 	UINT8_T i = 0;
 	UINT32_T tempID = 0;
@@ -3008,7 +3034,7 @@ UINT8_T JTAG_ReadChipID(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
+UINT8_T JTAG_ReadChip(JTAG_HandleType* JTAGx, UINT8_T* pVal)
 {
 	JTAG_ReadIDChip(JTAGx, pVal);
 	return JTAG_ReadChipID(JTAGx, pVal + 4);
@@ -3021,7 +3047,7 @@ UINT8_T JTAG_ReadChip(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipCalibration(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T length)
+UINT8_T JTAG_ReadChipCalibration(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T length)
 {
 	UINT8_T i = 0;
 	UINT32_T tempID = 0;
@@ -3051,7 +3077,7 @@ UINT8_T JTAG_ReadChipCalibration(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
+UINT8_T JTAG_ReadChipFuse(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
 {
 	UINT8_T i = 0;
 	UINT32_T tempID = 0;
@@ -3094,7 +3120,7 @@ UINT8_T JTAG_ReadChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNeed
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipLock(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
+UINT8_T JTAG_ReadChipLock(JTAG_HandleType* JTAGx, UINT8_T* pVal)
 {
 	UINT32_T tempID = 0;
 	//---发送命令
@@ -3120,7 +3146,7 @@ UINT8_T JTAG_ReadChipLock(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipRom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T addr, UINT16_T length)
+UINT8_T JTAG_ReadChipRom(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T addr, UINT16_T length)
 {
 	UINT8_T i = 0;
 	UINT32_T tempROM = 0;
@@ -3172,7 +3198,7 @@ UINT8_T JTAG_ReadChipRom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T addr, U
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
+UINT8_T JTAG_WriteChipFuse(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T isNeedExternFuse)
 {
 	UINT8_T _return = OK_0;
 	UINT32_T tempFuse = 0;
@@ -3235,7 +3261,7 @@ UINT8_T JTAG_WriteChipFuse(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T isNee
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipLock(JTAG_HandlerType* JTAGx, UINT8_T lockVal)
+UINT8_T JTAG_WriteChipLock(JTAG_HandleType* JTAGx, UINT8_T lockVal)
 {
 	UINT32_T tempLock = 0;
 	//---发送命令
@@ -3265,7 +3291,7 @@ UINT8_T JTAG_WriteChipLock(JTAG_HandlerType* JTAGx, UINT8_T lockVal)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipEepromAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T JTAG_ReadChipEepromAddr(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT32_T tempeEPROM = 0;
 	UINT16_T i = 0;
@@ -3314,7 +3340,7 @@ UINT8_T JTAG_ReadChipEepromAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipEepromLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT16_T addr, UINT16_T length)
+UINT8_T JTAG_ReadChipEepromLongAddr(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT16_T addr, UINT16_T length)
 {
 	return JTAG_ReadChipEepromAddr(JTAGx, pVal, (UINT8_T)(addr >> 8), (UINT8_T)(addr & 0xFF), length);
 }
@@ -3326,7 +3352,7 @@ UINT8_T JTAG_ReadChipEepromLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T highAddr, UINT8_T lowAddr, UINT8_T* pVal)
+UINT8_T JTAG_UpdateChipEepromPage(JTAG_HandleType* JTAGx, UINT8_T highAddr, UINT8_T lowAddr, UINT8_T* pVal)
 {
 	UINT32_T tempVal = 0;
 	UINT8_T i = 0;
@@ -3367,7 +3393,7 @@ UINT8_T JTAG_UpdateChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T highAddr, UIN
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipEeprom(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_UpdateChipEeprom(JTAG_HandleType* JTAGx)
 {
 	//---使能页写入
 	JTAG_ShiftDR_BIT(JTAGx, 0x3300, 15, 1);
@@ -3385,7 +3411,7 @@ UINT8_T JTAG_UpdateChipEeprom(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+UINT8_T JTAG_WriteChipEepromPage(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
 {
 	UINT8_T _return = OK_0;
 	UINT32_T pageAddr = 0;
@@ -3448,7 +3474,7 @@ UINT8_T JTAG_WriteChipEepromPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipEeprom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
+UINT8_T JTAG_WriteChipEeprom(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T pageNum)
 {
 	//---编程指定位置的Eeprom数据,编程模式页模式
 	return JTAG_WriteChipEepromPage(JTAGx, pVal, highAddr, lowAddr, pageNum);
@@ -3461,7 +3487,7 @@ UINT8_T JTAG_WriteChipEeprom(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T hig
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipFlashAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T JTAG_ReadChipFlashAddr(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT32_T tempeFlash = 0;
 	UINT16_T i = 0;
@@ -3523,7 +3549,7 @@ UINT8_T JTAG_ReadChipFlashAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T e
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_ReadChipFlashLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT32_T addr, UINT16_T length)
+UINT8_T JTAG_ReadChipFlashLongAddr(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT32_T addr, UINT16_T length)
 {
 	return  JTAG_ReadChipFlashAddr(JTAGx, pVal, (UINT8_T)(addr >> 16), (UINT8_T)(addr >> 8), (UINT8_T)(addr), length);
 }
@@ -3535,7 +3561,7 @@ UINT8_T JTAG_ReadChipFlashLongAddr(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT3
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipFlashPage(JTAG_HandlerType* JTAGx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT8_T* pVal, UINT16_T length)
+UINT8_T JTAG_UpdateChipFlashPage(JTAG_HandleType* JTAGx, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT8_T* pVal, UINT16_T length)
 {
 	UINT32_T tempVal = 0;
 	UINT8_T i = 0;
@@ -3596,7 +3622,7 @@ UINT8_T JTAG_UpdateChipFlashPage(JTAG_HandlerType* JTAGx, UINT8_T externAddr, UI
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_UpdateChipFlash(JTAG_HandlerType* JTAGx)
+UINT8_T JTAG_UpdateChipFlash(JTAG_HandleType* JTAGx)
 {
 	//---使能页写入
 	JTAG_ShiftDR_BIT(JTAGx, 0x3700, 15, 1);
@@ -3613,7 +3639,7 @@ UINT8_T JTAG_UpdateChipFlash(JTAG_HandlerType* JTAGx)
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_WriteChipFlashPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
+UINT8_T JTAG_WriteChipFlashPage(JTAG_HandleType* JTAGx, UINT8_T* pVal, UINT8_T externAddr, UINT8_T highAddr, UINT8_T lowAddr, UINT16_T length)
 {
 	UINT8_T _return = OK_0;
 	UINT32_T pageAddr = 0;
@@ -3658,7 +3684,7 @@ UINT8_T JTAG_WriteChipFlashPage(JTAG_HandlerType* JTAGx, UINT8_T* pVal, UINT8_T 
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_CheckChipFlashEmpty(JTAG_HandlerType* JTAGx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL)
+UINT8_T JTAG_CheckChipFlashEmpty(JTAG_HandleType* JTAGx, UINT8_T pageByteSizeH, UINT8_T pageByteSizeL, UINT8_T pageNumH, UINT8_T pageNumL)
 {
 	UINT8_T _return = OK_0;
 	UINT16_T length = 0;
@@ -3711,7 +3737,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_CheckChipFlashEmptyLong(JTAG_HandlerType* JTAGx, UINT16_T pageByteSize, UINT16_T pageNum)
+UINT8_T JTAG_CheckChipFlashEmptyLong(JTAG_HandleType* JTAGx, UINT16_T pageByteSize, UINT16_T pageNum)
 {
 	return JTAG_CheckChipFlashEmpty(JTAGx, (UINT8_T)(pageByteSize >> 8), (UINT8_T)(pageByteSize), (UINT8_T)(pageNum >> 8), (UINT8_T)(pageNum));
 }
@@ -3723,7 +3749,7 @@ UINT8_T JTAG_CheckChipFlashEmptyLong(JTAG_HandlerType* JTAGx, UINT16_T pageByteS
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_CheckChipEepromEmpty(JTAG_HandlerType* JTAGx, UINT8_T byteSize, UINT8_T num)
+UINT8_T JTAG_CheckChipEepromEmpty(JTAG_HandleType* JTAGx, UINT8_T byteSize, UINT8_T num)
 {
 	UINT8_T _return = OK_0;
 	UINT8_T i = 0;
@@ -3768,7 +3794,7 @@ GoToExit:
 //////输出参数:
 //////说		明：
 //////////////////////////////////////////////////////////////////////////////
-UINT8_T JTAG_SetConfigInfo(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
+UINT8_T JTAG_SetConfigInfo(JTAG_HandleType* JTAGx, UINT8_T* pVal)
 {
 	//---Flash每页字数
 	JTAGx->msgFlashPerPageWordSize = *(pVal++);
@@ -3777,6 +3803,6 @@ UINT8_T JTAG_SetConfigInfo(JTAG_HandlerType* JTAGx, UINT8_T* pVal)
 	JTAGx->msgEerpomPerPageByteSize = *(pVal++);
 	JTAGx->msgEerpomPerPageByteSize = (JTAGx->msgEerpomPerPageByteSize << 8) + *(pVal++);
 	//---Eeprom是否支持页编程模式
-	JTAGx->msgEepromIsPageMode = *(pVal++);
+	JTAGx->msgEepromPageMode = *(pVal++);
 	return OK_0;
 }

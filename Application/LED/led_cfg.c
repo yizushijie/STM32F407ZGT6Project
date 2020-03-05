@@ -9,11 +9,12 @@
 //////////////////////////////////////////////////////////////////////////////
 void LEDWork_Init(void)
 {
-	GPIOTask_Clock(LED_WORK_PORT, 1);
+	#ifndef  USE_FULL_GPIO
+	GPIOTask_Clock(LED_WORK_PORT, PERIPHERAL_CLOCK_ENABLE);
+	#endif
 
 	//---GPIO的结构体
 	LL_GPIO_InitTypeDef GPIO_InitStruct = { 0 };
-
 	//---GPIO的初始化
 	GPIO_InitStruct.Pin = LED_WORK_BIT;								//---对应的GPIO的引脚
 	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;						//---配置状态为输出模式
@@ -23,15 +24,10 @@ void LEDWork_Init(void)
 #ifndef USE_MCU_STM32F1
 	GPIO_InitStruct.Alternate = LL_GPIO_AF_0;						//---端口复用模式
 #endif
-
 	//---工作指示灯的初始化
 	LL_GPIO_Init(LED_WORK_PORT, &GPIO_InitStruct);
 	LED_WORK_OUT_0;
-
 	//---注册闪灯程序
-	/*
-	SysTickTask_FuncTick(LEDWork_Task);
-	*/
 	SysTickTask_CreateTickTask(LEDWork_Task);
 }
 
