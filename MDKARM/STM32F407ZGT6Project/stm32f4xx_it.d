@@ -89,7 +89,7 @@ stm32f407zgt6project/stm32f4xx_it.o: \
   ..\Application\WM8510\wm8510_task.h ..\Application\WM8510\wm8510_lib.h \
   ..\Application\WM8510\wm8510_cfg.h ..\Application\I2C\i2c_task.h \
   ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
-  ..\LOG\log_cfg.h ..\Application\LED\led_task.h \
+  ..\DebugLog\log_cfg.h ..\Application\LED\led_task.h \
   ..\Application\LED\led_lib.h ..\Application\LED\led_cfg.h \
   ..\Application\Key\key_task.h ..\Application\Key\key_lib.h \
   ..\Application\Key\key_cfg.h ..\Application\RFASK\rfask_eeprom.h \

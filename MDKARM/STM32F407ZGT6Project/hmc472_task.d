@@ -79,7 +79,7 @@ stm32f407zgt6project/hmc472_task.o: ..\Application\HMC472\hmc472_task.c \
   ..\Application\AT24Cxx\at24cxx_lib.h \
   ..\Application\AT24Cxx\at24cxx_cfg.h ..\Application\I2C\i2c_task.h \
   ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
-  ..\LOG\log_cfg.h ..\Application\MyMalloc\my_malloc.h \
+  ..\DebugLog\log_cfg.h ..\Application\MyMalloc\my_malloc.h \
   ..\Application\Encode\encode_task.h ..\Application\Encode\encode_lib.h \
   ..\Application\Encode\encode_cfg.h ..\Application\Key\key_task.h \
   ..\Application\Key\key_lib.h ..\Application\Key\key_cfg.h \

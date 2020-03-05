@@ -79,4 +79,4 @@ stm32f407zgt6project/encode_task.o: ..\Application\Encode\encode_task.c \
   ..\Application\AT24Cxx\at24cxx_lib.h \
   ..\Application\AT24Cxx\at24cxx_cfg.h ..\Application\I2C\i2c_task.h \
   ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
-  ..\LOG\log_cfg.h ..\Application\MyMalloc\my_malloc.h
+  ..\DebugLog\log_cfg.h ..\Application\MyMalloc\my_malloc.h

@@ -256,6 +256,9 @@
     <Filter Include="Complier">
       <UniqueIdentifier>{A062D8B7-8C2F-33C3-B548-216BA1746851}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DebugLog">
+      <UniqueIdentifier>{8E5B0289-7A28-5D94-A341-4B3C8F6D9222}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Doc">
       <UniqueIdentifier>{DBE2870B-47EC-877C-D067-9E7C3C70937C}</UniqueIdentifier>
     </Filter>
@@ -276,9 +279,6 @@
     </Filter>
     <Filter Include="DriversEx\STM32F4xx">
       <UniqueIdentifier>{9357A2E3-FFB8-7FF1-8826-C6A3F486B6B0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LOG">
-      <UniqueIdentifier>{A700880B-130A-887C-9C85-9E7C088E937C}</UniqueIdentifier>
     </Filter>
     <Filter Include="STARTUP">
       <UniqueIdentifier>{384599C1-A424-185D-AD3C-A333199B7EBE}</UniqueIdentifier>
@@ -975,6 +975,9 @@
     <ClInclude Include="..\Complier\complier_lib.h">
       <Filter>Complier</Filter>
     </ClInclude>
+    <ClInclude Include="..\DebugLog\log_cfg.h">
+      <Filter>DebugLog</Filter>
+    </ClInclude>
     <ClInclude Include="..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClInclude>
@@ -1073,9 +1076,6 @@
     </ClInclude>
     <ClInclude Include="..\DriversEx\STM32F4xx\stm32f4xx_ll.h">
       <Filter>DriversEx\STM32F4xx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LOG\log_cfg.h">
-      <Filter>LOG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1763,6 +1763,9 @@
     <ClCompile Include="..\Complier\complier_lib.c">
       <Filter>Complier</Filter>
     </ClCompile>
+    <ClCompile Include="..\DebugLog\log_cfg.c">
+      <Filter>DebugLog</Filter>
+    </ClCompile>
     <ClCompile Include="..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c">
       <Filter>Drivers\STM32F4xx_HAL_Driver</Filter>
     </ClCompile>
@@ -1834,9 +1837,6 @@
     </ClCompile>
     <ClCompile Include="..\DriversEx\STM32F4xx\stm32f4xx_it.c">
       <Filter>DriversEx\STM32F4xx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\LOG\log_cfg.c">
-      <Filter>LOG</Filter>
     </ClCompile>
     <ClCompile Include="..\STARTUP\MDKARM\STM32F4\startup_stm32f407xx.s">
       <Filter>STARTUP\MDKARM</Filter>

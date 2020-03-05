@@ -66,7 +66,7 @@ stm32f407zgt6project/at24cxx_lib.o: ..\Application\AT24Cxx\at24cxx_lib.c \
   ..\Application\SysTick\systick_cfg.h ..\Application\I2C\i2c_task.h \
   ..\Application\I2C\i2c_lib.h ..\Application\I2C\i2c_cfg.h \
   ..\Application\Delay\delay_task.h ..\Application\Delay\delay_lib.h \
-  ..\Application\Delay\delay_cfg.h ..\LOG\log_cfg.h \
+  ..\Application\Delay\delay_cfg.h ..\DebugLog\log_cfg.h \
   ..\Application\UART\uart_task.h ..\Application\UART\uart_lib.h \
   ..\Application\UART\uart_cfg.h ..\Application\CRC\crc_task.h \
   ..\Application\CRC\crc_lib.h ..\Application\CRC\crc_cfg.h \

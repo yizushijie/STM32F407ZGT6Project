@@ -1,7 +1,7 @@
-stm32f407zgt6project/log_cfg.o: ..\LOG\log_cfg.c ..\LOG\log_cfg.h \
-  ..\Application\UART\uart_task.h ..\Application\UART\uart_lib.h \
-  ..\Application\UART\uart_cfg.h ..\Complier\complier_lib.h \
-  ..\Complier\complier_cfg.h \
+stm32f407zgt6project/log_cfg.o: ..\DebugLog\log_cfg.c \
+  ..\DebugLog\log_cfg.h ..\Application\UART\uart_task.h \
+  ..\Application\UART\uart_lib.h ..\Application\UART\uart_cfg.h \
+  ..\Complier\complier_lib.h ..\Complier\complier_cfg.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \

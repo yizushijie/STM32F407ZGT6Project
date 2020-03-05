@@ -70,7 +70,7 @@ stm32f407zgt6project/rfask_task.o: ..\Application\RFASK\rfask_task.c \
   ..\Application\HardWare\hw_cfg.h ..\Application\WM8510\wm8510_task.h \
   ..\Application\WM8510\wm8510_lib.h ..\Application\WM8510\wm8510_cfg.h \
   ..\Application\I2C\i2c_task.h ..\Application\I2C\i2c_lib.h \
-  ..\Application\I2C\i2c_cfg.h ..\LOG\log_cfg.h \
+  ..\Application\I2C\i2c_cfg.h ..\DebugLog\log_cfg.h \
   ..\Application\UART\uart_task.h ..\Application\UART\uart_lib.h \
   ..\Application\UART\uart_cfg.h ..\Application\CRC\crc_task.h \
   ..\Application\CRC\crc_lib.h ..\Application\CRC\crc_cfg.h \
